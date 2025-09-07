@@ -17,13 +17,13 @@ public class UsuarioController {
         this.usuarioRepository = usuarioRepository;
     }
 
-    @PostMapping("/cadastrar")
+    @PostMapping
     public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
         return ResponseEntity.status(201).body(usuarioSalvo);
     }
 
-    @GetMapping("/listar")
+    @GetMapping
     public ResponseEntity<List<Usuario>> listar() {
         List<Usuario> usuarios = usuarioRepository.findAll();
         return ResponseEntity.ok(usuarios);
