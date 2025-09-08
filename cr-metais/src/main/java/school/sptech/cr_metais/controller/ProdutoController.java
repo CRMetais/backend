@@ -40,7 +40,6 @@ public class ProdutoController {
             Produto produto = produtoOpt.get();
             return ResponseEntity.status(200).body(produto);
         }return ResponseEntity.status(404).build();
-
     }
 
     @DeleteMapping("/{id}")
@@ -52,5 +51,17 @@ public class ProdutoController {
 
         return ResponseEntity.status(404).build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Produto> atualizar
+            (@PathVariable Integer id, @RequestBody Produto produto){
+        produto.setId(id);
+        Produto produtoSalvo = produtoRepository.save(produto);
+        if (produtoRepository.existsById(id)){
+            return ResponseEntity.status(200).body(produtoSalvo);
+        }
+        return ResponseEntity.status(404).build();
+    }
+
 
 }

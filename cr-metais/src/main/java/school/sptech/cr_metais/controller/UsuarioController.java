@@ -3,6 +3,7 @@ package school.sptech.cr_metais.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.Usuario;
+import school.sptech.cr_metais.Usuario;
 import school.sptech.cr_metais.repository.UsuarioRepository;
 
 import java.util.List;
@@ -43,4 +44,14 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> atualizar
+            (@PathVariable Integer id, @RequestBody Usuario usuario){
+        usuario.setId(id);
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        if (usuarioRepository.existsById(id)){
+            return ResponseEntity.status(200).body(usuarioSalvo);
+        }
+        return ResponseEntity.status(404).build();
+    }
 }
