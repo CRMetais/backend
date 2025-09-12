@@ -2,8 +2,7 @@ package school.sptech.cr_metais.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.cr_metais.Usuario;
-import school.sptech.cr_metais.Usuario;
+import school.sptech.cr_metais.entity.Usuario;
 import school.sptech.cr_metais.repository.UsuarioRepository;
 
 import java.util.List;
