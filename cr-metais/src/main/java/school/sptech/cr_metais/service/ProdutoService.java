@@ -36,4 +36,25 @@ public class ProdutoService {
         }
         pRepository.deleteById(id);
     }
+
+    public Produto buscarPorId(Integer id){
+            return pRepository.findById(id)
+                    .orElseThrow(
+                            ()-> new
+                                    EntidadeNaoEncontradaException
+                                    ("Produto não encontrado")
+                    );
+    }
+
+    public Produto atualizar(Integer id, Produto produtoAtualizado){
+        Produto produtoExistente = pRepository.findById(id)
+                .orElseThrow(
+                        ()-> new EntidadeNaoEncontradaException("Produto não encontrado")
+                );
+        produtoExistente.setNome(produtoAtualizado.getNome());
+        produtoExistente.setTipoProduto(produtoAtualizado.getTipoProduto());
+        produtoExistente.setPrecoKg(produtoAtualizado.getPrecoKg());
+
+        return pRepository.save(produtoExistente);
+    }
 }

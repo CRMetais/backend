@@ -8,6 +8,7 @@ import school.sptech.cr_metais.service.ProdutoService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.RecursiveTask;
 
 @RestController
 @RequestMapping("/produtos")
@@ -43,6 +44,21 @@ private final ProdutoService pService;
     public ResponseEntity<Void> deletar(@PathVariable Integer id){
         pService.deletar(id);
         return ResponseEntity.status(204).build();
+    }
+
+    // Buscar por id
+    @GetMapping("/{id}")
+    public ResponseEntity<Produto> buscarPorId(@PathVariable Integer id){
+
+        Produto produtoEncontrado = pService.buscarPorId(id);
+        return ResponseEntity.status(200).body(produtoEncontrado);
+    }
+
+    // Atualizar Produto
+    @PutMapping("{id}")
+    public ResponseEntity<Produto> atualizar(@PathVariable Integer id, @RequestBody Produto produto){
+        Produto produtoAtualizado = pService.atualizar(id, produto);
+        return ResponseEntity.status(200).body(produtoAtualizado);
     }
 
 //    @GetMapping
