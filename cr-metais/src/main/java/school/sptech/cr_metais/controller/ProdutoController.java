@@ -38,6 +38,12 @@ private final ProdutoService pService;
         return ResponseEntity.status(200).body(all);
     }
 
+    // Deletar todos os produtos
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer id){
+        pService.deletar(id);
+        return ResponseEntity.status(204).build();
+    }
 
 //    @GetMapping
 //    public ResponseEntity<List<Produto>> listar() {

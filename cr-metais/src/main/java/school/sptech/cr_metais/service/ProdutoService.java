@@ -3,6 +3,7 @@ package school.sptech.cr_metais.service;
 import org.springframework.stereotype.Service;
 import school.sptech.cr_metais.entity.Produto;
 import school.sptech.cr_metais.exception.EntidadeConflitoException;
+import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.repository.ProdutoRepository;
 
 import java.util.List;
@@ -29,5 +30,10 @@ public class ProdutoService {
         return pRepository.findAll();
     }
 
-
+    public void deletar(Integer id){
+        if (!pRepository.existsById(id)){
+            throw new EntidadeNaoEncontradaException("Produto não encontrado");
+        }
+        pRepository.deleteById(id);
+    }
 }

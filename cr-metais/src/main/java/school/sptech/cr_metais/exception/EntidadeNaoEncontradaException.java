@@ -3,10 +3,9 @@ package school.sptech.cr_metais.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.CONFLICT)
-public class EntidadeConflitoException extends RuntimeException {
-    public EntidadeConflitoException(String message) {
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class EntidadeNaoEncontradaException extends RuntimeException {
+    public EntidadeNaoEncontradaException(String message) {
         super(message);
     }
 }
-
