@@ -9,7 +9,7 @@ import school.sptech.cr_metais.repository.ProdutoRepository;
 import java.util.List;
 
 @Service
-public class ProdutoService {
+public class    ProdutoService {
 
     private final ProdutoRepository pRepository;
 

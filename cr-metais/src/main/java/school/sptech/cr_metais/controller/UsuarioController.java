@@ -4,53 +4,57 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.entity.Usuario;
 import school.sptech.cr_metais.repository.UsuarioRepository;
+import school.sptech.cr_metais.service.UsuarioService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioService uService;
 
-    public UsuarioController(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+    public UsuarioController(UsuarioService uService) {
+        this.uService = uService;
     }
 
     @PostMapping
     public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
-        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        Usuario usuarioSalvo = uService.cadastrar(usuario);
         return ResponseEntity.status(201).body(usuarioSalvo);
     }
 
     @GetMapping
     public ResponseEntity<List<Usuario>> listar() {
-        List<Usuario> usuarios = usuarioRepository.findAll();
-        return ResponseEntity.ok(usuarios);
+        List<Usuario> usuarios = uService.listar();
+
+        if(usuarios.isEmpty()){
+            return ResponseEntity.status(204).build();
+        }
+
+        return ResponseEntity.status(201).body(usuarios);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer id) {
-        return ResponseEntity.of(usuarioRepository.findById(id));
+
+       Usuario usuarioEncontrado = uService.buscarPorId(id);
+       return ResponseEntity.status(200).body(usuarioEncontrado);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
-        if (!usuarioRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        usuarioRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+
+        uService.deletar(id);
+        return ResponseEntity.status(204).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizar
             (@PathVariable Integer id, @RequestBody Usuario usuario){
-        usuario.setId(id);
-        Usuario usuarioSalvo = usuarioRepository.save(usuario);
-        if (usuarioRepository.existsById(id)){
-            return ResponseEntity.status(200).body(usuarioSalvo);
-        }
-        return ResponseEntity.status(404).build();
+
+        Usuario usuarioAtualizado = uService.atualizar(id, usuario);
+        return ResponseEntity.status(200).body(usuarioAtualizado);
     }
 }
