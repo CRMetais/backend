@@ -3,10 +3,17 @@ package school.sptech.cr_metais.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.server.ResponseStatusException;
+import school.sptech.cr_metais.dto.UsuarioListarDto;
+import school.sptech.cr_metais.dto.UsuarioMapper;
+import school.sptech.cr_metais.dto.UsuarioTokenDto;
 import school.sptech.cr_metais.entity.Produto;
 import school.sptech.cr_metais.entity.Usuario;
 import school.sptech.cr_metais.exception.EntidadeConflitoException;
@@ -25,12 +32,12 @@ public class UsuarioService {
         this.uRepository = uRepository;
     }
 
-    public Usuario cadastrar(Usuario usuarioCadastro){
-        if (uRepository.existsByEmail(usuarioCadastro.getEmail())){
-            throw new EntidadeConflitoException("E-mail já cadastrado");
-        }
-        return uRepository.save(usuarioCadastro);
-    }
+//    public Usuario cadastrar(Usuario usuarioCadastro){
+//        if (uRepository.findByEmail(usuarioCadastro.getEmail())){
+//            throw new EntidadeConflitoException("E-mail já cadastrado");
+//        }
+//        return uRepository.save(usuarioCadastro);
+//    }
 
     public List<Usuario> listar(){
         return uRepository.findAll();
@@ -75,6 +82,44 @@ public class UsuarioService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    public void criar(Usuario novoUsuario){
+
+        String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha()){
+
+            novoUsuario.setSenha(senhaCriptografada);
+
+            this.usuarioRepository.save(novoUsuario);
+        }
+
+    }
+
+    public UsuarioTokenDto autenticar(Usuario usuario){
+
+        final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(usuario.getEmail(), usuario.getSenha());
+
+        final Authentication authentication = this.authenticationManager.authenticate(credentials);
+
+        Usuario uauarioAutenticado = usuarioRepository.findByEmail(usuario.getEmail()).orElseThrow(
+                () -> new ResponseStatusException(404, "Email do usuário não cadastrado", null)
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        final String token = gerenciadorTokenJwt.generateToken(authentication);
+
+        return UsuarioMapper.of(uauarioAutenticado, token);
+
+
+    }
+
+    public List<UsuarioListarDto> listarTodos(){
+
+        List<Usuario> usuariosEncontrados = usuarioRepository.findAll();
+
+        return usuariosEncontrados.stream().map(UsuarioMapper::of).toList();
+    }
+
 
 
 }
