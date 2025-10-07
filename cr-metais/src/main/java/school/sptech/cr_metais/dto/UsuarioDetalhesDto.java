@@ -2,6 +2,7 @@ package school.sptech.cr_metais.dto;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import school.sptech.cr_metais.entity.Usuario;
 
 import java.util.Collection;
 
@@ -11,10 +12,10 @@ public class UsuarioDetalhesDto implements UserDetails {
     private final String email;
     private final String senha;
 
-    public UsuarioDetalhesDto(String nome, String email, String senha) {
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
+    public UsuarioDetalhesDto(Usuario usuario) {
+        this.nome = usuario.getNome();
+        this.email = usuario.getEmail();
+        this.senha = usuario.getSenha();
     }
 
     public String getNome() {return nome;}
