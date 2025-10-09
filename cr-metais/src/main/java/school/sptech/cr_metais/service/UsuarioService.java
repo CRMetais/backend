@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
+import school.sptech.cr_metais.config.GerenciadorTokenJwt;
 import school.sptech.cr_metais.dto.UsuarioListarDto;
 import school.sptech.cr_metais.dto.UsuarioMapper;
 import school.sptech.cr_metais.dto.UsuarioTokenDto;
@@ -39,30 +40,30 @@ public class UsuarioService {
 //        return uRepository.save(usuarioCadastro);
 //    }
 
-    public List<Usuario> listar(){
+    public List<Usuario> listar() {
         return uRepository.findAll();
     }
 
-    public Usuario buscarPorId(Integer id){
+    public Usuario buscarPorId(Integer id) {
         return uRepository.findById(id)
                 .orElseThrow(
-                        ()-> new
+                        () -> new
                                 EntidadeNaoEncontradaException
                                 ("Usuário não encontrado")
                 );
     }
 
-    public void deletar(Integer id){
-        if (!uRepository.existsById(id)){
+    public void deletar(Integer id) {
+        if (!uRepository.existsById(id)) {
             throw new EntidadeNaoEncontradaException("Usuário não encontrado");
         }
         uRepository.deleteById(id);
     }
 
-    public Usuario atualizar(Integer id, Usuario usuarioAtualizado){
+    public Usuario atualizar(Integer id, Usuario usuarioAtualizado) {
         Usuario usuarioExistente = uRepository.findById(id)
                 .orElseThrow(
-                        ()-> new EntidadeNaoEncontradaException("Usuário não encontrado")
+                        () -> new EntidadeNaoEncontradaException("Usuário não encontrado")
                 );
         usuarioExistente.setNome(usuarioAtualizado.getNome());
         usuarioExistente.setEmail(usuarioAtualizado.getEmail());
@@ -83,18 +84,18 @@ public class UsuarioService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    public void criar(Usuario novoUsuario){
+    public void criar(Usuario novoUsuario) {
 
-        String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha()){
+        String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha());
 
-            novoUsuario.setSenha(senhaCriptografada);
+        novoUsuario.setSenha(senhaCriptografada);
 
-            this.usuarioRepository.save(novoUsuario);
-        }
+        this.usuarioRepository.save(novoUsuario);
+
 
     }
 
-    public UsuarioTokenDto autenticar(Usuario usuario){
+    public UsuarioTokenDto autenticar(Usuario usuario) {
 
         final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(usuario.getEmail(), usuario.getSenha());
 
@@ -107,19 +108,17 @@ public class UsuarioService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         final String token = gerenciadorTokenJwt.generateToken(authentication);
-
         return UsuarioMapper.of(uauarioAutenticado, token);
 
 
     }
 
-    public List<UsuarioListarDto> listarTodos(){
+    public List<UsuarioListarDto> listarTodos() {
 
         List<Usuario> usuariosEncontrados = usuarioRepository.findAll();
 
         return usuariosEncontrados.stream().map(UsuarioMapper::of).toList();
     }
-
 
 
 }
