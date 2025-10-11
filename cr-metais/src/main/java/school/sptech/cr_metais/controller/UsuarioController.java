@@ -19,11 +19,11 @@ public class UsuarioController {
         this.uService = uService;
     }
 
-    @PostMapping
-    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
-        Usuario usuarioSalvo = uService.cadastrar(usuario);
-        return ResponseEntity.status(201).body(usuarioSalvo);
-    }
+//    @PostMapping
+//    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
+//        Usuario usuarioSalvo = uService.cadastrar(usuario);
+//        return ResponseEntity.status(201).body(usuarioSalvo);
+//    }
 
     @GetMapping
     public ResponseEntity<List<Usuario>> listar() {
@@ -57,4 +57,7 @@ public class UsuarioController {
         Usuario usuarioAtualizado = uService.atualizar(id, usuario);
         return ResponseEntity.status(200).body(usuarioAtualizado);
     }
+
+
+
 }

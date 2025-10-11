@@ -49,11 +49,11 @@ public class GerenciadorTokenJwt {
         return expirationDate.before(new Date(System.currentTimeMillis()));
     }
 
-    private Claims getAllClaimsFromToken(String token){
+    private Claims getAllClaimsFromToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKeyResolver(parseSecret())
-                .buid()
-                .parseClaimsJws().getBody();
+                .setSigningKey(parseSecret())
+                .build()
+                .parseClaimsJws(token).getBody();
     }
 
     private SecretKey parseSecret() {return Keys.hmacShaKeyFor(this.secret.getBytes(StandardCharsets.UTF_8));}
