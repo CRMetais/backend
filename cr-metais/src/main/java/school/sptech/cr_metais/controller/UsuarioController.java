@@ -24,22 +24,19 @@ public class UsuarioController {
         this.uService = uService;
     }
 
-//    @PostMapping
-//    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
-//        Usuario usuarioSalvo = uService.cadastrar(usuario);
-//        return ResponseEntity.status(201).body(usuarioSalvo);
-//    }
+    @PostMapping("/cadastrar") // Usando uma rota específica para evitar ambiguidade
+    public ResponseEntity<Void> cadastrar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
 
-    @GetMapping
-    public ResponseEntity<List<Usuario>> listar() {
-        List<Usuario> usuarios = uService.listar();
+        // 1. Converte o DTO (dados de entrada) para a entidade Usuario
+        Usuario novoUsuario = UsuarioMapper.of(usuarioCriacaoDto);
 
-        if(usuarios.isEmpty()){
-            return ResponseEntity.status(204).build();
-        }
+        // 2. Chama o serviço para aplicar a lógica de negócio (ex: criptografar senha) e salvar
+        this.uService.criar(novoUsuario);
 
-        return ResponseEntity.status(201).body(usuarios);
+        // 3. Retorna uma resposta de sucesso (201 Created)
+        return ResponseEntity.status(201).build();
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer id) {
@@ -64,23 +61,10 @@ public class UsuarioController {
     }
 
 
-    // JwT
-
-    @PostMapping
-    @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<Void> criar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto){
-
-        final Usuario novoUsuario = UsuarioMapper.of(usuarioCriacaoDto);
-        this.uService.criar(novoUsuario);
-        return ResponseEntity.status(201).build();
-    }
-
     @PostMapping("/login")
     public ResponseEntity<UsuarioTokenDto> login(@RequestBody UsuarioLoginDto usuarioLoginDto){
 
-        final Usuario usuario = UsuarioMapper.of(usuarioLoginDto);
-        UsuarioTokenDto usuarioTokenDto = this.uService.autenticar(usuario);
-
+        UsuarioTokenDto usuarioTokenDto = this.uService.autenticar(UsuarioMapper.of(usuarioLoginDto));
         return ResponseEntity.status(200).body(usuarioTokenDto);
     }
 
