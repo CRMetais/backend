@@ -62,4 +62,16 @@ private final ProdutoService pService;
     }
 
 
+    // Listar Produto por maior preço
+    @GetMapping("/preco")
+    public ResponseEntity<List<Produto>> listarPorPrecoMaior(){
+
+        List<Produto> all = pService.listarPorPrecoMaior();
+
+        if (all.isEmpty()){
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(all);
+    }
+
 }

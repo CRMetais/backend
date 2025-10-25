@@ -26,6 +26,32 @@ public class    ProdutoService {
         return pRepository.save(produtoParaCadastro);
     }
 
+    public List<Produto> listarPorPrecoMaior(){
+        List<Produto> all = pRepository.findAll();
+        int size = all.size() - 1;
+        int i = 0;
+
+
+
+        while(i < size){
+            int j = 0;
+            while(j < size - i){
+                Produto atual = all.get(j);
+                Produto proximo = all.get(j+1);
+                if (atual.getPrecoKg() < proximo.getPrecoKg()){
+                    Produto aux = all.get(j);
+                    all.set(j, all.get(j+1));
+                    all.set(j + 1,aux);
+                }
+                j++;
+            } i++;
+
+
+        }
+        return all;
+    }
+
+
     public List<Produto> listar(){
         return pRepository.findAll();
     }
