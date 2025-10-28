@@ -1,5 +1,9 @@
-package school.sptech.cr_metais.dto;
+package school.sptech.cr_metais.mappers;
 
+import school.sptech.cr_metais.dto.UsuarioCriacaoDto;
+import school.sptech.cr_metais.dto.UsuarioListarDto;
+import school.sptech.cr_metais.dto.UsuarioLoginDto;
+import school.sptech.cr_metais.dto.UsuarioTokenDto;
 import school.sptech.cr_metais.entity.Usuario;
 
 public class UsuarioMapper {
@@ -10,11 +14,11 @@ public class UsuarioMapper {
         usuario.setEmail(usuarioCriacaoDto.getEmail());
         usuario.setNome(usuarioCriacaoDto.getNome());
         usuario.setSenha(usuarioCriacaoDto.getSenha());
-
         return usuario;
     }
 
     public static Usuario of(UsuarioLoginDto usuarioLoginDto){
+
         Usuario usuario = new Usuario();
 
         usuario.setEmail(usuarioLoginDto.getEmail());
@@ -43,4 +47,5 @@ public class UsuarioMapper {
 
         return usuarioListarDto;
     }
+
 }

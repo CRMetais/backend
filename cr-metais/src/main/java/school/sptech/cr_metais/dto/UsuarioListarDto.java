@@ -11,6 +11,7 @@ public class UsuarioListarDto {
     @Schema(description = "Email do usuário", example = "joseirineu@fe.com")
     private String email;
 
+
     public Integer getId() {
         return id;
     }

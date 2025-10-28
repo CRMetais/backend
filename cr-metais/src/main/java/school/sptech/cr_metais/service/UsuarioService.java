@@ -1,25 +1,19 @@
 package school.sptech.cr_metais.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 import school.sptech.cr_metais.config.GerenciadorTokenJwt;
 import school.sptech.cr_metais.dto.UsuarioListarDto;
-import school.sptech.cr_metais.dto.UsuarioMapper;
+import school.sptech.cr_metais.mappers.UsuarioMapper;
 import school.sptech.cr_metais.dto.UsuarioTokenDto;
-import school.sptech.cr_metais.entity.Produto;
 import school.sptech.cr_metais.entity.Usuario;
-import school.sptech.cr_metais.exception.EntidadeConflitoException;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
-import school.sptech.cr_metais.repository.ProdutoRepository;
 import school.sptech.cr_metais.repository.UsuarioRepository;
 
 import java.util.List;

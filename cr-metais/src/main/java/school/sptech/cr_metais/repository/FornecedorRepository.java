@@ -5,6 +5,8 @@ import school.sptech.cr_metais.entity.Fornecedor;
 
 public interface FornecedorRepository extends JpaRepository<Fornecedor, Integer> {
 
-    Boolean existsByCpf(String value);
+    Boolean existsByDocumento(String documento);
+
     Boolean existsByApelido(String value);
+
 }

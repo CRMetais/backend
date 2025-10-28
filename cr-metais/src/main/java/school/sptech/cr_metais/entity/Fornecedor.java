@@ -1,12 +1,9 @@
 package school.sptech.cr_metais.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 public class Fornecedor {
@@ -18,14 +15,26 @@ public class Fornecedor {
     private String nome;
 
     @NotBlank
-    @CPF
-    private String cpf;
+    private String documento;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private TipoFornecedor tipo;
 
     @NotBlank
-    @Size(min=11, max=11)
+    @Size(min=10, max=11)
     private String telefone;
 
     private String apelido;
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -35,12 +44,20 @@ public class Fornecedor {
         this.nome = nome;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getDocumento() {
+        return documento;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setDocumento(String documento) {
+        this.documento = documento;
+    }
+
+    public TipoFornecedor getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoFornecedor tipo) {
+        this.tipo = tipo;
     }
 
     public String getTelefone() {

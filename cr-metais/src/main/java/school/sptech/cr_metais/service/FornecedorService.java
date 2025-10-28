@@ -1,10 +1,14 @@
 package school.sptech.cr_metais.service;
 
 import org.springframework.stereotype.Service;
+import school.sptech.cr_metais.dto.FornecedorCadastroDTO;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.exception.EntidadeConflitoException;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
+import school.sptech.cr_metais.mappers.FornecedorMapper;
 import school.sptech.cr_metais.repository.FornecedorRepository;
+import school.sptech.cr_metais.service.factory.ValidacaoFornecedorStrategyFactory;
+import school.sptech.cr_metais.service.strategy.ValidacaoCadastroFornecedorStrategy;
 
 import java.util.List;
 
@@ -12,21 +16,30 @@ import java.util.List;
 public class FornecedorService {
 
     private final FornecedorRepository fRepository;
+    private final ValidacaoFornecedorStrategyFactory strategyFactory;
+    private final FornecedorMapper fornecedorMapper;
 
-    public FornecedorService(FornecedorRepository fRepository) {
+    public FornecedorService(FornecedorRepository fRepository,
+                             ValidacaoFornecedorStrategyFactory strategyFactory,
+                             FornecedorMapper fornecedorMapper) {
         this.fRepository = fRepository;
+        this.strategyFactory = strategyFactory;
+        this.fornecedorMapper = fornecedorMapper;
     }
 
-    public Fornecedor cadastrar(Fornecedor fornecedor){
+    public Fornecedor cadastrar(FornecedorCadastroDTO dto) {
 
-        if (fRepository.existsByCpf(fornecedor.getCpf()) ){
-            throw new EntidadeConflitoException("Conflito no campo CPF");
-        }
-        if (fRepository.existsByApelido(fornecedor.getApelido()) ){
+        ValidacaoCadastroFornecedorStrategy strategy = strategyFactory.getStrategy(dto.getTipoFornecedor());
+
+        strategy.validarConflitos(dto);
+
+        if (dto.getApelido() != null && !dto.getApelido().isBlank() && fRepository.existsByApelido(dto.getApelido())) {
             throw new EntidadeConflitoException("Conflito no campo Apelido");
         }
 
-        return fRepository.save(fornecedor);
+        Fornecedor novoFornecedor = fornecedorMapper.toEntity(dto);
+
+        return fRepository.save(novoFornecedor);
     }
 
     public List<Fornecedor> listar(){
@@ -54,11 +67,13 @@ public class FornecedorService {
                 .orElseThrow(
                         ()-> new EntidadeNaoEncontradaException("Fornecedor não encontrado")
                 );
+
         fornecedorAtt.setNome(fornecedor.getNome());
-        fornecedorAtt.setCpf(fornecedor.getCpf());
+        fornecedorAtt.setDocumento(fornecedor.getDocumento());
+        fornecedorAtt.setTipo(fornecedor.getTipo());
         fornecedorAtt.setTelefone(fornecedor.getTelefone());
         fornecedorAtt.setApelido(fornecedor.getApelido());
 
-        return fRepository.save(fornecedor);
+        return fRepository.save(fornecedorAtt);
     }
 }

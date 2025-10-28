@@ -7,11 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.*;
 import school.sptech.cr_metais.entity.Usuario;
-import school.sptech.cr_metais.repository.UsuarioRepository;
+import school.sptech.cr_metais.mappers.UsuarioMapper;
 import school.sptech.cr_metais.service.UsuarioService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
