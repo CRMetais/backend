@@ -5,14 +5,7 @@ import school.sptech.cr_metais.entity.TipoFornecedor;
 
 public interface ValidacaoCadastroFornecedorStrategy {
 
-    /**
-     * @param dto
-     * @throws school.sptech.cr_metais.exception.EntidadeConflitoException
-     */
     void validarConflitos(FornecedorCadastroDTO dto);
 
-    /**
-     * @return
-     */
     TipoFornecedor getTipo();
 }

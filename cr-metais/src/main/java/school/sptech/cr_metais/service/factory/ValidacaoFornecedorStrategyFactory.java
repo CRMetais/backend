@@ -13,9 +13,6 @@ public class ValidacaoFornecedorStrategyFactory {
 
     private final Map<TipoFornecedor, ValidacaoCadastroFornecedorStrategy> strategyMap;
 
-    /**
-     * * @param strategies
-     */
     public ValidacaoFornecedorStrategyFactory(List<ValidacaoCadastroFornecedorStrategy> strategies) {
         strategyMap = new EnumMap<>(TipoFornecedor.class);
         for (ValidacaoCadastroFornecedorStrategy strategy : strategies) {
@@ -23,10 +20,6 @@ public class ValidacaoFornecedorStrategyFactory {
         }
     }
 
-    /**
-     * @return
-     * @throws IllegalArgumentException
-     */
     public ValidacaoCadastroFornecedorStrategy getStrategy(TipoFornecedor tipo) {
         ValidacaoCadastroFornecedorStrategy strategy = strategyMap.get(tipo);
         if (strategy == null) {
