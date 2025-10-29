@@ -19,7 +19,7 @@ public class Fornecedor {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private TipoFornecedor tipo;
+    private TipoFornecedor tipoFornecedor;
 
     @NotBlank
     @Size(min=10, max=11)
@@ -53,11 +53,11 @@ public class Fornecedor {
     }
 
     public TipoFornecedor getTipo() {
-        return tipo;
+        return tipoFornecedor;
     }
 
     public void setTipo(TipoFornecedor tipo) {
-        this.tipo = tipo;
+        this.tipoFornecedor = tipo;
     }
 
     public String getTelefone() {

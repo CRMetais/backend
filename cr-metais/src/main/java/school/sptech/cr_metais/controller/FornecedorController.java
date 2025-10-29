@@ -46,4 +46,16 @@ public class FornecedorController {
         return ResponseEntity.status(204).build();
     }
 
+    @GetMapping("/invertido")
+
+    public ResponseEntity<List<Fornecedor>> listarInversoRecursivo(){
+
+        List<Fornecedor> listaInvertida = fService.listarInversoRecursivo();
+
+        if (listaInvertida.isEmpty()){
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(listaInvertida);
+    }
+
 }

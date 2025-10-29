@@ -10,6 +10,7 @@ import school.sptech.cr_metais.repository.FornecedorRepository;
 import school.sptech.cr_metais.service.factory.ValidacaoFornecedorStrategyFactory;
 import school.sptech.cr_metais.service.strategy.ValidacaoCadastroFornecedorStrategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -75,5 +76,21 @@ public class FornecedorService {
         fornecedorAtt.setApelido(fornecedor.getApelido());
 
         return fRepository.save(fornecedorAtt);
+    }
+
+    public List<Fornecedor> listarInversoRecursivo() {
+        List<Fornecedor> fornecedores = listar();
+        return inverterListaRecursivamente(fornecedores, 0);
+    }
+
+    private List<Fornecedor> inverterListaRecursivamente(List<Fornecedor> lista, int indice) {
+        if (indice == lista.size()) {
+            return new ArrayList<>();
+        }
+
+        List<Fornecedor> resultado = inverterListaRecursivamente(lista, indice + 1);
+        resultado.add(lista.get(indice));
+
+        return resultado;
     }
 }
