@@ -23,7 +23,7 @@ public class UsuarioController {
         this.uService = uService;
     }
 
-    @PostMapping("/cadastrar") // Usando uma rota específica para evitar ambiguidade
+    @PostMapping() // Usando uma rota específica para evitar ambiguidade
     public ResponseEntity<Void> cadastrar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
 
         // 1. Converte o DTO (dados de entrada) para a entidade Usuario
