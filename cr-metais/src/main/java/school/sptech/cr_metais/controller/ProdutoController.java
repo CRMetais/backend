@@ -1,5 +1,6 @@
 package school.sptech.cr_metais.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.entity.Produto;
@@ -12,6 +13,7 @@ import java.util.concurrent.RecursiveTask;
 
 @RestController
 @RequestMapping("/produtos")
+@Tag(name = "Produtos")
 public class ProdutoController {
 
 private final ProdutoService pService;
