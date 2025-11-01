@@ -49,7 +49,6 @@ public class FornecedorController {
     }
 
     @GetMapping("/invertido")
-
     public ResponseEntity<List<Fornecedor>> listarInversoRecursivo(){
 
         List<Fornecedor> listaInvertida = fService.listarInversoRecursivo();

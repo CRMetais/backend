@@ -63,7 +63,6 @@ private final ProdutoService pService;
         return ResponseEntity.status(200).body(produtoAtualizado);
     }
 
-
     // Listar Produto por maior preço
     @GetMapping("/preco")
     public ResponseEntity<List<Produto>> listarPorPrecoMaior(){
