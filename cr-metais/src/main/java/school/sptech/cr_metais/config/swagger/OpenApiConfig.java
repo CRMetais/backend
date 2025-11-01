@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
                 title = "CR Metais - API",
                 version = "1.0.0",
-                description = "API desenvolvida para o sistema de gestão da CR Metais",
+                description = "API desenvolvida para o sistema de gestão de estoque e compra/venda da CR Metais",
                 contact = @Contact(
                         name = "Amanda | Enrico | Felipe | Guilherme | Mário | Miguel",
                         url = "https://github.com/CRMetais/backend.git"
