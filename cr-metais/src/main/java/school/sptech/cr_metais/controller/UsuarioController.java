@@ -37,7 +37,7 @@ public class UsuarioController {
                             schema = @Schema(implementation = UsuarioListarDto.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválidos",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(example = "{\"erro\": \"Email inválido\"}")))
+                            schema = @Schema(example = "{\"erro\": \"Email ou senha inválidos\"}")))
     })
     @PostMapping() // Usando uma rota específica para evitar ambiguidade
     public ResponseEntity<Void> cadastrar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
@@ -92,8 +92,7 @@ public class UsuarioController {
                             schema = @Schema(example = "{\"erro\": \"Usuário não encontrado\"}")))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizar
-            (@PathVariable Integer id, @RequestBody Usuario usuario){
+    public ResponseEntity<Usuario> atualizar(@PathVariable Integer id, @RequestBody Usuario usuario){
 
         Usuario usuarioAtualizado = uService.atualizar(id, usuario);
         return ResponseEntity.status(200).body(usuarioAtualizado);
