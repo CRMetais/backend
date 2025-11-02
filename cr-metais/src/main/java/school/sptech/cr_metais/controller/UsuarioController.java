@@ -39,7 +39,7 @@ public class UsuarioController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(example = "{\"erro\": \"Email ou senha inválidos\"}")))
     })
-
+    @SecurityRequirement(name = "Bearer")
     @PostMapping() // Usando uma rota específica para evitar ambiguidade
     public ResponseEntity<Void> cadastrar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
 
@@ -111,9 +111,9 @@ public class UsuarioController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(example = "{\"erro\": \"Credenciais inválidas\"}")))
     })
+
     @PostMapping("/login")
     public ResponseEntity<UsuarioTokenDto> login(@RequestBody UsuarioLoginDto usuarioLoginDto){
-
         UsuarioTokenDto usuarioTokenDto = this.uService.autenticar(UsuarioMapper.of(usuarioLoginDto));
         return ResponseEntity.status(200).body(usuarioTokenDto);
     }
@@ -136,5 +136,4 @@ public class UsuarioController {
         }
         return ResponseEntity.status(200).body(usuariosEncontrados);
     }
-
 }

@@ -1,0 +1,2 @@
+INSERT INTO USUARIO (ID, EMAIL, NOME, SENHA)
+VALUES (1, 'joseirineu@fe.com', 'Jose', '$2a$10$gbH7C3dxn4R1A5tmqM1WNO/7kIaJlV291ZVhmYkddTY5FGKK66fUS');
