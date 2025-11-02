@@ -39,6 +39,7 @@ public class UsuarioController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(example = "{\"erro\": \"Email ou senha inválidos\"}")))
     })
+
     @PostMapping() // Usando uma rota específica para evitar ambiguidade
     public ResponseEntity<Void> cadastrar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
 
@@ -62,6 +63,7 @@ public class UsuarioController {
                             schema = @Schema(example = "{\"erro\": \"Usuário não encontrado\"}")))
     })
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer id) {
 
        Usuario usuarioEncontrado = uService.buscarPorId(id);
@@ -76,6 +78,7 @@ public class UsuarioController {
                             schema = @Schema(example = "{\"erro\": \"Usuário não encontrado\"}")))
     })
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
 
         uService.deletar(id);
@@ -92,6 +95,7 @@ public class UsuarioController {
                             schema = @Schema(example = "{\"erro\": \"Usuário não encontrado\"}")))
     })
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Usuario> atualizar(@PathVariable Integer id, @RequestBody Usuario usuario){
 
         Usuario usuarioAtualizado = uService.atualizar(id, usuario);

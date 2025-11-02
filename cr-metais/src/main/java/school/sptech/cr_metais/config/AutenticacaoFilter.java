@@ -30,10 +30,8 @@ public class AutenticacaoFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
         String username = null;
         String jwtToken = null;
-
         String requestTokenHeader = request.getHeader("Authorization");
 
         if (Objects.nonNull(requestTokenHeader) && requestTokenHeader.startsWith("Bearer ")) {

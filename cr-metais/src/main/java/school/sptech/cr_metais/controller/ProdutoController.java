@@ -1,5 +1,6 @@
 package school.sptech.cr_metais.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.concurrent.RecursiveTask;
 @RestController
 @RequestMapping("/produtos")
 @Tag(name = "Produtos")
+@SecurityRequirement(name = "Bearer")
 public class ProdutoController {
 
 private final ProdutoService pService;
