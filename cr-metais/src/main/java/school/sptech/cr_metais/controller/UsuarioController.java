@@ -11,7 +11,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.cr_metais.dto.*;
+import school.sptech.cr_metais.dto.Usuario.UsuarioCriacaoDto;
+import school.sptech.cr_metais.dto.Usuario.UsuarioListarDto;
+import school.sptech.cr_metais.dto.Usuario.UsuarioLoginDto;
+import school.sptech.cr_metais.dto.Usuario.UsuarioTokenDto;
 import school.sptech.cr_metais.entity.Usuario;
 import school.sptech.cr_metais.mappers.UsuarioMapper;
 import school.sptech.cr_metais.service.UsuarioService;
@@ -42,7 +45,6 @@ public class UsuarioController {
     @SecurityRequirement(name = "Bearer")
     @PostMapping() // Usando uma rota específica para evitar ambiguidade
     public ResponseEntity<Void> cadastrar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
-
         // 1. Converte o DTO (dados de entrada) para a entidade Usuario
         Usuario novoUsuario = UsuarioMapper.of(usuarioCriacaoDto);
 
@@ -65,7 +67,6 @@ public class UsuarioController {
     @GetMapping("/{id}")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer id) {
-
        Usuario usuarioEncontrado = uService.buscarPorId(id);
        return ResponseEntity.status(200).body(usuarioEncontrado);
     }

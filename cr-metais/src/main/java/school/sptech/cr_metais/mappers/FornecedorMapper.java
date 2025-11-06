@@ -1,13 +1,13 @@
 package school.sptech.cr_metais.mappers;
 
 import org.springframework.stereotype.Component;
-import school.sptech.cr_metais.dto.FornecedorCadastroDTO;
+import school.sptech.cr_metais.dto.Fornecedor.FornecedorCadastroDto;
 import school.sptech.cr_metais.entity.Fornecedor;
 
 @Component
 public class FornecedorMapper {
 
-    public Fornecedor toEntity(FornecedorCadastroDTO dto) {
+    public Fornecedor toEntity(FornecedorCadastroDto dto) {
         if (dto == null) {
             return null;
         }

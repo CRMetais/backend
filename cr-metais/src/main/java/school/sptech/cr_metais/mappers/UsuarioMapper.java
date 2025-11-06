@@ -1,9 +1,9 @@
 package school.sptech.cr_metais.mappers;
 
-import school.sptech.cr_metais.dto.UsuarioCriacaoDto;
-import school.sptech.cr_metais.dto.UsuarioListarDto;
-import school.sptech.cr_metais.dto.UsuarioLoginDto;
-import school.sptech.cr_metais.dto.UsuarioTokenDto;
+import school.sptech.cr_metais.dto.Usuario.UsuarioCriacaoDto;
+import school.sptech.cr_metais.dto.Usuario.UsuarioListarDto;
+import school.sptech.cr_metais.dto.Usuario.UsuarioLoginDto;
+import school.sptech.cr_metais.dto.Usuario.UsuarioTokenDto;
 import school.sptech.cr_metais.entity.Usuario;
 
 public class UsuarioMapper {

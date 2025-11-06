@@ -1,4 +1,4 @@
-package school.sptech.cr_metais.dto;
+package school.sptech.cr_metais.dto.Usuario;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

@@ -1,11 +1,11 @@
-package school.sptech.cr_metais.dto;
+package school.sptech.cr_metais.dto.Fornecedor;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import school.sptech.cr_metais.entity.TipoFornecedor;
 
-public class FornecedorCadastroDTO {
+public class FornecedorCadastroDto {
 
     @NotBlank
     private String nome;

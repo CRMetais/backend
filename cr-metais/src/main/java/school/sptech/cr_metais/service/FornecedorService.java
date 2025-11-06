@@ -1,7 +1,7 @@
 package school.sptech.cr_metais.service;
 
 import org.springframework.stereotype.Service;
-import school.sptech.cr_metais.dto.FornecedorCadastroDTO;
+import school.sptech.cr_metais.dto.Fornecedor.FornecedorCadastroDto;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.exception.EntidadeConflitoException;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
@@ -28,7 +28,7 @@ public class FornecedorService {
         this.fornecedorMapper = fornecedorMapper;
     }
 
-    public Fornecedor cadastrar(FornecedorCadastroDTO dto) {
+    public Fornecedor cadastrar(FornecedorCadastroDto dto) {
 
         ValidacaoCadastroFornecedorStrategy strategy = strategyFactory.getStrategy(dto.getTipoFornecedor());
 

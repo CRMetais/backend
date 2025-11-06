@@ -5,11 +5,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import school.sptech.cr_metais.dto.UsuarioDetalhesDto;
+import school.sptech.cr_metais.dto.Usuario.UsuarioDetalhesDto;
 import school.sptech.cr_metais.entity.Usuario;
 import school.sptech.cr_metais.repository.UsuarioRepository;
 
-import java.io.Serial;
 import java.util.Optional;
 
 @Service

@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.cr_metais.dto.FornecedorCadastroDTO;
+import school.sptech.cr_metais.dto.Fornecedor.FornecedorCadastroDto;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.service.FornecedorService;
 
@@ -24,7 +24,7 @@ public class FornecedorController {
     }
 
     @PostMapping
-    public ResponseEntity<Fornecedor> cadastrarFornecedor(@RequestBody @Valid FornecedorCadastroDTO dto) {
+    public ResponseEntity<Fornecedor> cadastrarFornecedor(@RequestBody @Valid FornecedorCadastroDto dto) {
         Fornecedor fornecedorSalvo = fService.cadastrar(dto);
         return ResponseEntity.status(201).body(fornecedorSalvo);
     }

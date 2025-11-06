@@ -1,4 +1,4 @@
-package school.sptech.cr_metais.dto;
+package school.sptech.cr_metais.dto.Usuario;
 
 public class UsuarioTokenDto {
 
