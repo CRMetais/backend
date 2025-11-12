@@ -12,7 +12,8 @@ import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.service.EnderecoService;
 
 @RestController
-@RequestMapping("/fornecedores")
+//@RequestMapping("/fornecedores")
+@RequestMapping("/enderecos")
 @Tag(name = "Endereco")
 @SecurityRequirement(name = "Bearer")
 public class EnderecoController {
