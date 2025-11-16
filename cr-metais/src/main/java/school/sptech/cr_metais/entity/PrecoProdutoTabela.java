@@ -7,7 +7,7 @@ public class PrecoProdutoTabela {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;  // Ou outro campo identificador, se tiver
+    private Integer id;
 
 //    @ManyToOne
 //    @JoinColumn(name = "fk_compra")
