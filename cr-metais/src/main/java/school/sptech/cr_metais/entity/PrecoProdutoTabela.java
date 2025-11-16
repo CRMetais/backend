@@ -9,10 +9,6 @@ public class PrecoProdutoTabela {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "fk_compra")
-//    private Compra compra;
-
     @ManyToOne
     @JoinColumn(name = "fk_tabela_preco")
     private TabelaPreco tabelaPreco;
@@ -31,14 +27,6 @@ public class PrecoProdutoTabela {
     public void setId(Integer id) {
         this.id = id;
     }
-
-//    public Compra getCompra() {
-//        return compra;
-//    }
-//
-//    public void setCompra(Compra compra) {
-//        this.compra = compra;
-//    }
 
     public TabelaPreco getTabelaPreco() {
         return tabelaPreco;
