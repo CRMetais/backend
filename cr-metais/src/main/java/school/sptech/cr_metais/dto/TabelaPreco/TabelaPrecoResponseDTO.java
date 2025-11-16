@@ -13,7 +13,7 @@ public class TabelaPrecoResponseDTO {
     @Schema(description = "Nome da tabela", example = "Padrão")
     String nomeTabela;
 
-    @Schema(description = "Tipo da tabela (Compra ou venda", example = "C")
+    @Schema(description = "Tipo da tabela (Compra ou venda)", example = "C")
     TipoTabela tipo;
 
     @Schema(description = "Versão da tabela", example = "1.0")

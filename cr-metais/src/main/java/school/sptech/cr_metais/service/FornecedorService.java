@@ -2,11 +2,15 @@ package school.sptech.cr_metais.service;
 
 import org.springframework.stereotype.Service;
 import school.sptech.cr_metais.dto.Fornecedor.FornecedorCadastroDto;
+import school.sptech.cr_metais.entity.Endereco;
 import school.sptech.cr_metais.entity.Fornecedor;
+import school.sptech.cr_metais.entity.TabelaPreco;
 import school.sptech.cr_metais.exception.EntidadeConflitoException;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.mappers.FornecedorMapper;
+import school.sptech.cr_metais.repository.EnderecoRepository;
 import school.sptech.cr_metais.repository.FornecedorRepository;
+import school.sptech.cr_metais.repository.TabelaPrecoRepository;
 import school.sptech.cr_metais.service.factory.ValidacaoFornecedorStrategyFactory;
 import school.sptech.cr_metais.service.strategy.ValidacaoCadastroFornecedorStrategy;
 
@@ -19,13 +23,15 @@ public class FornecedorService {
     private final FornecedorRepository fRepository;
     private final ValidacaoFornecedorStrategyFactory strategyFactory;
     private final FornecedorMapper fornecedorMapper;
+    private final EnderecoRepository enderecoRepository;
+    private final TabelaPrecoRepository tabelaPrecoRepository;
 
-    public FornecedorService(FornecedorRepository fRepository,
-                             ValidacaoFornecedorStrategyFactory strategyFactory,
-                             FornecedorMapper fornecedorMapper) {
+    public FornecedorService(FornecedorRepository fRepository, ValidacaoFornecedorStrategyFactory strategyFactory, FornecedorMapper fornecedorMapper, EnderecoRepository enderecoRepository, TabelaPrecoRepository tabelaPrecoRepository) {
         this.fRepository = fRepository;
         this.strategyFactory = strategyFactory;
         this.fornecedorMapper = fornecedorMapper;
+        this.enderecoRepository = enderecoRepository;
+        this.tabelaPrecoRepository = tabelaPrecoRepository;
     }
 
     public Fornecedor cadastrar(FornecedorCadastroDto dto) {
@@ -39,6 +45,15 @@ public class FornecedorService {
         }
 
         Fornecedor novoFornecedor = fornecedorMapper.toEntity(dto);
+
+        Endereco endereco = enderecoRepository.findById(dto.getIdEndereco())
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Endereço não encontrado"));
+
+        TabelaPreco tabela = tabelaPrecoRepository.findById(dto.getIdTabelaPreco())
+             .orElseThrow(() -> new EntidadeNaoEncontradaException("Tabela de preço não encontrada"));
+             novoFornecedor.setTabelaPreco(tabela);
+
+        novoFornecedor.setEndereco(endereco);
 
         return fRepository.save(novoFornecedor);
     }

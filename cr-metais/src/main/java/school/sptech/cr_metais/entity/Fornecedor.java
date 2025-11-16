@@ -27,6 +27,14 @@ public class Fornecedor {
 
     private String apelido;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_endereco")
+    private Endereco endereco;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_tabela_preco")
+    private TabelaPreco tabelaPreco;
+
 
     public Integer getId() {
         return id;
@@ -74,5 +82,29 @@ public class Fornecedor {
 
     public void setApelido(String apelido) {
         this.apelido = apelido;
+    }
+
+    public TipoFornecedor getTipoFornecedor() {
+        return tipoFornecedor;
+    }
+
+    public void setTipoFornecedor(TipoFornecedor tipoFornecedor) {
+        this.tipoFornecedor = tipoFornecedor;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public TabelaPreco getTabelaPreco() {
+        return tabelaPreco;
+    }
+
+    public void setTabelaPreco(TabelaPreco tabelaPreco) {
+        this.tabelaPreco = tabelaPreco;
     }
 }
