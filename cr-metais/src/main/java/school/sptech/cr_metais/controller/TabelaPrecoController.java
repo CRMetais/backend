@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tabelasPreco")
-@Tag(name = "TabelaPreco")
+@Tag(name = "Tabelas Preço")
 @SecurityRequirement(name = "Bearer")
 public class TabelaPrecoController {
 

@@ -26,7 +26,8 @@ import org.springframework.context.annotation.Configuration;
         tags = {
                 @Tag(name = "Usuários", description = "Operações relacionadas aos usuários do sistema"),
                 @Tag(name = "Fornecedores", description = "Operações relacionadas aos fornecedores do sistema"),
-                @Tag(name = "Produtos", description = "Operações relacionadas com os produtos do sistema")
+                @Tag(name = "Tabelas Preço", description = "Operações relacionadas com as tabelas de preço do sistema"),
+                @Tag(name = "Endereço", description = "Operações relacionadas com os endereços cadastrados no sistema")
         }
 )
 @SecurityScheme(
