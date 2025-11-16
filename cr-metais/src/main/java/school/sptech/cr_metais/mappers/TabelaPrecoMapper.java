@@ -8,7 +8,7 @@ import school.sptech.cr_metais.entity.TabelaPreco;
 @Component
 public class TabelaPrecoMapper {
 
-    public static TabelaPreco toEntity(TabelaPrecoCadastroDTO dto) {
+    public TabelaPreco toEntity(TabelaPrecoCadastroDTO dto) {
         TabelaPreco t = new TabelaPreco();
         t.setTipo(dto.getTipo());
         t.setNomeTabela(dto.getNomeTabela());
@@ -19,7 +19,7 @@ public class TabelaPrecoMapper {
         return t;
     }
 
-    public static TabelaPrecoResponseDTO toDTO(TabelaPreco e) {
+    public TabelaPrecoResponseDTO toDTO(TabelaPreco e) {
         return new TabelaPrecoResponseDTO(
                 e.getIdTabela(),
                 e.getNomeTabela(),
