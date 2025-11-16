@@ -9,6 +9,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import school.sptech.cr_metais.dto.Produto.ProdutoCadastrarDto;
+import school.sptech.cr_metais.dto.Produto.ProdutoDetalhesDto;
+import school.sptech.cr_metais.dto.Produto.ProdutoListarDto;
 import school.sptech.cr_metais.entity.Produto;
 import school.sptech.cr_metais.repository.ProdutoRepository;
 import school.sptech.cr_metais.service.ProdutoService;
@@ -42,9 +45,11 @@ private final ProdutoService pService;
     })
     // Cadastrar produtos
     @PostMapping
-    public ResponseEntity<Produto> cadastrarProduto(@RequestBody Produto produto) {
-        Produto produtoSalvo = pService.cadastrar(produto);
-        return ResponseEntity.status(201).body(produtoSalvo);
+    public ResponseEntity<ProdutoListarDto> cadastrarProduto(
+            @RequestBody ProdutoCadastrarDto dto) {
+
+        ProdutoListarDto salvo = pService.cadastrar(dto);
+        return ResponseEntity.status(201).body(salvo);
     }
 
     @Operation(
@@ -59,14 +64,14 @@ private final ProdutoService pService;
     })
     // Listar todos os produtos
     @GetMapping
-    public ResponseEntity<List<Produto>> listar(){
+    public ResponseEntity<List<ProdutoListarDto>> listar() {
 
-        List<Produto> all = pService.listar();
+        List<ProdutoListarDto> all = pService.listar();
 
-        if (all.isEmpty()){
+        if (all.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
-        return ResponseEntity.status(200).body(all);
+        return ResponseEntity.ok(all);
     }
 
 
@@ -98,10 +103,10 @@ private final ProdutoService pService;
     })
     // Buscar por id
     @GetMapping("/{id}")
-    public ResponseEntity<Produto> buscarPorId(@PathVariable Integer id){
+    public ResponseEntity<ProdutoDetalhesDto> buscarPorId(@PathVariable Integer id) {
 
-        Produto produtoEncontrado = pService.buscarPorId(id);
-        return ResponseEntity.status(200).body(produtoEncontrado);
+        ProdutoDetalhesDto dto = pService.buscarPorId(id);
+        return ResponseEntity.ok(dto);
     }
 
 
@@ -117,9 +122,12 @@ private final ProdutoService pService;
     })
     // Atualizar Produto
     @PutMapping("{id}")
-    public ResponseEntity<Produto> atualizar(@PathVariable Integer id, @RequestBody Produto produto){
-        Produto produtoAtualizado = pService.atualizar(id, produto);
-        return ResponseEntity.status(200).body(produtoAtualizado);
+    public ResponseEntity<ProdutoDetalhesDto> atualizar(
+            @PathVariable Integer id,
+            @RequestBody ProdutoCadastrarDto dto) {
+
+        ProdutoDetalhesDto atualizado = pService.atualizar(id, dto);
+        return ResponseEntity.ok(atualizado);
     }
 
 
@@ -135,14 +143,14 @@ private final ProdutoService pService;
     })
     // Listar Produto por maior preço
     @GetMapping("/preco")
-    public ResponseEntity<List<Produto>> listarPorPrecoMaior(){
+    public ResponseEntity<List<ProdutoListarDto>> listarPorPrecoMaior() {
 
-        List<Produto> all = pService.listarPorPrecoMaior();
+        List<ProdutoListarDto> all = pService.listarPorPrecoMaior();
 
-        if (all.isEmpty()){
+        if (all.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
-        return ResponseEntity.status(200).body(all);
+        return ResponseEntity.ok(all);
     }
 
 }
