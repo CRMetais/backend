@@ -10,7 +10,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import school.sptech.cr_metais.dto.ContaPagamento.ContaPagamentoCadastroDto;
+import school.sptech.cr_metais.dto.ContaPagamento.ContaPagamentoResponseDto;
 import school.sptech.cr_metais.dto.Fornecedor.FornecedorCadastroDto;
+import school.sptech.cr_metais.entity.ContaPagamento;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.service.FornecedorService;
 
@@ -117,6 +120,25 @@ public class FornecedorController {
             return ResponseEntity.status(204).build();
         }
         return ResponseEntity.status(200).body(listaInvertida);
+    }
+
+    @Operation(
+            summary = "Atualizar fornecedor por ID",
+            description = "Atualiza os dados de um fornecedor existente com base no ID informado."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fornecedor atualizado com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Fornecedor.class))),
+            @ApiResponse(responseCode = "404", description = "Fornecedor não encontrado", content = @Content)
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<Fornecedor> atualizar(
+            @PathVariable Integer id,
+            @RequestBody @Valid Fornecedor dto) {
+
+        Fornecedor atualizada = fService.atualizar(id, dto);
+        return ResponseEntity.ok(atualizada);
     }
 
 }

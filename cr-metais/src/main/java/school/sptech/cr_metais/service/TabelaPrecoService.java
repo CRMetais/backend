@@ -71,7 +71,6 @@ public class TabelaPrecoService {
         tabelaParaAtualizar.setTipo(dto.getTipo());
         tabelaParaAtualizar.setDataFimValidade(dto.getDataFimValidade());
         tabelaParaAtualizar.setDataInicioValidade(dto.getDataInicioValidade());
-
         TabelaPreco tabelaAtualizada = tRepository.save(tabelaParaAtualizar);
 
         return tabelaPrecoMapper.toDTO(tabelaAtualizada);
