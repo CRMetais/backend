@@ -1,16 +1,30 @@
 package school.sptech.cr_metais.dto.PagamentoCompra;
 
+import school.sptech.cr_metais.entity.ContaPagamento;
+
 import java.util.Date;
 
 public class PagamentoCompraResponseDto {
 
-    private Date dataPagamentoCompra;
+    // Fica de presente
 
-    public PagamentoCompraResponseDto(Date dataPagamentoCompra) {
+    private Date dataPagamentoCompra;
+    private ContaPagamento contaPagamento;
+
+    public PagamentoCompraResponseDto(Date dataPagamentoCompra, ContaPagamento contaPagamento) {
         this.dataPagamentoCompra = dataPagamentoCompra;
+        this.contaPagamento = contaPagamento;
     }
 
     public PagamentoCompraResponseDto() {
+    }
+
+    public ContaPagamento getContaPagamento() {
+        return contaPagamento;
+    }
+
+    public void setContaPagamento(ContaPagamento contaPagamento) {
+        this.contaPagamento = contaPagamento;
     }
 
     public Date getDataPagamentoCompra() {

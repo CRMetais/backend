@@ -8,35 +8,18 @@ import java.util.Date;
 
 public class PagamentoCompraCadastroDto {
 
-    private Integer idPagamentoCompra;
-    private Compra compra;
-    private Date dataPagamento;
-    private ContaPagamento contaPagamento;
 
-    public PagamentoCompraCadastroDto(Integer idPagamentoCompra, Compra compra, Date dataPagamento, ContaPagamento contaPagamento) {
-        this.idPagamentoCompra = idPagamentoCompra;
-        this.compra = compra;
+    private Date dataPagamento;
+    private Integer idCompra;
+    private Integer idContaPagamento;
+
+    public PagamentoCompraCadastroDto(Date dataPagamento, Integer idCompra, Integer idContaPagamento) {
         this.dataPagamento = dataPagamento;
-        this.contaPagamento = contaPagamento;
+        this.idCompra = idCompra;
+        this.idContaPagamento = idContaPagamento;
     }
 
     public PagamentoCompraCadastroDto() {
-    }
-
-    public Integer getIdPagamentoCompra() {
-        return idPagamentoCompra;
-    }
-
-    public void setIdPagamentoCompra(Integer idPagamentoCompra) {
-        this.idPagamentoCompra = idPagamentoCompra;
-    }
-
-    public Compra getCompra() {
-        return compra;
-    }
-
-    public void setCompra(Compra compra) {
-        this.compra = compra;
     }
 
     public Date getDataPagamento() {
@@ -47,11 +30,19 @@ public class PagamentoCompraCadastroDto {
         this.dataPagamento = dataPagamento;
     }
 
-    public ContaPagamento getContaPagamento() {
-        return contaPagamento;
+    public Integer getIdCompra() {
+        return idCompra;
     }
 
-    public void setContaPagamento(ContaPagamento contaPagamento) {
-        this.contaPagamento = contaPagamento;
+    public void setIdCompra(Integer idCompra) {
+        this.idCompra = idCompra;
+    }
+
+    public Integer getIdContaPagamento() {
+        return idContaPagamento;
+    }
+
+    public void setIdContaPagamento(Integer idContaPagamento) {
+        this.idContaPagamento = idContaPagamento;
     }
 }
