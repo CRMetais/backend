@@ -1,15 +1,9 @@
 package school.sptech.cr_metais.service;
 
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import school.sptech.cr_metais.dto.Cliente.ClienteCadastroDTO;
-import school.sptech.cr_metais.dto.Cliente.ClienteResponseDTO;
-import school.sptech.cr_metais.entity.Cliente;
 import school.sptech.cr_metais.entity.Venda;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
-import school.sptech.cr_metais.mappers.ClienteMapper;
-import school.sptech.cr_metais.repository.ClienteRepository;
 import school.sptech.cr_metais.repository.VendaRepository;
 
 import java.util.List;

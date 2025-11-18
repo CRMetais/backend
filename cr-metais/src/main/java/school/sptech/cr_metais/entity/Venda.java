@@ -1,12 +1,28 @@
 package school.sptech.cr_metais.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "venda")
 public class Venda {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private Integer idVenda;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "fk_cliente")
     private Cliente fkCliente;
+    @NotNull
+    @OneToOne
+    @JoinColumn(name = "fk_tabela_preco")
     private TabelaPreco fkTabelaPreco;
+    @NotNull
     private LocalDate dataVenda;
 
     public Integer getIdVenda() {
