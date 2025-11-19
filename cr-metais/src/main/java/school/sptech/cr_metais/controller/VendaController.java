@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.Cliente.ClienteCadastroDTO;
 import school.sptech.cr_metais.dto.Cliente.ClienteResponseDTO;
+import school.sptech.cr_metais.dto.Venda.VendaCadastroDTO;
+import school.sptech.cr_metais.dto.Venda.VendaResponseDTO;
+import school.sptech.cr_metais.entity.Cliente;
 import school.sptech.cr_metais.entity.TabelaPreco;
 import school.sptech.cr_metais.entity.Venda;
 import school.sptech.cr_metais.service.ClienteService;
@@ -32,13 +35,13 @@ public class VendaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Venda cadastrada com sucesso",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Venda.class))),
+                            schema = @Schema(implementation = VendaResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content)
     })
     @PostMapping
-    public ResponseEntity<Venda> cadastrar(@RequestBody @Valid Venda venda) {
+    public ResponseEntity<Venda> cadastrar(@RequestBody @Valid VendaCadastroDTO dto) {
 
-        Venda resposta = vService.cadastrar(venda);
+        Venda resposta = vService.cadastrar(dto);
 
         return ResponseEntity.status(201).body(resposta);
     }
@@ -52,21 +55,19 @@ public class VendaController {
             @ApiResponse(responseCode = "200", description = "Lista de vendas retornada com sucesso",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ClienteResponseDTO.class))),
+                            schema = @Schema(implementation = VendaResponseDTO.class))),
             @ApiResponse(responseCode = "204", description = "Nenhuma venda encontrada", content = @Content)
     })
     @GetMapping
-    public ResponseEntity<List<Venda>> listar() {
+    public ResponseEntity<List<VendaResponseDTO>> listar() {
 
-        List<Venda> all = vService.listar();
+        List<VendaResponseDTO> all = vService.listar();
 
         if (all.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
         return ResponseEntity.ok(all);
     }
-
-
 
     @Operation(
             summary = "Deletar venda por ID",
@@ -97,9 +98,10 @@ public class VendaController {
             @ApiResponse(responseCode = "404", description = "Venda não encontrada", content = @Content)
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Venda> buscarPorId(@PathVariable Integer id) {
-        Venda v = vService.buscarPorId(id);
-        return ResponseEntity.ok(v);
+    public ResponseEntity<VendaResponseDTO> buscarPorId(@PathVariable Integer id) {
+        VendaResponseDTO dto = vService.buscarPorId(id);
+        return ResponseEntity.ok(dto);
     }
+
 
 }

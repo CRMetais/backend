@@ -1,10 +1,8 @@
 package school.sptech.cr_metais.dto.Cliente;
 
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 
 public class ClienteCadastroDTO {
     @NotNull(message = "CNPJ é obrigatório")
