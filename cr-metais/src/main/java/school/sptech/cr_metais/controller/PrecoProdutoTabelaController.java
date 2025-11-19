@@ -7,7 +7,7 @@ import school.sptech.cr_metais.entity.TabelaPreco;
 import school.sptech.cr_metais.service.PrecoProdutoTabelaService;
 
 @RestController
-@RequestMapping("/precos-produto")
+@RequestMapping("/preco-produtos")
 public class PrecoProdutoTabelaController {
 
     private final PrecoProdutoTabelaService precoProdutoTabelaService;

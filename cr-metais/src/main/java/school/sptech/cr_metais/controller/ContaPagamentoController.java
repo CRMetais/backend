@@ -19,7 +19,7 @@ import school.sptech.cr_metais.service.ContaPagamentoService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/contasPagamento")
+@RequestMapping("/contas-pagamentos")
 @Tag(name = "Contas Pagamento")
 @SecurityRequirement(name = "Bearer")
 public class ContaPagamentoController {

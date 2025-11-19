@@ -1,6 +1,7 @@
 package school.sptech.cr_metais.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class ItemPedidoCompra {
@@ -9,18 +10,20 @@ public class ItemPedidoCompra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "id_fk_compra")
-//    private Compra compra;
+    @ManyToOne
+    @JoinColumn(name = "id_fk_compra")
+    private Compra compra;
 
     @ManyToOne
     @JoinColumn(name = "id_fk_produto")
     private Produto produto;
 
     @Column(name = "peso_kg")
+    @NotNull
     private Double pesoKg;
 
     @Column(name = "preco_unitario")
+    @NotNull
     private Double precoUnitario;
 
     public Integer getId() {
@@ -31,13 +34,13 @@ public class ItemPedidoCompra {
         this.id = id;
     }
 
-//    public Compra getCompra() {
-//        return compra;
-//    }
-//
-//    public void setCompra(Compra compra) {
-//        this.compra = compra;
-//    }
+    public Compra getCompra() {
+        return compra;
+    }
+
+    public void setCompra(Compra compra) {
+        this.compra = compra;
+    }
 
     public Produto getProduto() {
         return produto;
