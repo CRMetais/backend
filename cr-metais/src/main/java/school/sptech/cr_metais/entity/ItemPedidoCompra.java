@@ -2,6 +2,7 @@ package school.sptech.cr_metais.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 public class ItemPedidoCompra {
@@ -20,10 +21,12 @@ public class ItemPedidoCompra {
 
     @Column(name = "peso_kg")
     @NotNull
+    @Positive
     private Double pesoKg;
 
     @Column(name = "preco_unitario")
     @NotNull
+    @Positive
     private Double precoUnitario;
 
     public Integer getId() {

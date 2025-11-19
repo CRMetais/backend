@@ -1,6 +1,8 @@
 package school.sptech.cr_metais.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 public class PrecoProdutoTabela {
@@ -17,6 +19,8 @@ public class PrecoProdutoTabela {
     @JoinColumn(name = "fk_produto")
     private Produto produto;
 
+    @NotNull
+    @Positive
     @Column(name = "preco_produto")
     private Double precoProduto;
 
