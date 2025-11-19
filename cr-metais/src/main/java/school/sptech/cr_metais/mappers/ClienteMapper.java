@@ -11,9 +11,7 @@ public class ClienteMapper {
     public Cliente toEntity(ClienteCadastroDTO dto) {
         Cliente c = new Cliente();
         c.setCnpj(dto.getCnpj());
-        c.setEndereco(dto.getEndereco());
         c.setRazao_social(dto.getRazao_social());
-        c.setTabelaPreco(dto.getTabelaPreco());
         c.setTel_contato(dto.getTel_contato());
         return c;
     }

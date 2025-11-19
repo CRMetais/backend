@@ -1,13 +1,10 @@
 package school.sptech.cr_metais.dto.Cliente;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import school.sptech.cr_metais.entity.Endereco;
-import school.sptech.cr_metais.entity.TabelaPreco;
+
 
 public class ClienteCadastroDTO {
     @NotNull(message = "CNPJ é obrigatório")
@@ -21,14 +18,10 @@ public class ClienteCadastroDTO {
     private String tel_contato;
 
     @NotNull(message = "Endereço é obrigatório")
-    @OneToOne
-    @JoinColumn(name = "endereco_idendereco")
-    private Endereco endereco;
+    private Integer idEndereco;
 
     @NotNull(message = "Tabela de preço é obrigatório")
-    @ManyToOne
-    @JoinColumn(name = "fk_tabela_preco")
-    private TabelaPreco tabelaPreco;
+    private Integer idTabelaPreco;
 
     public String getCnpj() {
         return cnpj;
@@ -54,19 +47,19 @@ public class ClienteCadastroDTO {
         this.tel_contato = tel_contato;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
+    public Integer getIdEndereco() {
+        return idEndereco;
     }
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+    public void setIdEndereco(Integer idEndereco) {
+        this.idEndereco = idEndereco;
     }
 
-    public TabelaPreco getTabelaPreco() {
-        return tabelaPreco;
+    public Integer getIdTabelaPreco() {
+        return idTabelaPreco;
     }
 
-    public void setTabelaPreco(TabelaPreco tabelaPreco) {
-        this.tabelaPreco = tabelaPreco;
+    public void setIdTabelaPreco(Integer idTabelaPreco) {
+        this.idTabelaPreco = idTabelaPreco;
     }
 }

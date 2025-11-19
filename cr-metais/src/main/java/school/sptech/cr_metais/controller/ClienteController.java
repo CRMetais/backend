@@ -14,12 +14,17 @@ import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.Cliente.ClienteCadastroDTO;
 import school.sptech.cr_metais.dto.Cliente.ClienteResponseDTO;
 
+import school.sptech.cr_metais.entity.Cliente;
 import school.sptech.cr_metais.entity.TabelaPreco;
 
 import school.sptech.cr_metais.service.ClienteService;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/clientes")
+@Tag(name = "Clientes")
+@SecurityRequirement(name = "Bearer")
 public class ClienteController {
 
     private final ClienteService cService;
@@ -39,9 +44,9 @@ public class ClienteController {
             @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content)
     })
     @PostMapping
-    public ResponseEntity<ClienteResponseDTO> cadastrar(@RequestBody @Valid ClienteCadastroDTO dto) {
+    public ResponseEntity<Cliente> cadastrar(@RequestBody @Valid ClienteCadastroDTO dto) {
 
-        ClienteResponseDTO resposta = cService.cadastrar(dto);
+        Cliente resposta = cService.cadastrar(dto);
 
         return ResponseEntity.status(201).body(resposta);
     }
@@ -117,7 +122,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "404", description = "Tabela não encontrada", content = @Content)
     })
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ClienteResponseDTO> atualizar(
             @PathVariable Integer id,
             @RequestBody ClienteCadastroDTO dto) {
