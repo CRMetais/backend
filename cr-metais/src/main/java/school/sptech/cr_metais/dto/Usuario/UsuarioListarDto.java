@@ -10,7 +10,16 @@ public class UsuarioListarDto {
     private String nome;
     @Schema(description = "Email do usuário", example = "joseirineu@fe.com")
     private String email;
+    @Schema(description = "Cargo do usuário", example = "ADMIN")
+    private String cargo;
 
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
 
     public Integer getId() {
         return id;

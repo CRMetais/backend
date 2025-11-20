@@ -18,6 +18,17 @@ public class UsuarioCriacaoDto {
     @Schema(description = "Senha do usuário", example = "Teste123#")
     private String senha;
 
+    @Schema(description = "Cargo do usuário", example = "ADMIN")
+    private String cargo;
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
     public String getNome() {
         return nome;
     }

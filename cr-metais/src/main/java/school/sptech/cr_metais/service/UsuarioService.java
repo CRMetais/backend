@@ -27,12 +27,6 @@ public class UsuarioService {
         this.uRepository = uRepository;
     }
 
-//    public Usuario cadastrar(Usuario usuarioCadastro){
-//        if (uRepository.findByEmail(usuarioCadastro.getEmail())){
-//            throw new EntidadeConflitoException("E-mail já cadastrado");
-//        }
-//        return uRepository.save(usuarioCadastro);
-//    }
 
     public List<Usuario> listar() {
         return uRepository.findAll();
@@ -65,19 +59,6 @@ public class UsuarioService {
 
         return uRepository.save(usuarioExistente);
     }
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private GerenciadorTokenJwt gerenciadorTokenJwt;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
     public void criar(Usuario novoUsuario) {
 
         String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha());
@@ -98,21 +79,29 @@ public class UsuarioService {
         Usuario uauarioAutenticado = usuarioRepository.findByEmail(usuario.getEmail()).orElseThrow(
                 () -> new ResponseStatusException(404, "Email do usuário não cadastrado", null)
         );
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         final String token = gerenciadorTokenJwt.generateToken(authentication);
         return UsuarioMapper.of(uauarioAutenticado, token);
-
-
     }
 
     public List<UsuarioListarDto> listarTodos() {
-
         List<Usuario> usuariosEncontrados = usuarioRepository.findAll();
-
         return usuariosEncontrados.stream().map(UsuarioMapper::of).toList();
     }
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private GerenciadorTokenJwt gerenciadorTokenJwt;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+
 
 
 }

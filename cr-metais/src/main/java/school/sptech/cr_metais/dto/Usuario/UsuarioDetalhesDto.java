@@ -1,27 +1,33 @@
 package school.sptech.cr_metais.dto.Usuario;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import school.sptech.cr_metais.entity.Usuario;
 
 import java.util.Collection;
+import java.util.Collections;
 
 public class UsuarioDetalhesDto implements UserDetails {
 
     private final String nome;
     private final String email;
     private final String senha;
+    private final String cargo;
 
     public UsuarioDetalhesDto(Usuario usuario) {
         this.nome = usuario.getNome();
         this.email = usuario.getEmail();
         this.senha = usuario.getSenha();
+        this.cargo = "ROLE_" + usuario.getCargo();
     }
 
     public String getNome() {return nome;}
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities(){ return null;}
+    public Collection<? extends GrantedAuthority> getAuthorities(){
+        return Collections.singleton(new SimpleGrantedAuthority(cargo));
+    }
     @Override
     public String getPassword(){return senha;}
     @Override

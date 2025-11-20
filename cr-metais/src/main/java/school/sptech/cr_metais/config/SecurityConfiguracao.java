@@ -57,34 +57,59 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/h2-console/**/**"),
             new AntPathRequestMatcher("/error/**")
     };
+    private static final AntPathRequestMatcher[] URLS_ADMIN = {
+            new AntPathRequestMatcher("/**"),
+    };
+    private static final AntPathRequestMatcher[] URLS_COMUM = {
+            new AntPathRequestMatcher("/clientes/**"),
+            new AntPathRequestMatcher("/compras/**"),
+            new AntPathRequestMatcher("/contas-pagamentos/**"),
+            new AntPathRequestMatcher("/enderecos/**"),
+            new AntPathRequestMatcher("/fornecedores/**"),
+            new AntPathRequestMatcher("/item-pedido-compras/**"),
+            new AntPathRequestMatcher("/preco-produtos-tabelas/**"),
+            new AntPathRequestMatcher("/produtos/**"),
+            new AntPathRequestMatcher("/tabelas-precos/**"),
+            new AntPathRequestMatcher("/vendas/**"),
+
+    };
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(
+            HttpSecurity http,
+            AutenticacaoFilter autenticacaoFilter,
+            AutenticacaoEntryPoint autenticacaoJwtEntryPoint
+    ) throws Exception {
 
         http
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .cors(Customizer.withDefaults())
-                .csrf(CsrfConfigurer<HttpSecurity>::disable)
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers(URLS_PERMITIDAS).permitAll().anyRequest().authenticated())
-                .exceptionHandling(handling -> handling.authenticationEntryPoint(autenticacaoJwtEntryPoint))
-                .sessionManagement(managment -> managment.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .csrf(CsrfConfigurer::disable)
 
-        http.addFilterBefore(jwtAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(URLS_PERMITIDAS).permitAll()
+                        .requestMatchers(URLS_COMUM).hasAnyRole("COMUM", "ADMIN")
+                        .requestMatchers(URLS_ADMIN).hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                )
+
+                .exceptionHandling(handling -> handling
+                        .authenticationEntryPoint(autenticacaoJwtEntryPoint)
+                )
+                .sessionManagement(management -> management
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                );
+
+        http.addFilterBefore(autenticacaoFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.authenticationProvider(new AutenticacaoProvider(autenticacaoService, passwordEncoder()));
         return authenticationManagerBuilder.build();
-    }
-
-    @Bean
-    public AutenticacaoEntryPoint jwtAuthenticationEntryPointBean() {
-        return new AutenticacaoEntryPoint();
     }
 
     @Bean

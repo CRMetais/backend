@@ -14,6 +14,7 @@ public class UsuarioMapper {
         usuario.setEmail(usuarioCriacaoDto.getEmail());
         usuario.setNome(usuarioCriacaoDto.getNome());
         usuario.setSenha(usuarioCriacaoDto.getSenha());
+        usuario.setCargo(usuarioCriacaoDto.getCargo());
         return usuario;
     }
 
@@ -44,7 +45,7 @@ public class UsuarioMapper {
         usuarioListarDto.setId(usuario.getId());
         usuarioListarDto.setEmail(usuario.getEmail());
         usuarioListarDto.setNome(usuario.getNome());
-
+        usuarioListarDto.setCargo(usuario.getCargo());
         return usuarioListarDto;
     }
 

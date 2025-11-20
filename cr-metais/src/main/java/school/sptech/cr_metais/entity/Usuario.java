@@ -9,7 +9,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idusuario")
+    @Column(name = "id")
     private Integer id;
     @NotBlank
     private String nome;
@@ -18,15 +18,18 @@ public class Usuario {
     private String email;
     @NotBlank
     private String senha;
+    @NotBlank
+    private String cargo;
 
-    public Usuario(Integer id, String nome, String email, String senha) {
+    public Usuario() {
+    }
+
+    public Usuario(Integer id, String nome, String email, String senha, String cargo) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-    }
-
-    public Usuario() {
+        this.cargo = cargo;
     }
 
     public Integer getId() {
@@ -59,5 +62,13 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
     }
 }

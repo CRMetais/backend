@@ -19,7 +19,7 @@ import school.sptech.cr_metais.service.TabelaPrecoService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tabelasPreco")
+@RequestMapping("/tabelas-precos")
 @Tag(name = "Tabelas Preço")
 @SecurityRequirement(name = "Bearer")
 public class TabelaPrecoController {
