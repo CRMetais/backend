@@ -9,10 +9,10 @@ public class ClienteResponseDTO {
     @Schema(description = "CNPJ do cliente", example = "42.591.651/0001-43")
     private String cnpj;
 
-    @Schema(description = "Identificador da tabela", example = "Arcos Dourados Comércio de Alimentos SA")
+    @Schema(description = "Razão social do cliente", example = "Arcos Dourados Comércio de Alimentos SA")
     private String razao_social;
 
-    @Schema(description = "Identificador da tabela", example = "1132303223")
+    @Schema(description = "Telefone de contato do cliente", example = "1132303223")
     private String tel_contato;
 
     public ClienteResponseDTO(Integer id_cliente, String cnpj, String razao_social, String tel_contato) {
