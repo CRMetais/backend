@@ -1,5 +1,8 @@
 package school.sptech.cr_metais.dto.ItemPedidoCompra;
 
+import school.sptech.cr_metais.entity.Compra;
+import school.sptech.cr_metais.entity.Produto;
+
 public class ItemPedidoCompraResponseDto {
 
     private Integer id;
@@ -8,12 +11,7 @@ public class ItemPedidoCompraResponseDto {
     private Double pesoKg;
     private Double precoUnitario;
 
-    public ItemPedidoCompraResponseDto(Integer id, Integer idCompra, Integer idProduto, Double pesoKg, Double precoUnitario) {
-        this.id = id;
-        this.idCompra = idCompra;
-        this.idProduto = idProduto;
-        this.pesoKg = pesoKg;
-        this.precoUnitario = precoUnitario;
+    public ItemPedidoCompraResponseDto() {
     }
 
     public Integer getId() {

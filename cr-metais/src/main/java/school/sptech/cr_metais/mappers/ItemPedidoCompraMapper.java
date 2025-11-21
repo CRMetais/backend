@@ -7,27 +7,54 @@ import school.sptech.cr_metais.entity.Compra;
 import school.sptech.cr_metais.entity.ItemPedidoCompra;
 import school.sptech.cr_metais.entity.Produto;
 
+import java.util.List;
+
 @Component
 public class ItemPedidoCompraMapper {
 
-    public ItemPedidoCompra toEntity(ItemPedidoCompraRequestDto dto, Compra compra, Produto produto) {
+    public static ItemPedidoCompra toEntity(ItemPedidoCompraRequestDto dto) {
+
+        if (dto == null){
+            return null;
+        }
+
         ItemPedidoCompra item = new ItemPedidoCompra();
 
+        Compra compra = new Compra();
+        compra.setIdConta(dto.getIdCompra());
         item.setCompra(compra);
+
+        Produto produto = new Produto();
+        produto.setId(dto.getIdProduto());
         item.setProduto(produto);
+
         item.setPesoKg(dto.getPesoKg());
         item.setPrecoUnitario(dto.getPrecoUnitario());
 
         return item;
     }
 
-    public ItemPedidoCompraResponseDto toResponseDTO(ItemPedidoCompra item) {
-        return new ItemPedidoCompraResponseDto(
-                item.getId(),
-                item.getCompra().getIdConta(),
-                item.getProduto().getId(),
-                item.getPesoKg(),
-                item.getPrecoUnitario()
-        );
+    public static ItemPedidoCompraResponseDto toResponse(ItemPedidoCompra item) {
+
+        if (item == null){
+            return null;
+        }
+
+        ItemPedidoCompraResponseDto dto = new ItemPedidoCompraResponseDto();
+
+        Compra compraEntidade = item.getCompra();
+
+        dto.setId(item.getId());
+        dto.setPesoKg(item.getPesoKg());
+        dto.setPrecoUnitario(item.getPrecoUnitario());
+        dto.setIdCompra(item.getCompra().getIdConta());
+        dto.setIdProduto(item.getProduto().getId());
+
+        return dto;
+    }
+
+    public static List<ItemPedidoCompraResponseDto> toResponse(List<ItemPedidoCompra> entidade){
+
+        return entidade.stream().map(item -> toResponse(item)).toList();
     }
 }

@@ -1,15 +1,16 @@
 package school.sptech.cr_metais.dto.ItemPedidoCompra;
 
 import jakarta.validation.constraints.NotNull;
+import school.sptech.cr_metais.entity.Compra;
+import school.sptech.cr_metais.entity.Produto;
 
 public class ItemPedidoCompraRequestDto {
 
+    @NotNull
+    private Integer idCompra;
 
     @NotNull
-    Integer idCompra;
-
-    @NotNull
-    Integer idProduto;
+    private Integer idProduto;
 
     @NotNull
     private Double pesoKg;
@@ -17,6 +18,12 @@ public class ItemPedidoCompraRequestDto {
     @NotNull
     private Double precoUnitario;
 
+    public ItemPedidoCompraRequestDto(Integer idCompra, Integer idProduto, Double pesoKg, Double precoUnitario) {
+        this.idCompra = idCompra;
+        this.idProduto = idProduto;
+        this.pesoKg = pesoKg;
+        this.precoUnitario = precoUnitario;
+    }
 
     public Integer getIdCompra() {
         return idCompra;

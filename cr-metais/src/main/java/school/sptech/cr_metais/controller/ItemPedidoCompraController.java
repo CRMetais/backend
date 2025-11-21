@@ -1,14 +1,9 @@
 package school.sptech.cr_metais.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.validation.Valid;
 import school.sptech.cr_metais.dto.ItemPedidoCompra.ItemPedidoCompraRequestDto;
 import school.sptech.cr_metais.dto.ItemPedidoCompra.ItemPedidoCompraResponseDto;
 import school.sptech.cr_metais.entity.ItemPedidoCompra;
+import school.sptech.cr_metais.mappers.ItemPedidoCompraMapper;
 import school.sptech.cr_metais.service.ItemPedidoCompraService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,38 +21,52 @@ public class ItemPedidoCompraController {
     }
 
     @PostMapping
-    public ResponseEntity<ItemPedidoCompraResponseDto> cadastrar(@RequestBody @Valid ItemPedidoCompraRequestDto dto){
+    public ResponseEntity<ItemPedidoCompraResponseDto> cadastrar(@RequestBody ItemPedidoCompraRequestDto dto){
 
-        ItemPedidoCompraResponseDto resposta = itemPedidoCompraService.salvar(dto);
-        return ResponseEntity.status(201).body(resposta);
+        ItemPedidoCompra itemParaRegistrar = ItemPedidoCompraMapper.toEntity(dto);
+        ItemPedidoCompra itemRegistrado = itemPedidoCompraService.cadastrar(itemParaRegistrar, dto.getIdCompra(), dto.getIdProduto());
+        ItemPedidoCompraResponseDto response = ItemPedidoCompraMapper.toResponse(itemRegistrado);
+        return ResponseEntity.status(201).body(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ItemPedidoCompraResponseDto> buscarPorId(@PathVariable Integer id){
+
+        ItemPedidoCompra item = itemPedidoCompraService.buscarPorId(id);
+        ItemPedidoCompraResponseDto response = ItemPedidoCompraMapper.toResponse(item);
+
+        return ResponseEntity.status(200).body(response);
     }
 
     @GetMapping
     public ResponseEntity<List<ItemPedidoCompraResponseDto>> listar(){
 
-        List<ItemPedidoCompraResponseDto> todos = itemPedidoCompraService.listarTodos();
+        List<ItemPedidoCompra> todos = itemPedidoCompraService.listar();
 
         if (todos.isEmpty()){
             return ResponseEntity.status(204).build();
         }
-        return ResponseEntity.status(200).body(todos);
-    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ItemPedidoCompraResponseDto> buscarPorId(@PathVariable Integer id){
-        ItemPedidoCompraResponseDto dto = itemPedidoCompraService.buscarPorId(id);
-        return ResponseEntity.status(200).body(dto);
+        List<ItemPedidoCompraResponseDto> response = ItemPedidoCompraMapper.toResponse(todos);
+        return ResponseEntity.status(200).body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ItemPedidoCompraResponseDto> atualizar(@PathVariable Integer id, @RequestBody @Valid ItemPedidoCompraRequestDto dto){
-        ItemPedidoCompraResponseDto atualizado = itemPedidoCompraService.atualizar(id,dto);
-        return ResponseEntity.status(200).body(atualizado);
+    public ResponseEntity<ItemPedidoCompraResponseDto> atualizar(@PathVariable Integer id, @RequestBody ItemPedidoCompraRequestDto dto){
+
+        ItemPedidoCompra entity = ItemPedidoCompraMapper.toEntity(dto);
+        entity.setId(id);
+
+        ItemPedidoCompra itemAtualizado = itemPedidoCompraService.atualizar(entity);
+        ItemPedidoCompraResponseDto response = ItemPedidoCompraMapper.toResponse(itemAtualizado);
+        return ResponseEntity.status(200).body(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id){
-        itemPedidoCompraService.deletar(id);
+        itemPedidoCompraService.deletarPorId(id);
+
         return ResponseEntity.status(204).build();
     }
+
 }

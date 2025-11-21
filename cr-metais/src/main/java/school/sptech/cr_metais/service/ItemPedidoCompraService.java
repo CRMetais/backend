@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import school.sptech.cr_metais.repository.ProdutoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemPedidoCompraService {
@@ -35,61 +36,54 @@ public class ItemPedidoCompraService {
 
     }
 
-    public ItemPedidoCompraResponseDto salvar(ItemPedidoCompraRequestDto dto){
-        Compra compra = compraRepository.findById(dto.getIdCompra())
-                .orElseThrow(() -> new RuntimeException("Compra não encontrada!"));
+    public ItemPedidoCompra cadastrar(ItemPedidoCompra itemParaCadastro, Integer idCompra, Integer idProduto){
+        Optional<Compra> compraOpt = compraRepository.findById(idCompra);
+        Optional<Produto> produtoOpt = produtoRepository.findById(idProduto);
 
-        Produto produto = produtoRepository.findById(dto.getIdProduto())
-                .orElseThrow(() -> new RuntimeException("Produto não encontado!"));
-
-        ItemPedidoCompra item = mapper.toEntity(dto, compra, produto);
-
-        ItemPedidoCompra salvo = itemRepository.save(item);
-
-        return mapper.toResponseDTO(salvo);
-    }
-
-    public List<ItemPedidoCompraResponseDto> listarTodos(){
-        return itemRepository.findAll()
-                .stream()
-                .map(mapper::toResponseDTO)
-                .toList();
-    }
-
-    public ItemPedidoCompraResponseDto buscarPorId(Integer id){
-        ItemPedidoCompra item = itemRepository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Item de pedido não encontrado"));
-
-        return mapper.toResponseDTO(item);
-    }
-
-    public void deletar(Integer id){
-        if (!itemRepository.existsById(id)){
-            throw new EntidadeNaoEncontradaException("Item de pedido não encontrado");
+        if (compraOpt.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Compra não encontrada");
         }
+
+        if (produtoOpt.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Produto não encontrado");
+        }
+
+        Compra compra = compraOpt.get();
+        Produto produto = produtoOpt.get();
+
+        itemParaCadastro.setCompra(compra);
+        itemParaCadastro.setProduto(produto);
+
+        ItemPedidoCompra itemRegistrado = itemRepository.save(itemParaCadastro);
+        return itemRegistrado;
+    }
+
+    public List<ItemPedidoCompra> listar(){
+        return itemRepository.findAll();
+    }
+
+    public ItemPedidoCompra buscarPorId(Integer id){
+        return itemRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Item não encontrado"));
+    }
+
+    public void deletarPorId(Integer id){
+        Boolean existe = itemRepository.existsById(id);
+
+        if (!existe){
+            throw new EntidadeNaoEncontradaException("Item não encontrado");
+        }
+
         itemRepository.deleteById(id);
     }
 
-    public ItemPedidoCompraResponseDto atualizar(Integer id, ItemPedidoCompraRequestDto dto){
+    public ItemPedidoCompra atualizar(ItemPedidoCompra item){
 
-        ItemPedidoCompra itemParaAtualizar = itemRepository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Item de pedido não encontrado"));
+        if (!itemRepository.existsById(item.getId())){
+            throw new EntidadeNaoEncontradaException("Item não encontrado");
+        }
 
-        Compra compra = compraRepository.findById(dto.getIdCompra())
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Compra não encontrada"));
-
-        Produto produto = produtoRepository.findById(dto.getIdProduto())
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Produto não encontrado"));
-
-
-        itemParaAtualizar.setCompra(compra);
-        itemParaAtualizar.setProduto(produto);
-        itemParaAtualizar.setPesoKg(dto.getPesoKg());
-        itemParaAtualizar.setPrecoUnitario(dto.getPrecoUnitario());
-
-        ItemPedidoCompra itemAtualizado = itemRepository.save(itemParaAtualizar);
-
-        return mapper.toResponseDTO(itemAtualizado);
+        return itemRepository.save(item);
     }
 
 }
