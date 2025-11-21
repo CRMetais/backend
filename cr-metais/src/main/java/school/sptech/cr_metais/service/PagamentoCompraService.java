@@ -1,6 +1,7 @@
 package school.sptech.cr_metais.service;
 
 import jakarta.validation.Valid;
+import org.springframework.stereotype.Service;
 import school.sptech.cr_metais.dto.PagamentoCompra.PagamentoCompraCadastroDto;
 import school.sptech.cr_metais.entity.Compra;
 import school.sptech.cr_metais.entity.ContaPagamento;
@@ -11,6 +12,9 @@ import school.sptech.cr_metais.repository.CompraRepository;
 import school.sptech.cr_metais.repository.ContaPagamentoRepository;
 import school.sptech.cr_metais.repository.PagamentoCompraRepository;
 
+import java.util.List;
+
+@Service
 public class PagamentoCompraService {
 
     final PagamentoCompraMapper mapper;
@@ -39,6 +43,12 @@ public class PagamentoCompraService {
         pagamentoCompra.setContaPagamento(contaPagamento);
 
         return repository.save(pagamentoCompra);
+
+    }
+
+    public List<PagamentoCompra> listar(){
+
+        return repository.findAll();
 
     }
 

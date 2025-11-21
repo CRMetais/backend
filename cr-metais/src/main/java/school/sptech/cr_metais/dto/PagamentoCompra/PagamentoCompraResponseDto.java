@@ -2,21 +2,31 @@ package school.sptech.cr_metais.dto.PagamentoCompra;
 
 import school.sptech.cr_metais.entity.ContaPagamento;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class PagamentoCompraResponseDto {
 
     // Fica de presente
 
-    private Date dataPagamentoCompra;
+    private LocalDate dataPagamentoCompra;
     private ContaPagamento contaPagamento;
 
-    public PagamentoCompraResponseDto(Date dataPagamentoCompra, ContaPagamento contaPagamento) {
+
+    public PagamentoCompraResponseDto(LocalDate dataPagamentoCompra, ContaPagamento contaPagamento) {
         this.dataPagamentoCompra = dataPagamentoCompra;
         this.contaPagamento = contaPagamento;
     }
 
     public PagamentoCompraResponseDto() {
+    }
+
+    public LocalDate getDataPagamentoCompra() {
+        return dataPagamentoCompra;
+    }
+
+    public void setDataPagamentoCompra(LocalDate dataPagamentoCompra) {
+        this.dataPagamentoCompra = dataPagamentoCompra;
     }
 
     public ContaPagamento getContaPagamento() {
@@ -25,13 +35,5 @@ public class PagamentoCompraResponseDto {
 
     public void setContaPagamento(ContaPagamento contaPagamento) {
         this.contaPagamento = contaPagamento;
-    }
-
-    public Date getDataPagamentoCompra() {
-        return dataPagamentoCompra;
-    }
-
-    public void setDataPagamentoCompra(Date dataPagamentoCompra) {
-        this.dataPagamentoCompra = dataPagamentoCompra;
     }
 }

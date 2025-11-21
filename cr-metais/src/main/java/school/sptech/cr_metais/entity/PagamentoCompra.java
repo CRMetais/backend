@@ -2,6 +2,7 @@ package school.sptech.cr_metais.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -18,13 +19,13 @@ public class PagamentoCompra {
     private Compra compra;
 
     @Column(name = "data_pagamento_compra")
-    private Date dataPagamentoCompra;
+    private LocalDate dataPagamentoCompra;
 
     @ManyToOne
     @JoinColumn(name = "fk_conta_pagamento")
     private ContaPagamento contaPagamento;
 
-    public PagamentoCompra(Integer idPagamentoCompra, Compra compra, Date dataPagamentoCompra, ContaPagamento contaPagamento) {
+    public PagamentoCompra(Integer idPagamentoCompra, Compra compra, LocalDate dataPagamentoCompra, ContaPagamento contaPagamento) {
         this.idPagamentoCompra = idPagamentoCompra;
         this.compra = compra;
         this.dataPagamentoCompra = dataPagamentoCompra;
@@ -50,11 +51,11 @@ public class PagamentoCompra {
         this.compra = compra;
     }
 
-    public Date getDataPagamentoCompra() {
+    public LocalDate getDataPagamentoCompra() {
         return dataPagamentoCompra;
     }
 
-    public void setDataPagamentoCompra(Date dataPagamentoCompra) {
+    public void setDataPagamentoCompra(LocalDate dataPagamentoCompra) {
         this.dataPagamentoCompra = dataPagamentoCompra;
     }
 
