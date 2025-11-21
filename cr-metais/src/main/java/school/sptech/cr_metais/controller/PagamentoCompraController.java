@@ -10,9 +10,11 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.PagamentoCompra.PagamentoCompraCadastroDto;
+import school.sptech.cr_metais.dto.PagamentoCompra.PagamentoCompraResponseDto;
 import school.sptech.cr_metais.dto.Usuario.UsuarioListarDto;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.entity.PagamentoCompra;
+import school.sptech.cr_metais.mappers.PagamentoCompraMapper;
 import school.sptech.cr_metais.service.PagamentoCompraService;
 
 import java.util.List;
@@ -42,7 +44,6 @@ public class PagamentoCompraController {
 
     @PostMapping
     public ResponseEntity<PagamentoCompra> cadastrarPagamentoCompra(@RequestBody @Valid PagamentoCompraCadastroDto dto) {
-
         PagamentoCompra pagamentoCompraSalvo = pagCompra.cadastrar(dto);
         return ResponseEntity.status(201).body(pagamentoCompraSalvo);
     }
@@ -56,13 +57,14 @@ public class PagamentoCompraController {
     })
 
     @GetMapping
-    public ResponseEntity<List<PagamentoCompra>> listar() {
+    public ResponseEntity<List<PagamentoCompraResponseDto>> listar() {
 
         List<PagamentoCompra> allPagamentoCompras = pagCompra.listar();
         if (allPagamentoCompras.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
-        return ResponseEntity.status(200).body(allPagamentoCompras);
+        List<PagamentoCompraResponseDto> response = PagamentoCompraMapper.toResponse(allPagamentoCompras);
+        return ResponseEntity.status(200).body(response);
     }
 
 

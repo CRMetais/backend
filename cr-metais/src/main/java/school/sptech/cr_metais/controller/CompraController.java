@@ -10,10 +10,12 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.Compra.CompraCadastroDto;
+import school.sptech.cr_metais.dto.Compra.CompraResponseDto;
 import school.sptech.cr_metais.dto.Usuario.UsuarioListarDto;
 import school.sptech.cr_metais.entity.Compra;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.entity.PagamentoCompra;
+import school.sptech.cr_metais.mappers.CompraMapper;
 import school.sptech.cr_metais.service.CompraService;
 
 import java.util.List;
@@ -56,12 +58,12 @@ public class CompraController {
     })
 
     @GetMapping
-    public ResponseEntity<List<Compra>> listar() {
-
+    public ResponseEntity<List<CompraResponseDto>> listar() {
         List<Compra> allCompras = compraService.listar();
         if (allCompras.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
-        return ResponseEntity.status(200).body(allCompras);
+        List<CompraResponseDto> response = CompraMapper.toResponse(allCompras);
+        return ResponseEntity.status(200).body(response);
     }
 }
