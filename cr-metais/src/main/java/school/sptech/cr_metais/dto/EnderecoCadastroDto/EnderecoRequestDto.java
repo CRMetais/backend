@@ -1,14 +1,9 @@
-package school.sptech.cr_metais.entity;
+package school.sptech.cr_metais.dto.EnderecoCadastroDto;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-@Entity
-public class Endereco {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class EnderecoRequestDto {
 
     @NotBlank
     private String estado;
@@ -30,17 +25,8 @@ public class Endereco {
     @NotBlank
     private String numero;
 
-    @OneToOne
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @NotNull
+    private Integer usuarioId;
 
     public String getEstado() {
         return estado;
@@ -98,11 +84,11 @@ public class Endereco {
         this.numero = numero;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Integer getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioId(Integer usuarioId) {
+        this.usuarioId = usuarioId;
     }
 }

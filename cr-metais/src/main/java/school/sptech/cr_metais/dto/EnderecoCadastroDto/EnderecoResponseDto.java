@@ -1,29 +1,24 @@
 package school.sptech.cr_metais.dto.EnderecoCadastroDto;
 
-import jakarta.validation.constraints.NotBlank;
+public class EnderecoResponseDto {
 
-public class EnderecoCadastroDto {
-
-    @NotBlank
+    private Integer id;
     private String estado;
-
-    @NotBlank
     private String cidade;
-
-    @NotBlank
     private String cep;
-
-    @NotBlank
     private String logradouro;
-
-    @NotBlank
     private String complemento;
-
-    @NotBlank
     private String bairro;
-
-    @NotBlank
     private String numero;
+    private Integer usuarioId;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getEstado() {
         return estado;
@@ -80,4 +75,13 @@ public class EnderecoCadastroDto {
     public void setNumero(String numero) {
         this.numero = numero;
     }
+
+    public Integer getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(Integer usuarioId) {
+        this.usuarioId = usuarioId;
+    }
 }
+

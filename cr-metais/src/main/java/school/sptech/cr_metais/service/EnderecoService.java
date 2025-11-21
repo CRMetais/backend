@@ -1,61 +1,70 @@
 package school.sptech.cr_metais.service;
 
 import org.springframework.stereotype.Service;
-import school.sptech.cr_metais.dto.EnderecoCadastroDto.EnderecoCadastroDto;
-import school.sptech.cr_metais.dto.EnderecoCadastroDto.EnderecoGetDto;
 import school.sptech.cr_metais.entity.Endereco;
+import school.sptech.cr_metais.entity.Usuario;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.mappers.EnderecoMapper;
 import school.sptech.cr_metais.repository.EnderecoRepository;
+import school.sptech.cr_metais.repository.UsuarioRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class EnderecoService {
+
     private final EnderecoRepository repository;
-    private final EnderecoMapper enderecoMapper;
+    private final UsuarioRepository usuarioRepository;
+    private final EnderecoMapper mapper;
 
-    public EnderecoService(EnderecoRepository repository, EnderecoMapper enderecoMapper) {
+    public EnderecoService(EnderecoRepository repository, UsuarioRepository usuarioRepository, EnderecoMapper mapper) {
         this.repository = repository;
-        this.enderecoMapper = enderecoMapper;
+        this.usuarioRepository = usuarioRepository;
+        this.mapper = mapper;
     }
 
-    public Endereco cadastrar(EnderecoCadastroDto dto) {
-        Endereco endereco = enderecoMapper.toEntity(dto);
-        return repository.save(endereco);
-    }
+    public Endereco cadastrar(Endereco enderecoParaCadastro, Integer idUsuario) {
 
-    public EnderecoGetDto buscarPorId(Integer id) {
-        Optional<Endereco> endereco = repository.findById(id);
-        if (endereco.isPresent()) {
-            EnderecoGetDto enderecoRetorno = enderecoMapper.toDtoGet(endereco.get());
-            return enderecoRetorno;
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(idUsuario);
+
+        if (usuarioOpt.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Usuário não encontrado");
         }
-        return null;
+
+        Usuario usuario = usuarioOpt.get();
+        enderecoParaCadastro.setUsuario(usuario);
+        Endereco enderecoRegistrado = repository.save(enderecoParaCadastro);
+
+        return enderecoRegistrado;
 
     }
 
-    public void deletarPorId(Integer id) {
-        if (!repository.existsById(id)) {
+    public List<Endereco> listar(){
+        return repository.findAll();
+    }
+
+    public Endereco buscarPorId(Integer id){
+        return repository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("Endereço não encontrado"));
+    }
+
+    public void deletarPorId(Integer id){
+        Boolean existe = repository.existsById(id);
+
+        if(!existe){
             throw new EntidadeNaoEncontradaException("Endereço não encontrado");
         }
+
         repository.deleteById(id);
     }
 
-    public Endereco atualizar(Integer id, Endereco endereco) {
-        Optional<Endereco> enderecoDb = repository.findById(id);
-        if (!enderecoDb.isPresent()) {
+    public Endereco atualizar(Endereco enderecoParaAtualizar){
+        if(!repository.existsById(enderecoParaAtualizar.getId())){
             throw new EntidadeNaoEncontradaException("Endereço não encontrado");
-        }else{
-            enderecoDb.get().setLogradouro(endereco.getLogradouro());
-            enderecoDb.get().setNumero(endereco.getNumero());
-            enderecoDb.get().setComplemento(endereco.getComplemento());
-            enderecoDb.get().setBairro(endereco.getBairro());
-            enderecoDb.get().setCep(endereco.getCep());
-            enderecoDb.get().setCidade(endereco.getCidade());
-            enderecoDb.get().setEstado(endereco.getEstado());
-
-            return repository.save(enderecoDb.get());
         }
+
+        return repository.save(enderecoParaAtualizar);
     }
+
 }
+
