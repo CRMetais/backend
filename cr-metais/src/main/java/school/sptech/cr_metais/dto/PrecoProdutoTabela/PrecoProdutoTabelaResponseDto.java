@@ -7,11 +7,7 @@ public class PrecoProdutoTabelaResponseDto {
     private Integer idProduto;
     private Double precoProduto;
 
-    public PrecoProdutoTabelaResponseDto(Integer id, Integer idTabelaPreco, Integer idProduto, Double precoProduto) {
-        this.id = id;
-        this.idTabelaPreco = idTabelaPreco;
-        this.idProduto = idProduto;
-        this.precoProduto = precoProduto;
+    public PrecoProdutoTabelaResponseDto() {
     }
 
     public Integer getId() {

@@ -14,6 +14,7 @@ import school.sptech.cr_metais.repository.ProdutoRepository;
 import school.sptech.cr_metais.repository.TabelaPrecoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PrecoProdutoTabelaService {
@@ -35,40 +36,52 @@ public class PrecoProdutoTabelaService {
         this.mapper = mapper;
     }
 
-    public PrecoProdutoTabelaResponseDto criarPrecoProduto(PrecoProdutoTabelaRequestDto dto){
-        TabelaPreco tabelaPreco = tabelaPrecoRepository.findById(dto.getIdTabelaPreco())
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Tabela de preço não encontrada"));
+    public PrecoProdutoTabela cadastrar(PrecoProdutoTabela precoProdutoTabelaPraCadastro, Integer idTabalaPreco, Integer idProduto){
+        Optional<TabelaPreco> tabelaPrecoOpt = tabelaPrecoRepository.findById(idTabalaPreco);
+        Optional<Produto> produtoOpt = produtoRepository.findById(idProduto);
 
-        Produto produto = produtoRepository.findById(dto.getIdProduto())
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Produto não encontrado"));
-
-        PrecoProdutoTabela precoProdutoTabela = mapper.toEntity(dto, tabelaPreco, produto);
-        PrecoProdutoTabela salvo = precoProdutoTabelaRepository.save(precoProdutoTabela);
-
-        return mapper.toResponseDto(salvo);
-    }
-
-    public List<PrecoProdutoTabelaResponseDto> listarTodos(){
-        return precoProdutoTabelaRepository.findAll()
-                .stream()
-                .map(mapper::toResponseDto)
-                .toList();
-    }
-
-
-    public PrecoProdutoTabelaResponseDto buscarPorId(Integer id){
-        PrecoProdutoTabela precoProdutoTabela = precoProdutoTabelaRepository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Preço do produto não encontrado"));
-
-        return mapper.toResponseDto(precoProdutoTabela);
-    }
-
-    public void deletar(Integer id){
-        if (!precoProdutoTabelaRepository.existsById(id)){
-            throw new EntidadeNaoEncontradaException("Preço do produto não encontrado");
+        if (tabelaPrecoOpt.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Tabela preço não encontrada");
         }
 
+        if (produtoOpt.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Produto não encontrado");
+        }
+
+        TabelaPreco tabelaPreco = tabelaPrecoOpt.get();
+        Produto produto = produtoOpt.get();
+
+        precoProdutoTabelaPraCadastro.setTabelaPreco(tabelaPreco);
+        precoProdutoTabelaPraCadastro.setProduto(produto);
+
+        PrecoProdutoTabela precoProdutoTabelaRegistrado = precoProdutoTabelaRepository.save(precoProdutoTabelaPraCadastro);
+        return precoProdutoTabelaRegistrado;
+    }
+
+    public List<PrecoProdutoTabela> listar(){
+        return precoProdutoTabelaRepository.findAll();
+    }
+
+    public PrecoProdutoTabela buscarPorId(Integer id){
+        return precoProdutoTabelaRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Preço Produto tabela não encontrado"));
+    }
+
+    public void deletarPorId(Integer id){
+        Boolean existe = precoProdutoTabelaRepository.existsById(id);
+
+        if (!existe){
+            throw new EntidadeNaoEncontradaException("Preço Produto tabela não encontrado");
+        }
         precoProdutoTabelaRepository.deleteById(id);
+    }
+
+    public PrecoProdutoTabela atualizar(PrecoProdutoTabela precoProdutoTabela){
+        if (!precoProdutoTabelaRepository.existsById(precoProdutoTabela.getId())){
+            throw new EntidadeNaoEncontradaException("Preço Produto tabela não encontrado");
+        }
+
+        return precoProdutoTabelaRepository.save(precoProdutoTabela);
     }
 
 }

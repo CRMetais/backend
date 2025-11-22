@@ -1,8 +1,6 @@
 package school.sptech.cr_metais.dto.ItemPedidoCompra;
 
 import jakarta.validation.constraints.NotNull;
-import school.sptech.cr_metais.entity.Compra;
-import school.sptech.cr_metais.entity.Produto;
 
 public class ItemPedidoCompraRequestDto {
 

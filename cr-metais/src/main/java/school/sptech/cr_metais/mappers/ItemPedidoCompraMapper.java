@@ -42,8 +42,6 @@ public class ItemPedidoCompraMapper {
 
         ItemPedidoCompraResponseDto dto = new ItemPedidoCompraResponseDto();
 
-        Compra compraEntidade = item.getCompra();
-
         dto.setId(item.getId());
         dto.setPesoKg(item.getPesoKg());
         dto.setPrecoUnitario(item.getPrecoUnitario());

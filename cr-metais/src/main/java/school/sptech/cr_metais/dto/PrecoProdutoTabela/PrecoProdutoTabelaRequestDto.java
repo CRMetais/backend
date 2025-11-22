@@ -15,6 +15,12 @@ public class PrecoProdutoTabelaRequestDto {
     @Positive
     private Double precoProduto;
 
+    public PrecoProdutoTabelaRequestDto(Integer idTabelaPreco, Integer idProduto, Double precoProduto) {
+        this.idTabelaPreco = idTabelaPreco;
+        this.idProduto = idProduto;
+        this.precoProduto = precoProduto;
+    }
+
     public Integer getIdTabelaPreco() {
         return idTabelaPreco;
     }
