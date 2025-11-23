@@ -1,5 +1,6 @@
 package school.sptech.cr_metais.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import school.sptech.cr_metais.dto.ItemPedidoCompra.ItemPedidoCompraRequestDto;
 import school.sptech.cr_metais.dto.ItemPedidoCompra.ItemPedidoCompraResponseDto;
 import school.sptech.cr_metais.entity.ItemPedidoCompra;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/item-pedido-compras")
+@Tag(name = "Item Pedido Compra")
 public class ItemPedidoCompraController {
 
     private final ItemPedidoCompraService itemPedidoCompraService;

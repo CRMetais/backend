@@ -1,5 +1,7 @@
 package school.sptech.cr_metais.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.PrecoProdutoTabela.PrecoProdutoTabelaRequestDto;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/preco-produtos-tabelas")
+@Tag(name = "Preço Produto Tabela")
+@SecurityRequirement(name = "Bearer")
 public class PrecoProdutoTabelaController {
 
     private final PrecoProdutoTabelaService precoProdutoTabelaService;
