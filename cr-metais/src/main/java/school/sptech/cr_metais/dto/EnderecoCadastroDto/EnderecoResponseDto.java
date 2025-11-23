@@ -10,7 +10,6 @@ public class EnderecoResponseDto {
     private String complemento;
     private String bairro;
     private String numero;
-    private Integer usuarioId;
 
     public Integer getId() {
         return id;
@@ -76,12 +75,5 @@ public class EnderecoResponseDto {
         this.numero = numero;
     }
 
-    public Integer getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Integer usuarioId) {
-        this.usuarioId = usuarioId;
-    }
 }
 

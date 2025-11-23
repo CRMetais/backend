@@ -29,7 +29,7 @@ public class EnderecoController {
     public ResponseEntity<EnderecoResponseDto> cadastrar(@RequestBody @Valid EnderecoRequestDto dto) {
 
         Endereco enderecoParaCadastrar = EnderecoMapper.toEntity(dto);
-        Endereco enderecoCadastrado = service.cadastrar(enderecoParaCadastrar, dto.getUsuarioId());
+        Endereco enderecoCadastrado = service.cadastrar(enderecoParaCadastrar);
         EnderecoResponseDto response = EnderecoMapper.toResponse(enderecoCadastrado);
         return ResponseEntity.status(201).body(response);
 

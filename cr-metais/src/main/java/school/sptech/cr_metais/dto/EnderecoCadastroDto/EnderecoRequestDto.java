@@ -25,8 +25,6 @@ public class EnderecoRequestDto {
     @NotBlank
     private String numero;
 
-    @NotNull
-    private Integer usuarioId;
 
     public String getEstado() {
         return estado;
@@ -84,11 +82,4 @@ public class EnderecoRequestDto {
         this.numero = numero;
     }
 
-    public Integer getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Integer usuarioId) {
-        this.usuarioId = usuarioId;
-    }
 }

@@ -30,9 +30,6 @@ public class Endereco {
     @NotBlank
     private String numero;
 
-    @OneToOne
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
 
     public Integer getId() {
         return id;
@@ -98,11 +95,4 @@ public class Endereco {
         this.numero = numero;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 }

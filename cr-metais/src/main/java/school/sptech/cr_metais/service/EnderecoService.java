@@ -24,16 +24,8 @@ public class EnderecoService {
         this.mapper = mapper;
     }
 
-    public Endereco cadastrar(Endereco enderecoParaCadastro, Integer idUsuario) {
+    public Endereco cadastrar(Endereco enderecoParaCadastro) {
 
-        Optional<Usuario> usuarioOpt = usuarioRepository.findById(idUsuario);
-
-        if (usuarioOpt.isEmpty()){
-            throw new EntidadeNaoEncontradaException("Usuário não encontrado");
-        }
-
-        Usuario usuario = usuarioOpt.get();
-        enderecoParaCadastro.setUsuario(usuario);
         Endereco enderecoRegistrado = repository.save(enderecoParaCadastro);
 
         return enderecoRegistrado;

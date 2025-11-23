@@ -24,10 +24,6 @@ public class EnderecoMapper {
         endereco.setBairro(dto.getBairro());
         endereco.setNumero(dto.getNumero());
 
-        Usuario usuario = new Usuario();
-        usuario.setId(dto.getUsuarioId());
-        endereco.setUsuario(usuario);
-
         return endereco;
     }
 
@@ -45,10 +41,6 @@ public class EnderecoMapper {
         dto.setComplemento(endereco.getComplemento());
         dto.setBairro(endereco.getBairro());
         dto.setNumero(endereco.getNumero());
-
-        dto.setUsuarioId(
-                endereco.getUsuario() != null ? endereco.getUsuario().getId() : null
-        );
 
         return dto;
     }
