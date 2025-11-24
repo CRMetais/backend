@@ -19,7 +19,6 @@ public class ProdutoMapper {
         Produto p = new Produto();
         p.setNome(dto.getNome());
         p.setTipoProduto(dto.getTipoProduto());
-        p.setPrecoKg(dto.getPrecoKg());
 
         Estoque e = new Estoque();
         e.setId(dto.getIdEstoque());
@@ -39,7 +38,6 @@ public class ProdutoMapper {
         dto.setId(produto.getId());
         dto.setNome(produto.getNome());
         dto.setTipoProduto(produto.getTipoProduto());
-        dto.setPrecoKg(produto.getPrecoKg());
         dto.setIdEstoque(produto.getEstoque().getId());
 
         return dto;

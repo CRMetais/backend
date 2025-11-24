@@ -68,13 +68,4 @@ public class ProdutoService {
         return pRepository.save(produto);
     }
 
-    public List<ProdutoResponseDto> listarPorPrecoMaior() {
-
-        List<Produto> produtos = pRepository.findAll();
-
-        produtos.sort((a, b) -> Double.compare(b.getPrecoKg(), a.getPrecoKg()));
-
-        return produtos.stream()
-                .map(ProdutoMapper::toResponse).toList();
-    }
 }

@@ -13,9 +13,6 @@ public class ProdutoResponseDto {
     @Schema(description = "Tipo do produto", example = "Cobre")
     private String tipoProduto;
 
-    @Schema(description = "Preço do produto por kg", example = "10.00")
-    private Double precoKg;
-
     @Schema(description = "Identificador do estoque", example = "1")
     private Integer idEstoque;
 
@@ -41,14 +38,6 @@ public class ProdutoResponseDto {
 
     public void setTipoProduto(String tipoProduto) {
         this.tipoProduto = tipoProduto;
-    }
-
-    public Double getPrecoKg() {
-        return precoKg;
-    }
-
-    public void setPrecoKg(Double precoKg) {
-        this.precoKg = precoKg;
     }
 
     public Integer getIdEstoque(){return idEstoque;}

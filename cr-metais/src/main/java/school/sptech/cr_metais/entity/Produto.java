@@ -19,10 +19,6 @@ public class Produto {
     @NotBlank
     private String tipoProduto;
 
-    @NotNull
-    @Positive
-    private Double precoKg;
-
     @ManyToOne
     @JoinColumn(name = "fk_estoque")
     private Estoque estoque;
@@ -49,14 +45,6 @@ public class Produto {
 
     public void setTipoProduto(String tipoProduto) {
         this.tipoProduto = tipoProduto;
-    }
-
-    public Double getPrecoKg() {
-        return precoKg;
-    }
-
-    public void setPrecoKg(Double precoKg) {
-        this.precoKg = precoKg;
     }
 
     public Estoque getEstoque() {

@@ -135,26 +135,4 @@ private final ProdutoService pService;
         return ResponseEntity.status(204).build();
     }
 
-    @Operation(
-            summary = "Listar produtos por preço (ordem decrescente)",
-            description = "Retorna todos os produtos ordenados pelo preço, do maior para o menor."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lista de produtos ordenada por preço retornada com sucesso",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Produto.class))),
-            @ApiResponse(responseCode = "204", description = "Nenhum produto encontrado", content = @Content)
-    })
-    // Listar Produto por maior preço
-    @GetMapping("/preco")
-    public ResponseEntity<List<ProdutoResponseDto>> listarPorPrecoMaior() {
-
-        List<ProdutoResponseDto> todos = pService.listarPorPrecoMaior();
-
-        if (todos.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-
-        return ResponseEntity.ok(todos);
-    }
 }

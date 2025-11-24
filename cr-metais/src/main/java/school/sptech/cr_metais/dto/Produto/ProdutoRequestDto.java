@@ -6,14 +6,11 @@ public class ProdutoRequestDto {
 
     private String tipoProduto;
 
-    private Double precoKg;
-
     private Integer idEstoque;
 
-    public ProdutoRequestDto(String nome, String tipoProduto, Double precoKg, Integer idEstoque) {
+    public ProdutoRequestDto(String nome, String tipoProduto, Integer idEstoque) {
         this.nome = nome;
         this.tipoProduto = tipoProduto;
-        this.precoKg = precoKg;
         this.idEstoque = idEstoque;
     }
 
@@ -31,14 +28,6 @@ public class ProdutoRequestDto {
 
     public void setTipoProduto(String tipoProduto) {
         this.tipoProduto = tipoProduto;
-    }
-
-    public Double getPrecoKg() {
-        return precoKg;
-    }
-
-    public void setPrecoKg(Double precoKg) {
-        this.precoKg = precoKg;
     }
 
     public Integer getIdEstoque() {
