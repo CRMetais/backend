@@ -1,6 +1,7 @@
 package school.sptech.cr_metais.dto.Produto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 
 public class ProdutoListarDto {
 
@@ -15,6 +16,9 @@ public class ProdutoListarDto {
 
     @Schema(description = "Preço do produto por kg", example = "10.00")
     private Double precoKg;
+
+    @Schema(description = "Identificador do estoque", example = "1")
+    private Integer idEstoque;
 
     public Integer getId() {
         return id;
@@ -47,4 +51,8 @@ public class ProdutoListarDto {
     public void setPrecoKg(Double precoKg) {
         this.precoKg = precoKg;
     }
+
+    public Integer getIdEstoque(){return idEstoque;}
+
+    public void setIdEstoque(Integer idEstoque){this.idEstoque = idEstoque;}
 }

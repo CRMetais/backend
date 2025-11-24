@@ -1,52 +1,55 @@
 package school.sptech.cr_metais.service;
 
 import org.springframework.stereotype.Service;
-import school.sptech.cr_metais.dto.Produto.ProdutoCadastrarDto;
-import school.sptech.cr_metais.dto.Produto.ProdutoDetalhesDto;
-import school.sptech.cr_metais.dto.Produto.ProdutoListarDto;
+import school.sptech.cr_metais.dto.Produto.ProdutoResponseDto;
+import school.sptech.cr_metais.entity.Estoque;
 import school.sptech.cr_metais.entity.Produto;
-import school.sptech.cr_metais.exception.EntidadeConflitoException;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.mappers.ProdutoMapper;
+import school.sptech.cr_metais.repository.EstoqueRepository;
 import school.sptech.cr_metais.repository.ProdutoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProdutoService {
 
     private final ProdutoRepository pRepository;
+    private final EstoqueRepository eRepository;
     private final ProdutoMapper produtoMapper;
 
-    public ProdutoService(ProdutoRepository pRepository, ProdutoMapper produtoMapper) {
+    public ProdutoService(ProdutoRepository pRepository, EstoqueRepository eRepository, ProdutoMapper produtoMapper) {
         this.pRepository = pRepository;
+        this.eRepository = eRepository;
         this.produtoMapper = produtoMapper;
     }
 
-    public ProdutoListarDto cadastrar(ProdutoCadastrarDto dto) {
+    public Produto cadastrar(Produto produtoParaCadastrar, Integer idEstoque) {
 
-        if (pRepository.existsByNome(dto.getNome())) {
-            throw new EntidadeConflitoException("Produto já existe");
+        Optional <Estoque> estoqueOpt = eRepository.findById(idEstoque);
+
+        if (estoqueOpt.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Estoque não encontrado");
         }
 
-        Produto produto = produtoMapper.toEntity(dto);
-        Produto salvo = pRepository.save(produto);
+        Estoque estoque = estoqueOpt.get();
 
-        return produtoMapper.toListarDto(salvo);
+        produtoParaCadastrar.setEstoque(estoque);
+
+        Produto produtoRegistrado = pRepository.save(produtoParaCadastrar);
+        return produtoRegistrado;
+
     }
 
-    public List<ProdutoListarDto> listar() {
-        return pRepository.findAll()
-                .stream()
-                .map(produtoMapper::toListarDto)
-                .toList();
+    public List<Produto> listar() {
+        return pRepository.findAll();
     }
 
-    public ProdutoDetalhesDto buscarPorId(Integer id) {
-        Produto produto = pRepository.findById(id)
+    public Produto buscarPorId(Integer id) {
+        return pRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Produto não encontrado"));
 
-        return produtoMapper.toDetalhesDto(produto);
     }
 
     public void deletar(Integer id) {
@@ -56,28 +59,22 @@ public class ProdutoService {
         pRepository.deleteById(id);
     }
 
-    public ProdutoDetalhesDto atualizar(Integer id, ProdutoCadastrarDto dto) {
+    public Produto atualizar(Produto produto) {
 
-        Produto produtoExistente = pRepository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Produto não encontrado"));
+        if (!pRepository.existsById(produto.getId())){
+            throw new EntidadeNaoEncontradaException("Produto não encontrado");
+        }
 
-        produtoExistente.setNome(dto.getNome());
-        produtoExistente.setTipoProduto(dto.getTipoProduto());
-        produtoExistente.setPrecoKg(dto.getPrecoKg());
-
-        Produto atualizado = pRepository.save(produtoExistente);
-
-        return produtoMapper.toDetalhesDto(atualizado);
+        return pRepository.save(produto);
     }
 
-    public List<ProdutoListarDto> listarPorPrecoMaior() {
+    public List<ProdutoResponseDto> listarPorPrecoMaior() {
 
         List<Produto> produtos = pRepository.findAll();
 
         produtos.sort((a, b) -> Double.compare(b.getPrecoKg(), a.getPrecoKg()));
 
         return produtos.stream()
-                .map(produtoMapper::toListarDto)
-                .toList();
+                .map(ProdutoMapper::toResponse).toList();
     }
 }

@@ -9,10 +9,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.cr_metais.dto.Produto.ProdutoCadastrarDto;
-import school.sptech.cr_metais.dto.Produto.ProdutoDetalhesDto;
-import school.sptech.cr_metais.dto.Produto.ProdutoListarDto;
+import school.sptech.cr_metais.dto.Produto.*;
 import school.sptech.cr_metais.entity.Produto;
+import school.sptech.cr_metais.mappers.ProdutoMapper;
 import school.sptech.cr_metais.repository.ProdutoRepository;
 import school.sptech.cr_metais.service.ProdutoService;
 
@@ -45,11 +44,33 @@ private final ProdutoService pService;
     })
     // Cadastrar produtos
     @PostMapping
-    public ResponseEntity<ProdutoListarDto> cadastrarProduto(
-            @RequestBody ProdutoCadastrarDto dto) {
+    public ResponseEntity<ProdutoResponseDto> cadastrar(@RequestBody ProdutoRequestDto dto) {
 
-        ProdutoListarDto salvo = pService.cadastrar(dto);
-        return ResponseEntity.status(201).body(salvo);
+        Produto produtoParaCadastrar = ProdutoMapper.toEntity(dto);
+        Produto produtoRegistrado = pService.cadastrar(produtoParaCadastrar, dto.getIdEstoque());
+        ProdutoResponseDto response = ProdutoMapper.toResponse(produtoRegistrado);
+
+        return ResponseEntity.status(201).body(response);
+    }
+
+    @Operation(
+            summary = "Buscar produto por ID",
+            description = "Busca um produto específico através do seu ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto encontrado com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Produto.class))),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content)
+    })
+    // Buscar por id
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoResponseDto> buscarPorId(@PathVariable Integer id) {
+
+        Produto produto = pService.buscarPorId(id);
+        ProdutoResponseDto response = ProdutoMapper.toResponse(produto);
+
+        return ResponseEntity.status(200).body(response);
     }
 
     @Operation(
@@ -64,16 +85,40 @@ private final ProdutoService pService;
     })
     // Listar todos os produtos
     @GetMapping
-    public ResponseEntity<List<ProdutoListarDto>> listar() {
+    public ResponseEntity<List<ProdutoResponseDto>> listar() {
 
-        List<ProdutoListarDto> all = pService.listar();
+        List<Produto> todos = pService.listar();
 
-        if (all.isEmpty()) {
+        if (todos.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
-        return ResponseEntity.ok(all);
+
+        List<ProdutoResponseDto> response = ProdutoMapper.toResponse(todos);
+        return ResponseEntity.status(200).body(response);
     }
 
+    @Operation(
+            summary = "Atualizar produto por ID",
+            description = "Atualiza os dados de um produto existente com base no ID informado."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto atualizado com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Produto.class))),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content)
+    })
+    // Atualizar Produto
+    @PutMapping("{id}")
+    public ResponseEntity<ProdutoResponseDto> atualizar(@PathVariable Integer id,  @RequestBody ProdutoRequestDto dto) {
+
+        Produto entity = ProdutoMapper.toEntity(dto);
+        entity.setId(id);
+
+        Produto produtoAtualizado = pService.atualizar(entity);
+        ProdutoResponseDto response = ProdutoMapper.toResponse(produtoAtualizado);
+
+        return ResponseEntity.status(200).body(response);
+    }
 
     @Operation(
             summary = "Deletar produto por ID",
@@ -90,47 +135,6 @@ private final ProdutoService pService;
         return ResponseEntity.status(204).build();
     }
 
-
-    @Operation(
-            summary = "Buscar produto por ID",
-            description = "Busca um produto específico através do seu ID."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Produto encontrado com sucesso",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Produto.class))),
-            @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content)
-    })
-    // Buscar por id
-    @GetMapping("/{id}")
-    public ResponseEntity<ProdutoDetalhesDto> buscarPorId(@PathVariable Integer id) {
-
-        ProdutoDetalhesDto dto = pService.buscarPorId(id);
-        return ResponseEntity.ok(dto);
-    }
-
-
-    @Operation(
-            summary = "Atualizar produto por ID",
-            description = "Atualiza os dados de um produto existente com base no ID informado."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Produto atualizado com sucesso",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Produto.class))),
-            @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content)
-    })
-    // Atualizar Produto
-    @PutMapping("{id}")
-    public ResponseEntity<ProdutoDetalhesDto> atualizar(
-            @PathVariable Integer id,
-            @RequestBody ProdutoCadastrarDto dto) {
-
-        ProdutoDetalhesDto atualizado = pService.atualizar(id, dto);
-        return ResponseEntity.ok(atualizado);
-    }
-
-
     @Operation(
             summary = "Listar produtos por preço (ordem decrescente)",
             description = "Retorna todos os produtos ordenados pelo preço, do maior para o menor."
@@ -143,14 +147,14 @@ private final ProdutoService pService;
     })
     // Listar Produto por maior preço
     @GetMapping("/preco")
-    public ResponseEntity<List<ProdutoListarDto>> listarPorPrecoMaior() {
+    public ResponseEntity<List<ProdutoResponseDto>> listarPorPrecoMaior() {
 
-        List<ProdutoListarDto> all = pService.listarPorPrecoMaior();
+        List<ProdutoResponseDto> todos = pService.listarPorPrecoMaior();
 
-        if (all.isEmpty()) {
+        if (todos.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
-        return ResponseEntity.ok(all);
-    }
 
+        return ResponseEntity.ok(todos);
+    }
 }

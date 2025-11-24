@@ -104,7 +104,8 @@ public class PrecoProdutoTabelaController {
             @ApiResponse(responseCode = "404", description = "Preço de produto não encontrado", content = @Content)
     })
     @PutMapping("/{id}")
-    public ResponseEntity<PrecoProdutoTabelaResponseDto> atualizar(@PathVariable Integer id, @RequestBody PrecoProdutoTabelaRequestDto dto){
+    public ResponseEntity<PrecoProdutoTabelaResponseDto> atualizar(
+            @PathVariable Integer id, @RequestBody PrecoProdutoTabelaRequestDto dto){
 
         PrecoProdutoTabela entity = PrecoProdutoTabelaMapper.toEntity(dto);
         entity.setId(id);

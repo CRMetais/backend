@@ -1,31 +1,23 @@
-package school.sptech.cr_metais.entity;
+package school.sptech.cr_metais.dto.Produto;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@Entity
-public class Produto {
+public class ProdutoResponseDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_produto")
+    @Schema(description = "Identificador do produto", example = "1")
     private Integer id;
 
-    @NotBlank
+    @Schema(description = "Nome do produto", example = "Cobre Mel")
     private String nome;
 
-    @NotBlank
+    @Schema(description = "Tipo do produto", example = "Cobre")
     private String tipoProduto;
 
-    @NotNull
-    @Positive
+    @Schema(description = "Preço do produto por kg", example = "10.00")
     private Double precoKg;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_estoque")
-    private Estoque estoque;
+    @Schema(description = "Identificador do estoque", example = "1")
+    private Integer idEstoque;
 
     public Integer getId() {
         return id;
@@ -59,11 +51,7 @@ public class Produto {
         this.precoKg = precoKg;
     }
 
-    public Estoque getEstoque() {
-        return estoque;
-    }
+    public Integer getIdEstoque(){return idEstoque;}
 
-    public void setEstoque(Estoque estoque) {
-        this.estoque = estoque;
-    }
+    public void setIdEstoque(Integer idEstoque){this.idEstoque = idEstoque;}
 }
