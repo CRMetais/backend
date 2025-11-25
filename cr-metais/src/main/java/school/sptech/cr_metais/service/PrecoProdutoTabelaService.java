@@ -1,9 +1,6 @@
 package school.sptech.cr_metais.service;
 
 import org.springframework.stereotype.Service;
-import school.sptech.cr_metais.dto.PrecoProdutoTabela.PrecoProdutoTabelaRequestDto;
-import school.sptech.cr_metais.dto.PrecoProdutoTabela.PrecoProdutoTabelaResponseDto;
-import school.sptech.cr_metais.entity.ItemPedidoCompra;
 import school.sptech.cr_metais.entity.PrecoProdutoTabela;
 import school.sptech.cr_metais.entity.Produto;
 import school.sptech.cr_metais.entity.TabelaPreco;
@@ -77,7 +74,7 @@ public class PrecoProdutoTabelaService {
     }
 
     public PrecoProdutoTabela atualizar(PrecoProdutoTabela precoProdutoTabela){
-        if (!precoProdutoTabelaRepository.existsById(precoProdutoTabela.getId())){
+        if (!precoProdutoTabelaRepository.existsById(precoProdutoTabela.getIdPrecoProdutoTabela())){
             throw new EntidadeNaoEncontradaException("Preço Produto tabela não encontrado");
         }
 

@@ -25,7 +25,7 @@ public class PrecoProdutoTabelaMapper {
         precoProdutoTabela.setTabelaPreco(tabelaPreco);
 
         Produto produto = new Produto();
-        produto.setId(dto.getIdProduto());
+        produto.setIdProduto(dto.getIdProduto());
         precoProdutoTabela.setProduto(produto);
 
         precoProdutoTabela.setPrecoProduto(dto.getPrecoProduto());
@@ -41,9 +41,9 @@ public class PrecoProdutoTabelaMapper {
 
         PrecoProdutoTabelaResponseDto dto = new PrecoProdutoTabelaResponseDto();
 
-        dto.setId(precoProdutoTabela.getId());
+        dto.setIdProdutoPrecoTabela(precoProdutoTabela.getIdPrecoProdutoTabela());
         dto.setPrecoProduto(precoProdutoTabela.getPrecoProduto());
-        dto.setIdProduto(precoProdutoTabela.getProduto().getId());
+        dto.setIdProduto(precoProdutoTabela.getIdPrecoProdutoTabela());
         dto.setIdTabelaPreco(precoProdutoTabela.getTabelaPreco().getIdTabela());
 
         return dto;

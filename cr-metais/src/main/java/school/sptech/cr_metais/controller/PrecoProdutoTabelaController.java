@@ -11,10 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.PrecoProdutoTabela.PrecoProdutoTabelaRequestDto;
 import school.sptech.cr_metais.dto.PrecoProdutoTabela.PrecoProdutoTabelaResponseDto;
-import school.sptech.cr_metais.entity.ItemPedidoCompra;
 import school.sptech.cr_metais.entity.ItemPedidoVenda;
 import school.sptech.cr_metais.entity.PrecoProdutoTabela;
-import school.sptech.cr_metais.entity.TabelaPreco;
 import school.sptech.cr_metais.mappers.PrecoProdutoTabelaMapper;
 import school.sptech.cr_metais.service.PrecoProdutoTabelaService;
 
@@ -108,7 +106,7 @@ public class PrecoProdutoTabelaController {
             @PathVariable Integer id, @RequestBody PrecoProdutoTabelaRequestDto dto){
 
         PrecoProdutoTabela entity = PrecoProdutoTabelaMapper.toEntity(dto);
-        entity.setId(id);
+        entity.setIdPrecoProdutoTabela(id);
 
         PrecoProdutoTabela precoProdutoTabelaAtualizado = precoProdutoTabelaService.atualizar(entity);
         PrecoProdutoTabelaResponseDto response = PrecoProdutoTabelaMapper.toResponse(precoProdutoTabelaAtualizado);

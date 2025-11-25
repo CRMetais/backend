@@ -9,7 +9,7 @@ public class PrecoProdutoTabela {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idPrecoProdutoTabela;
 
     @ManyToOne
     @JoinColumn(name = "fk_tabela_preco")
@@ -24,12 +24,12 @@ public class PrecoProdutoTabela {
     @Column(name = "preco_produto")
     private Double precoProduto;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdPrecoProdutoTabela() {
+        return idPrecoProdutoTabela;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdPrecoProdutoTabela(Integer idPrecoProdutoTabela) {
+        this.idPrecoProdutoTabela = idPrecoProdutoTabela;
     }
 
     public TabelaPreco getTabelaPreco() {
