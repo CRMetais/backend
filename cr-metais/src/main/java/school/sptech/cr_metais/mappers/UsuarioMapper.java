@@ -31,7 +31,7 @@ public class UsuarioMapper {
     public static UsuarioTokenDto of(Usuario usuario, String token){
         UsuarioTokenDto usuarioTokenDto = new UsuarioTokenDto();
 
-        usuarioTokenDto.setUserId(usuario.getId());
+        usuarioTokenDto.setUserId(usuario.getIdUsuario());
         usuarioTokenDto.setEmail(usuario.getEmail());
         usuarioTokenDto.setNome(usuario.getNome());
         usuarioTokenDto.setToken(token);
@@ -42,7 +42,7 @@ public class UsuarioMapper {
     public static UsuarioListarDto of(Usuario usuario){
         UsuarioListarDto usuarioListarDto = new UsuarioListarDto();
 
-        usuarioListarDto.setId(usuario.getId());
+        usuarioListarDto.setIdUsuario(usuario.getIdUsuario());
         usuarioListarDto.setEmail(usuario.getEmail());
         usuarioListarDto.setNome(usuario.getNome());
         usuarioListarDto.setCargo(usuario.getCargo());

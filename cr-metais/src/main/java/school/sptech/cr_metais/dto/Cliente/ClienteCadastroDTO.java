@@ -9,11 +9,11 @@ public class ClienteCadastroDTO {
     private String cnpj;
 
     @NotBlank(message = "razão social é obrigatória")
-    private String razao_social;
+    private String razaoSocial;
 
     @NotBlank(message = "Telefone para contato é obrigatório")
     @Size(min=10, max=11)
-    private String tel_contato;
+    private String telContato;
 
     @NotNull(message = "Endereço é obrigatório")
     private Integer idEndereco;
@@ -29,20 +29,20 @@ public class ClienteCadastroDTO {
         this.cnpj = cnpj;
     }
 
-    public String getRazao_social() {
-        return razao_social;
+    public String getRazaoSocial() {
+        return razaoSocial;
     }
 
-    public void setRazao_social(String razao_social) {
-        this.razao_social = razao_social;
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
     }
 
-    public String getTel_contato() {
-        return tel_contato;
+    public String getTelContato() {
+        return telContato;
     }
 
-    public void setTel_contato(String tel_contato) {
-        this.tel_contato = tel_contato;
+    public void setTelContato(String telContato) {
+        this.telContato = telContato;
     }
 
     public Integer getIdEndereco() {

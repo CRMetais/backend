@@ -14,25 +14,33 @@ public class TabelaPreco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_tabela")
     private Integer idTabela;
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo")
     private TipoTabela tipo;
 
     @NotBlank
+    @Column(name = "nome_tabela")
     private String nomeTabela;
 
     @NotNull
+    @Column(name = "versao")
     private Double versao;
 
     @NotNull
+    @Column(name = "data_inicio_validade")
     private LocalDate dataInicioValidade;
 
 
+    @NotNull
+    @Column(name = "data_fim_validade")
     private LocalDate dataFimValidade;
 
     @NotNull
+    @Column(name = "ativa")
     private Boolean ativa;
 
     @AssertTrue(message = "Data fim não pode ser anterior à data início")

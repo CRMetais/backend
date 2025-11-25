@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class UsuarioListarDto {
 
     @Schema(description = "Id do usuário", example = "1")
-    private Integer id;
+    private Integer idUsuario;
     @Schema(description = "Nome do usuário", example = "José Irineu")
     private String nome;
     @Schema(description = "Email do usuário", example = "joseirineu@fe.com")
@@ -21,12 +21,12 @@ public class UsuarioListarDto {
         this.cargo = cargo;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNome() {

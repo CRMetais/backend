@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class ProdutoResponseDto {
 
     @Schema(description = "Identificador do produto", example = "1")
-    private Integer id;
+    private Integer idProduto;
 
     @Schema(description = "Nome do produto", example = "Cobre Mel")
     private String nome;
@@ -16,12 +16,12 @@ public class ProdutoResponseDto {
     @Schema(description = "Identificador do estoque", example = "1")
     private Integer idEstoque;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdProduto() {
+        return idProduto;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdProduto(Integer idProduto) {
+        this.idProduto = idProduto;
     }
 
     public String getNome() {

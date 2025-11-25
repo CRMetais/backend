@@ -49,7 +49,7 @@ public class EnderecoController {
     ) {
 
         Endereco entity = EnderecoMapper.toEntity(dto);
-        entity.setId(id);
+        entity.setIdEndereco(id);
 
         Endereco enderecoAtualizado = service.atualizar(entity);
         EnderecoResponseDto response = EnderecoMapper.toResponse(enderecoAtualizado);

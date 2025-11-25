@@ -11,17 +11,17 @@ public class ClienteMapper {
     public Cliente toEntity(ClienteCadastroDTO dto) {
         Cliente c = new Cliente();
         c.setCnpj(dto.getCnpj());
-        c.setRazao_social(dto.getRazao_social());
-        c.setTel_contato(dto.getTel_contato());
+        c.setRazaoSocial(dto.getRazaoSocial());
+        c.setTelContato(dto.getTelContato());
         return c;
     }
 
     public ClienteResponseDTO toResponseDTO(Cliente c) {
         return new ClienteResponseDTO(
-                c.getId_cliente(),
+                c.getIdCliente(),
                 c.getCnpj(),
-                c.getRazao_social(),
-                c.getTel_contato()
+                c.getRazaoSocial(),
+                c.getTelContato()
         );
     }
 }

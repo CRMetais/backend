@@ -2,14 +2,12 @@ package school.sptech.cr_metais.service;
 
 import org.springframework.stereotype.Service;
 import school.sptech.cr_metais.entity.Endereco;
-import school.sptech.cr_metais.entity.Usuario;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.mappers.EnderecoMapper;
 import school.sptech.cr_metais.repository.EnderecoRepository;
 import school.sptech.cr_metais.repository.UsuarioRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EnderecoService {
@@ -51,7 +49,7 @@ public class EnderecoService {
     }
 
     public Endereco atualizar(Endereco enderecoParaAtualizar){
-        if(!repository.existsById(enderecoParaAtualizar.getId())){
+        if(!repository.existsById(enderecoParaAtualizar.getIdEndereco())){
             throw new EntidadeNaoEncontradaException("Endereço não encontrado");
         }
 

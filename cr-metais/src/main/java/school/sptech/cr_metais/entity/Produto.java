@@ -11,24 +11,26 @@ public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_produto")
-    private Integer id;
+    private Integer idProduto;
 
     @NotBlank
+    @Column(name = "name")
     private String nome;
 
     @NotBlank
+    @Column(name = "tipo_produto")
     private String tipoProduto;
 
     @ManyToOne
     @JoinColumn(name = "fk_estoque")
     private Estoque estoque;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdProduto() {
+        return idProduto;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdProduto(Integer idProduto) {
+        this.idProduto = idProduto;
     }
 
     public String getNome() {

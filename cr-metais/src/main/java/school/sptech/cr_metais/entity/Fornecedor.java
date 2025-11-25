@@ -9,22 +9,28 @@ import jakarta.validation.constraints.Size;
 public class Fornecedor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id_fornecedor")
+    private Integer idFornecedor;
 
     @NotBlank
+    @Column(name = "nome")
     private String nome;
 
     @NotBlank
+    @Column(name = "documento")
     private String documento;
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_fornecedor")
     private TipoFornecedor tipoFornecedor;
 
     @NotBlank
     @Size(min=10, max=11)
+    @Column(name = "telefone")
     private String telefone;
 
+    @Column(name = "apelido")
     private String apelido;
 
     @ManyToOne
@@ -36,12 +42,12 @@ public class Fornecedor {
     private TabelaPreco tabelaPreco;
 
 
-    public Integer getId() {
-        return id;
+    public Integer getIdFornecedor() {
+        return idFornecedor;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdFornecedor(Integer idFornecedor) {
+        this.idFornecedor = idFornecedor;
     }
 
     public String getNome() {

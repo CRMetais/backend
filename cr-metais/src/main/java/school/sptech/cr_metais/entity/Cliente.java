@@ -11,23 +11,27 @@ import org.hibernate.validator.constraints.br.CNPJ;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_cliente;
+    @Column(name = "id_cliente")
+    private Integer idCliente;
 
     @NotNull
     @CNPJ
     @NotBlank
+    @Column(name = "CNPJ")
     private String cnpj;
 
     @NotBlank
-    private String razao_social;
+    @Column(name = "razao_social")
+    private String razaoSocial;
 
     @NotBlank
     @Size(min=10, max=11)
-    private String tel_contato;
+    @Column(name = "tel_contato")
+    private String telContato;
 
     @NotNull
     @OneToOne
-    @JoinColumn(name = "endereco_idendereco")
+    @JoinColumn(name = "fk_endereco")
     private Endereco endereco;
 
     @NotNull
@@ -35,12 +39,12 @@ public class Cliente {
     @JoinColumn(name = "fk_tabela_preco")
     private TabelaPreco tabelaPreco;
 
-    public Integer getId_cliente() {
-        return id_cliente;
+    public Integer getIdCliente() {
+        return idCliente;
     }
 
-    public void setId_cliente(Integer id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getCnpj() {
@@ -51,20 +55,20 @@ public class Cliente {
         this.cnpj = cnpj;
     }
 
-    public String getRazao_social() {
-        return razao_social;
+    public String getRazaoSocial() {
+        return razaoSocial;
     }
 
-    public void setRazao_social(String razao_social) {
-        this.razao_social = razao_social;
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
     }
 
-    public String getTel_contato() {
-        return tel_contato;
+    public String getTelContato() {
+        return telContato;
     }
 
-    public void setTel_contato(String tel_contato) {
-        this.tel_contato = tel_contato;
+    public void setTelContato(String telContato) {
+        this.telContato = telContato;
     }
 
     public Endereco getEndereco() {

@@ -22,6 +22,7 @@ public class Venda {
     @JoinColumn(name = "fk_tabela_preco")
     private TabelaPreco fkTabelaPreco;
     @NotNull
+    @Column(name = "data_venda")
     private LocalDate dataVenda;
 
     public Integer getIdVenda() {

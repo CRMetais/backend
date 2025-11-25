@@ -8,35 +8,43 @@ public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id_endereco")
+    private Integer idEndereco;
 
     @NotBlank
+    @Column(name = "estado")
     private String estado;
 
     @NotBlank
+    @Column(name = "cidade")
     private String cidade;
 
     @NotBlank
+    @Column(name = "cep")
     private String cep;
 
     @NotBlank
+    @Column(name = "logradouro")
     private String logradouro;
 
+    @Column(name = "complemento")
     private String complemento;
 
     @NotBlank
+    @Column(name = "bairro")
     private String bairro;
 
     @NotBlank
+    @Column(name = "numero")
     private String numero;
 
 
-    public Integer getId() {
-        return id;
+    public Integer getIdEndereco() {
+        return idEndereco;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdEndereco(Integer idEndereco) {
+        this.idEndereco = idEndereco;
     }
 
     public String getEstado() {

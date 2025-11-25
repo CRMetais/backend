@@ -1,11 +1,9 @@
 package school.sptech.cr_metais.mappers;
 
 import org.springframework.stereotype.Component;
-import school.sptech.cr_metais.dto.EnderecoCadastroDto.EnderecoGetDto;
 import school.sptech.cr_metais.dto.EnderecoCadastroDto.EnderecoRequestDto;
 import school.sptech.cr_metais.dto.EnderecoCadastroDto.EnderecoResponseDto;
 import school.sptech.cr_metais.entity.Endereco;
-import school.sptech.cr_metais.entity.Usuario;
 
 @Component
 public class EnderecoMapper {
@@ -33,7 +31,7 @@ public class EnderecoMapper {
         }
 
         EnderecoResponseDto dto = new EnderecoResponseDto();
-        dto.setId(endereco.getId());
+        dto.setIdEndereco(endereco.getIdEndereco());
         dto.setEstado(endereco.getEstado());
         dto.setCidade(endereco.getCidade());
         dto.setCep(endereco.getCep());

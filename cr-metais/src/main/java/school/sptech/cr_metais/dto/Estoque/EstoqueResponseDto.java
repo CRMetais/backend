@@ -2,7 +2,7 @@ package school.sptech.cr_metais.dto.Estoque;
 
 public class EstoqueResponseDto {
 
-    private Integer id;
+    private Integer idEstoque;
     private Integer quantidadeDisponivel;
     private String localizacao;
 
@@ -10,12 +10,12 @@ public class EstoqueResponseDto {
     public EstoqueResponseDto() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdEstoque() {
+        return idEstoque;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdEstoque(Integer idEstoque) {
+        this.idEstoque = idEstoque;
     }
 
     public Integer getQuantidadeDisponivel() {

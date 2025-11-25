@@ -4,33 +4,30 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class ClienteResponseDTO {
 
     @Schema(description = "Identificador da tabela", example = "1")
-    private Integer id_cliente;
+    private Integer idCliente;
 
     @Schema(description = "CNPJ do cliente", example = "42.591.651/0001-43")
     private String cnpj;
 
     @Schema(description = "Razão social do cliente", example = "Arcos Dourados Comércio de Alimentos SA")
-    private String razao_social;
+    private String razaoSocial;
 
     @Schema(description = "Telefone de contato do cliente", example = "1132303223")
-    private String tel_contato;
+    private String telContato;
 
-    public ClienteResponseDTO(Integer id_cliente, String cnpj, String razao_social, String tel_contato) {
-        this.id_cliente = id_cliente;
+    public ClienteResponseDTO(Integer idCliente, String cnpj, String razaoSocial, String telContato) {
+        this.idCliente = idCliente;
         this.cnpj = cnpj;
-        this.razao_social = razao_social;
-        this.tel_contato = tel_contato;
+        this.razaoSocial = razaoSocial;
+        this.telContato = telContato;
     }
 
-    public ClienteResponseDTO() {
+    public Integer getIdCliente() {
+        return idCliente;
     }
 
-    public Integer getId_cliente() {
-        return id_cliente;
-    }
-
-    public void setId_cliente(Integer id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getCnpj() {
@@ -41,19 +38,19 @@ public class ClienteResponseDTO {
         this.cnpj = cnpj;
     }
 
-    public String getRazao_social() {
-        return razao_social;
+    public String getRazaoSocial() {
+        return razaoSocial;
     }
 
-    public void setRazao_social(String razao_social) {
-        this.razao_social = razao_social;
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
     }
 
-    public String getTel_contato() {
-        return tel_contato;
+    public String getTelContato() {
+        return telContato;
     }
 
-    public void setTel_contato(String tel_contato) {
-        this.tel_contato = tel_contato;
+    public void setTelContato(String telContato) {
+        this.telContato = telContato;
     }
 }

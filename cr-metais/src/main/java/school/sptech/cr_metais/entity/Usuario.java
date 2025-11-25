@@ -9,35 +9,39 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idusuario")
-    private Integer id;
+    @Column(name = "id_usuario")
+    private Integer idUsuario;
     @NotBlank
+    @Column(name = "nome")
     private String nome;
     @NotBlank
     @Email
+    @Column(name = "email")
     private String email;
     @NotBlank
+    @Column(name = "senha")
     private String senha;
     @NotBlank
+    @Column(name = "cargo")
     private String cargo;
 
     public Usuario() {
     }
 
-    public Usuario(Integer id, String nome, String email, String senha, String cargo) {
-        this.id = id;
+    public Usuario(Integer idUsuario, String nome, String email, String senha, String cargo) {
+        this.idUsuario = idUsuario;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.cargo = cargo;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNome() {

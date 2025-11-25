@@ -10,20 +10,22 @@ public class Estoque {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_estoque")
-    private Integer id;
+    private Integer idEstoque;
 
     @NotNull
+    @Column(name = "quantidade_disponivel")
     private Integer quantidadeDisponivel;
 
     @NotBlank
+    @Column(name = "localizacao")
     private String localizacao;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdEstoque() {
+        return idEstoque;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdEstoque(Integer idEstoque) {
+        this.idEstoque = idEstoque;
     }
 
     public Integer getQuantidadeDisponivel() {

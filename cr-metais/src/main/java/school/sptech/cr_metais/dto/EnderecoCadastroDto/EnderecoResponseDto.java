@@ -2,7 +2,7 @@ package school.sptech.cr_metais.dto.EnderecoCadastroDto;
 
 public class EnderecoResponseDto {
 
-    private Integer id;
+    private Integer idEndereco;
     private String estado;
     private String cidade;
     private String cep;
@@ -11,12 +11,12 @@ public class EnderecoResponseDto {
     private String bairro;
     private String numero;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdEndereco() {
+        return idEndereco;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdEndereco(Integer idEndereco) {
+        this.idEndereco = idEndereco;
     }
 
     public String getEstado() {
