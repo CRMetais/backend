@@ -103,7 +103,7 @@ public class EstoqueController {
     public ResponseEntity<EstoqueResponseDto> atualizar(@PathVariable Integer id, @RequestBody EstoqueRequestDto dto){
 
         Estoque entity = EstoqueMapper.toEntity(dto);
-        entity.setId(id);
+        entity.setIdEstoque(id);
 
         Estoque estoqueAtualizado = estoqueService.atualizar(entity);
         EstoqueResponseDto response = EstoqueMapper.toResponse(estoqueAtualizado);

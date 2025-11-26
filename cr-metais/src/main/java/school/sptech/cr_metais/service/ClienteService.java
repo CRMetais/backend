@@ -77,8 +77,8 @@ public class ClienteService {
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
 
         clienteExistente.setCnpj(dto.getCnpj());
-        clienteExistente.setRazao_social(dto.getRazao_social());
-        clienteExistente.setTel_contato(dto.getTel_contato());
+        clienteExistente.setRazaoSocial(dto.getRazaoSocial());
+        clienteExistente.setTelContato(dto.getTelContato());
 
         cRepository.save(clienteExistente);
 

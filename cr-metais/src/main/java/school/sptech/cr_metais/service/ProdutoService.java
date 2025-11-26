@@ -61,7 +61,7 @@ public class ProdutoService {
 
     public Produto atualizar(Produto produto) {
 
-        if (!pRepository.existsById(produto.getId())){
+        if (!pRepository.existsById(produto.getIdProduto())){
             throw new EntidadeNaoEncontradaException("Produto não encontrado");
         }
 

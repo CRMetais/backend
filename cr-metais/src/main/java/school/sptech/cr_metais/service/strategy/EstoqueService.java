@@ -48,7 +48,7 @@ public class EstoqueService {
 
     public Estoque atualizar(Estoque estoque){
 
-        if (!repository.existsById(estoque.getId())){
+        if (!repository.existsById(estoque.getIdEstoque())){
             throw new EntidadeNaoEncontradaException("Estoque não encontrado");
         }
 

@@ -30,7 +30,7 @@ public class EstoqueMapper {
         }
 
         EstoqueResponseDto dto = new EstoqueResponseDto();
-        dto.setIdEstoque(estoque.getId());
+        dto.setIdEstoque(estoque.getIdEstoque());
         dto.setQuantidadeDisponivel(estoque.getQuantidadeDisponivel());
         dto.setLocalizacao(estoque.getLocalizacao());
 

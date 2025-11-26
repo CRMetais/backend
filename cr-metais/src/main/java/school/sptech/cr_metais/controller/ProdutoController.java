@@ -112,7 +112,7 @@ private final ProdutoService pService;
     public ResponseEntity<ProdutoResponseDto> atualizar(@PathVariable Integer id,  @RequestBody ProdutoRequestDto dto) {
 
         Produto entity = ProdutoMapper.toEntity(dto);
-        entity.setId(id);
+        entity.setIdProduto(id);
 
         Produto produtoAtualizado = pService.atualizar(entity);
         ProdutoResponseDto response = ProdutoMapper.toResponse(produtoAtualizado);
