@@ -1,11 +1,11 @@
 package school.sptech.cr_metais.service;
 
-import school.sptech.cr_metais.dto.ItemPedidoCompra.ItemPedidoCompraRequestDto;
-import school.sptech.cr_metais.dto.ItemPedidoCompra.ItemPedidoCompraResponseDto;
 import school.sptech.cr_metais.entity.Compra;
 import school.sptech.cr_metais.entity.ItemPedidoCompra;
 import school.sptech.cr_metais.entity.Produto;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
+import school.sptech.cr_metais.exception.EntidadeNulaException;
+import school.sptech.cr_metais.exception.EntidadeValorAbaixoDeZeroException;
 import school.sptech.cr_metais.mappers.ItemPedidoCompraMapper;
 import school.sptech.cr_metais.repository.CompraRepository;
 import school.sptech.cr_metais.repository.ItemPedidoCompraRepository;
@@ -48,6 +48,23 @@ public class ItemPedidoCompraService {
             throw new EntidadeNaoEncontradaException("Produto não encontrado");
         }
 
+        if (itemParaCadastro.getPesoKg() == null){
+            throw new EntidadeNulaException("O Peso não pode ser nulo!");
+        }
+
+        if (itemParaCadastro.getPesoKg() <= 0){
+            throw new EntidadeValorAbaixoDeZeroException("O Peso deve ser maior que Zero");
+        }
+
+        if (itemParaCadastro.getPrecoUnitario() == null){
+            throw new EntidadeNulaException("O Preço não pode ser nulo!");
+        }
+
+        if (itemParaCadastro.getPrecoUnitario() <= 0){
+            throw new EntidadeValorAbaixoDeZeroException("O Peso deve ser maior que Zero");
+        }
+
+
         Compra compra = compraOpt.get();
         Produto produto = produtoOpt.get();
 
@@ -79,7 +96,7 @@ public class ItemPedidoCompraService {
 
     public ItemPedidoCompra atualizar(ItemPedidoCompra item){
 
-        if (!itemRepository.existsById(item.getId())){
+        if (!itemRepository.existsById(item.getIdItemPedidoCompra())){
             throw new EntidadeNaoEncontradaException("Item não encontrado");
         }
 

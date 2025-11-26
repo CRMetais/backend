@@ -103,7 +103,7 @@ public class ItemPedidoCompraController {
     public ResponseEntity<ItemPedidoCompraResponseDto> atualizar(@PathVariable Integer id, @RequestBody ItemPedidoCompraRequestDto dto){
 
         ItemPedidoCompra entity = ItemPedidoCompraMapper.toEntity(dto);
-        entity.setId(id);
+        entity.setIdItemPedidoCompra(id);
 
         ItemPedidoCompra itemAtualizado = itemPedidoCompraService.atualizar(entity);
         ItemPedidoCompraResponseDto response = ItemPedidoCompraMapper.toResponse(itemAtualizado);

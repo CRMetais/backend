@@ -9,7 +9,7 @@ public class ItemPedidoCompra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idItemPedidoCompra;
 
     @ManyToOne
     @JoinColumn(name = "id_fk_compra")
@@ -29,12 +29,12 @@ public class ItemPedidoCompra {
     @Positive
     private Double precoUnitario;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdItemPedidoCompra() {
+        return idItemPedidoCompra;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdItemPedidoCompra(Integer idItemPedidoCompra) {
+        this.idItemPedidoCompra = idItemPedidoCompra;
     }
 
     public Compra getCompra() {
