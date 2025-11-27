@@ -1,18 +1,16 @@
 package school.sptech.cr_metais.entity;
 
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 public class Compra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_compras")
-    private Integer idConta;
+    @Column(name = "id_compra")
+    private Integer idCompra;
 
     @ManyToOne
     @JoinColumn(name = "fk_fornecedor")
@@ -22,7 +20,7 @@ public class Compra {
     private LocalDate dataCompra;
 
     public Compra(Integer idConta, Fornecedor fornecedor, LocalDate dataCompra) {
-        this.idConta = idConta;
+        this.idCompra = idConta;
         this.fornecedor = fornecedor;
         this.dataCompra = dataCompra;
     }
@@ -30,12 +28,12 @@ public class Compra {
     public Compra() {
     }
 
-    public Integer getIdConta() {
-        return idConta;
+    public Integer getIdCompra() {
+        return idCompra;
     }
 
-    public void setIdConta(Integer idConta) {
-        this.idConta = idConta;
+    public void setIdCompra(Integer idCompra) {
+        this.idCompra = idCompra;
     }
 
     public Fornecedor getFornecedor() {

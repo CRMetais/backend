@@ -14,7 +14,7 @@ public class Produto {
     private Integer idProduto;
 
     @NotBlank
-    @Column(name = "name")
+    @Column(name = "nome")
     private String nome;
 
     @NotBlank

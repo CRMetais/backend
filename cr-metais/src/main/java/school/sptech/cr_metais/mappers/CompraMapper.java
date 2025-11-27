@@ -34,7 +34,7 @@ public class CompraMapper {
         CompraResponseDto dto = new CompraResponseDto();
 
         dto.setDataCompra(entidade.getDataCompra());
-        dto.setIdFornecedor(entidade.getIdConta());
+        dto.setIdFornecedor(entidade.getIdCompra());
         return dto;
     }
 

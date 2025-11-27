@@ -9,6 +9,7 @@ public class PrecoProdutoTabela {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_preco_produto_tabela")
     private Integer idPrecoProdutoTabela;
 
     @ManyToOne

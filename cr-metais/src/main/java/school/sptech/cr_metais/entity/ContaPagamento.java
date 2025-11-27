@@ -12,7 +12,7 @@ public class ContaPagamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idconta_pagamento")
+    @Column(name = "id_conta_pagamento")
     private Integer idContaPagamento;
 
     @Column(name = "pix")
