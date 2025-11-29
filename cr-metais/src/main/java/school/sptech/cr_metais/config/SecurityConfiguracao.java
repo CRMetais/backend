@@ -55,7 +55,8 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/usuarios", HttpMethod.POST.name()),
             new AntPathRequestMatcher("/h2-console/**"),
             new AntPathRequestMatcher("/h2-console/**/**"),
-            new AntPathRequestMatcher("/error/**")
+            new AntPathRequestMatcher("/error/**"),
+            new AntPathRequestMatcher("/usuarios/**")
     };
     private static final AntPathRequestMatcher[] URLS_ADMIN = {
             new AntPathRequestMatcher("/**"),

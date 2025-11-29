@@ -5,6 +5,8 @@ import school.sptech.cr_metais.entity.PrecoProdutoTabela;
 import school.sptech.cr_metais.entity.Produto;
 import school.sptech.cr_metais.entity.TabelaPreco;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
+import school.sptech.cr_metais.exception.EntidadeNulaException;
+import school.sptech.cr_metais.exception.EntidadeValorAbaixoDeZeroException;
 import school.sptech.cr_metais.mappers.PrecoProdutoTabelaMapper;
 import school.sptech.cr_metais.repository.PrecoProdutoTabelaRepository;
 import school.sptech.cr_metais.repository.ProdutoRepository;
@@ -43,6 +45,14 @@ public class PrecoProdutoTabelaService {
 
         if (produtoOpt.isEmpty()){
             throw new EntidadeNaoEncontradaException("Produto não encontrado");
+        }
+
+        if (precoProdutoTabelaPraCadastro.getPrecoProduto() == null){
+            throw new EntidadeNulaException("O preço do produto não pode ser nulo");
+        }
+
+        if (precoProdutoTabelaPraCadastro.getPrecoProduto() <= 0){
+            throw new EntidadeValorAbaixoDeZeroException("O preço do produto deve ser maior que zero");
         }
 
         TabelaPreco tabelaPreco = tabelaPrecoOpt.get();

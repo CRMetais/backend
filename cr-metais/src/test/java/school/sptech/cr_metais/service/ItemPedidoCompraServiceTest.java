@@ -1,4 +1,4 @@
-package school.sptech.cr_metais.entity;
+package school.sptech.cr_metais.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -8,6 +8,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import school.sptech.cr_metais.entity.Compra;
+import school.sptech.cr_metais.entity.ItemPedidoCompra;
+import school.sptech.cr_metais.entity.Produto;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.exception.EntidadeNulaException;
 import school.sptech.cr_metais.exception.EntidadeValorAbaixoDeZeroException;
@@ -23,8 +26,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith({MockitoExtension.class})
-@DisplayName("Testes da ItemPedidoCompra")
-public class ItemPedidoCompraTest {
+@DisplayName("Testes da ItemPedidoCompraService")
+public class ItemPedidoCompraServiceTest {
 
     @Mock
     private ItemPedidoCompraRepository itemPedidoCompraRepository;
@@ -98,7 +101,7 @@ public class ItemPedidoCompraTest {
             EntidadeNaoEncontradaException exception = assertThrows(
                     EntidadeNaoEncontradaException.class,
                     () -> service.cadastrar(itemPedidoCompra, 10, 100),
-                    "Deveria lançar exceção se o prpdito não existir"
+                    "Deveria lançar exceção se o produto não existir"
             );
             assertEquals("Produto não encontrado", exception.getMessage());
         }
