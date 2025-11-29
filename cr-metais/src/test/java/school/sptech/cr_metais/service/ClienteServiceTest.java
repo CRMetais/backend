@@ -1,4 +1,4 @@
-package school.sptech.cr_metais.entity;
+package school.sptech.cr_metais.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -10,13 +10,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import school.sptech.cr_metais.dto.Cliente.ClienteCadastroDTO;
 import school.sptech.cr_metais.dto.Cliente.ClienteResponseDTO;
+import school.sptech.cr_metais.entity.Cliente;
+import school.sptech.cr_metais.entity.Endereco;
+import school.sptech.cr_metais.entity.TabelaPreco;
 import school.sptech.cr_metais.exception.EntidadeInvalidaException;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.mappers.ClienteMapper;
 import school.sptech.cr_metais.repository.ClienteRepository;
 import school.sptech.cr_metais.repository.EnderecoRepository;
 import school.sptech.cr_metais.repository.TabelaPrecoRepository;
-import school.sptech.cr_metais.service.ClienteService;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +26,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-class ClienteTest {
+class ClienteServiceTest {
 
     @InjectMocks
     private ClienteService clienteService;
@@ -125,9 +127,7 @@ class ClienteTest {
             );
         }
 
-        // ---------------------------------------------------------
-        // 2. TABELA DE PREÇO NÃO ENCONTRADA
-        // ---------------------------------------------------------
+
         @Test
         @DisplayName("Quando a tabela de preço não existir deve lançar EntidadeNaoEncontradaException")
         void deveFalharQuandoTabelaPrecoNaoExiste() {
@@ -154,9 +154,6 @@ class ClienteTest {
             );
         }
 
-        // ---------------------------------------------------------
-        // 3. CNPJ INVÁLIDO
-        // ---------------------------------------------------------
         @Test
         @DisplayName("Deve falhar quando CNPJ é inválido")
         void deveFalharQuandoCnpjInvalido() {
@@ -305,16 +302,13 @@ class ClienteTest {
         @DisplayName("Deve atualizar quando o cliente existe")
         void deveAtualizarQuandoExiste() {
 
-            // id que será atualizado
             int id = 21;
 
-            // DTO com os novos dados
             ClienteCadastroDTO dto = new ClienteCadastroDTO();
             dto.setCnpj("12.345.678/0001-10");
             dto.setRazaoSocial("Empresa Atualizada");
             dto.setTelContato("11999999999");
 
-            // Objeto existente no banco
             Cliente clienteExistente = new Cliente();
             clienteExistente.setIdCliente(id);
             clienteExistente.setCnpj("00.000.000/0001-00");
@@ -345,11 +339,6 @@ class ClienteTest {
             assertEquals("11999999999", resposta.getTelContato());
         }
 
-
-
-
-
-
         @Test
         @DisplayName("Deve lançar exceção quando o cliente não existe")
         void deveLancarExcessaoQuandoNaoExiste() {
@@ -371,8 +360,6 @@ class ClienteTest {
 
             assertEquals("Cliente não encontrado", ex.getMessage());
         }
-
-
     }
 }
 

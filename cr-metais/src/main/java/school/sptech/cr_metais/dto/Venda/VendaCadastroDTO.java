@@ -18,6 +18,10 @@ public class VendaCadastroDTO {
         this.datavenda = datavenda;
     }
 
+    public VendaCadastroDTO() {
+
+    }
+
     public Integer getIdCliente() {
         return idCliente;
     }
