@@ -15,12 +15,13 @@ public class ClienteResponseDTO {
     @Schema(description = "Telefone de contato do cliente", example = "1132303223")
     private String telContato;
 
-    public ClienteResponseDTO(Integer idCliente, String cnpj, String razaoSocial, String telContato) {
+    public ClienteResponseDTO(Integer idCliente,String cnpj, String razaoSocial, String telContato) {
         this.idCliente = idCliente;
-        this.cnpj = cnpj;
         this.razaoSocial = razaoSocial;
+        this.cnpj = cnpj;
         this.telContato = telContato;
     }
+
 
     public Integer getIdCliente() {
         return idCliente;

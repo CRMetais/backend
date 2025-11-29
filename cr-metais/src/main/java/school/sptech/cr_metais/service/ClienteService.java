@@ -10,6 +10,7 @@ import school.sptech.cr_metais.entity.Endereco;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.entity.TabelaPreco;
 import school.sptech.cr_metais.exception.EntidadeConflitoException;
+import school.sptech.cr_metais.exception.EntidadeInvalidaException;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.mappers.ClienteMapper;
 import school.sptech.cr_metais.repository.ClienteRepository;
@@ -36,20 +37,24 @@ public class ClienteService {
 
     public Cliente cadastrar(ClienteCadastroDTO dto) {
 
+        if (dto.getCnpj() == null || dto.getCnpj().length() < 14) {
+            throw new EntidadeInvalidaException("CNPJ inválido");
+        }
 
-        Cliente novoCliente = clienteMapper.toEntity(dto);
+        Cliente cliente = clienteMapper.toEntity(dto);
 
         Endereco endereco = enderecoRepository.findById(dto.getIdEndereco())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Endereço não encontrado"));
 
-        TabelaPreco tabela = tabelaPrecoRepository.findById(dto.getIdTabelaPreco())
+        TabelaPreco tabelaPreco = tabelaPrecoRepository.findById(dto.getIdTabelaPreco())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Tabela de preço não encontrada"));
-        novoCliente.setTabelaPreco(tabela);
 
-        novoCliente.setEndereco(endereco);
+        cliente.setEndereco(endereco);
+        cliente.setTabelaPreco(tabelaPreco);
 
-        return cRepository.save(novoCliente);
+        return cRepository.save(cliente);
     }
+
 
     public List<ClienteResponseDTO> listar() {
         return cRepository.findAll()
