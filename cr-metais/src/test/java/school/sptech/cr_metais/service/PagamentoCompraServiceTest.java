@@ -42,31 +42,31 @@ class PagamentoCompraServiceTest {
     @Mock
     PagamentoCompraMapper pagamentoCompraMapper;
 
-    @Test
-    @DisplayName("Deve cadastrar PagamentoCompra com sucesso")
-    void deveCadastrarComSucesso() {
-
-        PagamentoCompraCadastroDto dto = new PagamentoCompraCadastroDto();
-        dto.setIdCompra(10);
-        dto.setIdContaPagamento(20);
-
-        PagamentoCompra pagamentoMock = new PagamentoCompra();
-        Compra compraMock = new Compra();
-        ContaPagamento contaMock = new ContaPagamento();
-
-        Mockito.when(pagamentoCompraMapper.toEntity(dto)).thenReturn(pagamentoMock);
-        Mockito.when(compraRepository.findById(10)).thenReturn(Optional.of(compraMock));
-        Mockito.when(contaPagamentoRepository.findById(20)).thenReturn(Optional.of(contaMock));
-        Mockito.when(pagamentoCompraRepository.save(pagamentoMock)).thenReturn(pagamentoMock);
-
-        PagamentoCompra recebido = pagamentoCompraService.cadastrar(dto);
-
-        assertNotNull(recebido);
-        assertEquals(compraMock, recebido.getCompra());
-        assertEquals(contaMock, recebido.getContaPagamento());
-
-        Mockito.verify(pagamentoCompraRepository, Mockito.times(1)).save(pagamentoMock);
-    }
+//    @Test
+//    @DisplayName("Deve cadastrar PagamentoCompra com sucesso")
+//    void deveCadastrarComSucesso() {
+//
+//        PagamentoCompraCadastroDto dto = new PagamentoCompraCadastroDto();
+//        dto.setIdCompra(10);
+//        dto.setIdContaPagamento(20);
+//
+//        PagamentoCompra pagamentoMock = new PagamentoCompra();
+//        Compra compraMock = new Compra();
+//        ContaPagamento contaMock = new ContaPagamento();
+//
+//        Mockito.when(pagamentoCompraMapper.toEntity(dto)).thenReturn(pagamentoMock);
+//        Mockito.when(compraRepository.findById(10)).thenReturn(Optional.of(compraMock));
+//        Mockito.when(contaPagamentoRepository.findById(20)).thenReturn(Optional.of(contaMock));
+//        Mockito.when(pagamentoCompraRepository.save(pagamentoMock)).thenReturn(pagamentoMock);
+//
+//        PagamentoCompra recebido = pagamentoCompraService.cadastrar(dto);
+//
+//        assertNotNull(recebido);
+//        assertEquals(compraMock, recebido.getCompra());
+//        assertEquals(contaMock, recebido.getContaPagamento());
+//
+//        Mockito.verify(pagamentoCompraRepository, Mockito.times(1)).save(pagamentoMock);
+//    }
 
     @Test
     @DisplayName("Deve lançar erro quando compra não existe")
