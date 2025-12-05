@@ -2,6 +2,7 @@ package school.sptech.cr_metais.service;
 
 import org.springframework.stereotype.Service;
 import school.sptech.cr_metais.dto.Compra.CompraCadastroDto;
+import school.sptech.cr_metais.dto.Compra.CompraResponseDto;
 import school.sptech.cr_metais.entity.Compra;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
@@ -24,20 +25,50 @@ public class CompraService {
         this.fornecedorRepository = fornecedorRepository;
     }
 
-    public Compra cadastrar(CompraCadastroDto dto){
+    public CompraResponseDto cadastrar(CompraCadastroDto dto){
+
+        Fornecedor fornecedor = fornecedorRepository.findById(dto.getIdFornecedor())
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("compra não encontrado"));
 
         Compra compra = compraMapper.toEntity(dto);
+        compra.setFornecedor(fornecedor);
+        compra = compraRepository.save(compra);
+
+        return CompraMapper.toResponse(compra);
+    }
+
+    public List<CompraResponseDto> listar(){
+        return compraRepository.findAll().stream().map(CompraMapper::toResponse).toList();
+    }
+
+    public CompraResponseDto buscarPorId(Integer id){
+
+        Compra compra = compraRepository.findById(id)
+                .orElseThrow(()-> new EntidadeNaoEncontradaException("Compra não encontrada"));
+        return CompraMapper.toResponse(compra);
+
+    }
+
+    public void deletar(Integer id){
+        if (!compraRepository.existsById(id)){
+            throw new EntidadeNaoEncontradaException("Compra não encontrada");
+        }
+        compraRepository.deleteById(id);
+    }
+
+    public CompraResponseDto atualizar(Integer id, CompraCadastroDto dto){
+
+        Compra compraAtualizar = compraRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Compra não encontrada"));
 
         Fornecedor fornecedor = fornecedorRepository.findById(dto.getIdFornecedor())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Fornecedor não encontrado"));
-        compra.setFornecedor(fornecedor);
 
-        return compraRepository.save(compra);
-    }
+        compraAtualizar.setFornecedor(fornecedor);
+        compraAtualizar.setDataCompra(dto.getDataCompra());
 
-    public List<Compra> listar(){
-
-        return compraRepository.findAll();
+        Compra compraAtualzada = compraRepository.save(compraAtualizar);
+        return CompraMapper.toResponse(compraAtualzada);
 
     }
 
