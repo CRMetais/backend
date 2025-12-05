@@ -8,17 +8,26 @@ import java.util.Date;
 public class PagamentoCompraResponseDto {
 
     // Fica de presente
-
+    private Integer idPagamentoCompra;
     private LocalDate dataPagamentoCompra;
     private ContaPagamento contaPagamento;
 
 
-    public PagamentoCompraResponseDto(LocalDate dataPagamentoCompra, ContaPagamento contaPagamento) {
+    public PagamentoCompraResponseDto(Integer idPagamentoCompra, LocalDate dataPagamentoCompra, ContaPagamento contaPagamento) {
+        this.idPagamentoCompra = idPagamentoCompra;
         this.dataPagamentoCompra = dataPagamentoCompra;
         this.contaPagamento = contaPagamento;
     }
 
     public PagamentoCompraResponseDto() {
+    }
+
+    public Integer getIdPagamentoCompra() {
+        return idPagamentoCompra;
+    }
+
+    public void setIdPagamentoCompra(Integer idPagamentoCompra) {
+        this.idPagamentoCompra = idPagamentoCompra;
     }
 
     public LocalDate getDataPagamentoCompra() {

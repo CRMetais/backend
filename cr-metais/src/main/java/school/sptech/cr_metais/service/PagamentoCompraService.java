@@ -3,6 +3,7 @@ package school.sptech.cr_metais.service;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import school.sptech.cr_metais.dto.PagamentoCompra.PagamentoCompraCadastroDto;
+import school.sptech.cr_metais.dto.PagamentoCompra.PagamentoCompraResponseDto;
 import school.sptech.cr_metais.entity.Compra;
 import school.sptech.cr_metais.entity.ContaPagamento;
 import school.sptech.cr_metais.entity.PagamentoCompra;
@@ -29,27 +30,44 @@ public class PagamentoCompraService {
         this.compraRepository = compraRepository;
     }
 
-    public PagamentoCompra cadastrar(PagamentoCompraCadastroDto dto) {
+    public PagamentoCompraResponseDto cadastrar(@Valid PagamentoCompraCadastroDto dto) {
 
-        PagamentoCompra pagamentoCompra = mapper.toEntity(dto);
+        PagamentoCompra pagamento = PagamentoCompraMapper.toEntity(dto);
 
         Compra compra = compraRepository.findById(dto.getIdCompra())
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Compra não encontada"));
-        pagamentoCompra.setCompra(compra);
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Pagamento Compra não encontrada"));
+        pagamento.setCompra(compra);
 
+        ContaPagamento conta = contaPagamentoRepository.findById(dto.getIdContaPagamento())
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Pagamento Compra de pagamento não encontrada"));
+        pagamento.setContaPagamento(conta);
 
-        ContaPagamento contaPagamento = contaPagamentoRepository.findById(dto.getIdContaPagamento())
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Conta de pagamento não encontada"));
-        pagamentoCompra.setContaPagamento(contaPagamento);
+        PagamentoCompra salvo = repository.save(pagamento);
 
-        return repository.save(pagamentoCompra);
-
+        return PagamentoCompraMapper.toResponse(salvo);
     }
 
-    public List<PagamentoCompra> listar(){
+    public  List<PagamentoCompraResponseDto> listar() {
+        return repository.findAll()
+                .stream()
+                .map(PagamentoCompraMapper::toResponse)
+                .toList();
+    }
 
-        return repository.findAll();
+    public PagamentoCompraResponseDto buscarPorId(Integer id) {
 
+        PagamentoCompra pagamento = repository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Pagamento não encontrado"));
+
+        return PagamentoCompraMapper.toResponse(pagamento);
+    }
+
+    public void deletar(Integer id) {
+
+        if (!repository.existsById(id)) {
+            throw new EntidadeNaoEncontradaException("Pagamento não encontrado");
+        }
+        repository.deleteById(id);
     }
 
 }

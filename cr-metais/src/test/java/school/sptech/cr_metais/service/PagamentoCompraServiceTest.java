@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import school.sptech.cr_metais.dto.PagamentoCompra.PagamentoCompraCadastroDto;
+import school.sptech.cr_metais.dto.PagamentoCompra.PagamentoCompraResponseDto;
 import school.sptech.cr_metais.entity.Compra;
 import school.sptech.cr_metais.entity.ContaPagamento;
 import school.sptech.cr_metais.entity.PagamentoCompra;
@@ -18,6 +19,7 @@ import school.sptech.cr_metais.repository.ContaPagamentoRepository;
 import school.sptech.cr_metais.repository.PagamentoCompraRepository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +29,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class PagamentoCompraServiceTest {
 
+
     @InjectMocks
-    PagamentoCompraService pagamentoCompraService;
+    PagamentoCompraService service;
+
+    @Mock
+    PagamentoCompraRepository repository;
 
     @Mock
     CompraRepository compraRepository;
@@ -37,103 +43,80 @@ class PagamentoCompraServiceTest {
     ContaPagamentoRepository contaPagamentoRepository;
 
     @Mock
-    PagamentoCompraRepository pagamentoCompraRepository;
-
-    @Mock
-    PagamentoCompraMapper pagamentoCompraMapper;
-
-//    @Test
-//    @DisplayName("Deve cadastrar PagamentoCompra com sucesso")
-//    void deveCadastrarComSucesso() {
-//
-//        PagamentoCompraCadastroDto dto = new PagamentoCompraCadastroDto();
-//        dto.setIdCompra(10);
-//        dto.setIdContaPagamento(20);
-//
-//        PagamentoCompra pagamentoMock = new PagamentoCompra();
-//        Compra compraMock = new Compra();
-//        ContaPagamento contaMock = new ContaPagamento();
-//
-//        Mockito.when(pagamentoCompraMapper.toEntity(dto)).thenReturn(pagamentoMock);
-//        Mockito.when(compraRepository.findById(10)).thenReturn(Optional.of(compraMock));
-//        Mockito.when(contaPagamentoRepository.findById(20)).thenReturn(Optional.of(contaMock));
-//        Mockito.when(pagamentoCompraRepository.save(pagamentoMock)).thenReturn(pagamentoMock);
-//
-//        PagamentoCompra recebido = pagamentoCompraService.cadastrar(dto);
-//
-//        assertNotNull(recebido);
-//        assertEquals(compraMock, recebido.getCompra());
-//        assertEquals(contaMock, recebido.getContaPagamento());
-//
-//        Mockito.verify(pagamentoCompraRepository, Mockito.times(1)).save(pagamentoMock);
-//    }
+    PagamentoCompraMapper mapper;
 
     @Test
-    @DisplayName("Deve lançar erro quando compra não existe")
-    void deveLancarErroCompraNaoEncontrada() {
+    @DisplayName("Deve retornar lista vazia")
+    void deveRetornarListaVaziaTest() {
+
+        List<PagamentoCompra> lista = new ArrayList<>();
+        Mockito.when(repository.findAll()).thenReturn(lista);
+
+        List<PagamentoCompraResponseDto> recebido = service.listar();
+
+        assertNotNull(recebido);
+        assertTrue(recebido.isEmpty());
+    }
+
+    @Test
+    @DisplayName("Deve lançar erro ao cadastrar quando compra não existe")
+    void deveLancarErroCadastrarCompraInexistenteTest() {
 
         PagamentoCompraCadastroDto dto = new PagamentoCompraCadastroDto();
-        dto.setIdCompra(99); // inexistente
+        dto.setIdCompra(1);
+        dto.setIdContaPagamento(10);
 
-        Mockito.when(compraRepository.findById(99)).thenReturn(Optional.empty());
+        Mockito.when(compraRepository.findById(1)).thenReturn(Optional.empty());
 
-        assertThrows(
-                EntidadeNaoEncontradaException.class,
-                () -> pagamentoCompraService.cadastrar(dto)
-        );
+        assertThrows(EntidadeNaoEncontradaException.class,
+                () -> service.cadastrar(dto));
     }
 
-
     @Test
-    @DisplayName("Deve lançar erro quando conta pagamento não existe")
-    void deveLancarErroContaPagamentoNaoEncontrada() {
+    @DisplayName("Deve lançar erro ao cadastrar quando conta pagamento não existe")
+    void deveLancarErroCadastrarContaInexistenteTest() {
 
         PagamentoCompraCadastroDto dto = new PagamentoCompraCadastroDto();
-        dto.setIdCompra(10);
-        dto.setIdContaPagamento(99);
+        dto.setIdCompra(1);
+        dto.setIdContaPagamento(10);
 
-        Mockito.when(compraRepository.findById(10))
-                .thenReturn(Optional.of(new Compra()));
+        Compra compra = new Compra();
+        compra.setIdCompra(1);
 
-        Mockito.when(contaPagamentoRepository.findById(99))
-                .thenReturn(Optional.empty());
+        Mockito.when(compraRepository.findById(1)).thenReturn(Optional.of(compra));
+        Mockito.when(contaPagamentoRepository.findById(10)).thenReturn(Optional.empty());
 
-        assertThrows(
-                EntidadeNaoEncontradaException.class,
-                () -> pagamentoCompraService.cadastrar(dto)
-        );
+        assertThrows(EntidadeNaoEncontradaException.class,
+                () -> service.cadastrar(dto));
     }
 
     @Test
-    @DisplayName("Deve listar vazio")
-    void deveListarVazio() {
+    @DisplayName("Deve lançar erro ao buscar por ID inexistente")
+    void deveLancarErroBuscarPorIdTest() {
 
-        Mockito.when(pagamentoCompraRepository.findAll())
-                .thenReturn(Collections.emptyList());
+        Mockito.when(repository.findById(5)).thenReturn(Optional.empty());
 
-        List<PagamentoCompra> lista = pagamentoCompraService.listar();
-
-        assertNotNull(lista);
-        assertTrue(lista.isEmpty());
+        assertThrows(EntidadeNaoEncontradaException.class,
+                () -> service.buscarPorId(5));
     }
 
     @Test
-    @DisplayName("Deve retornar exatamente 3 pagamentos")
-    void deveListarTresPagamentos() {
+    @DisplayName("Deve deletar pagamento")
+    void deveDeletarTest() {
 
-        PagamentoCompra p1 = new PagamentoCompra(1, new Compra(), LocalDate.now(), new ContaPagamento());
-        PagamentoCompra p2 = new PagamentoCompra(2, new Compra(), LocalDate.now(), new ContaPagamento());
-        PagamentoCompra p3 = new PagamentoCompra(3, new Compra(), LocalDate.now(), new ContaPagamento());
+        Mockito.when(repository.existsById(3)).thenReturn(true);
 
-        List<PagamentoCompra> mockList = List.of(p1, p2, p3);
+        assertDoesNotThrow(() -> service.deletar(3));
+        Mockito.verify(repository).deleteById(3);
+    }
 
-        Mockito.when(pagamentoCompraRepository.findAll()).thenReturn(mockList);
+    @Test
+    @DisplayName("Deve lançar erro ao deletar ID inexistente")
+    void deveLancarErroDeletarTest() {
 
-        List<PagamentoCompra> recebido = pagamentoCompraService.listar();
+        Mockito.when(repository.existsById(3)).thenReturn(false);
 
-        assertEquals(3, recebido.size());
-        assertTrue(recebido.contains(p1));
-        assertTrue(recebido.contains(p2));
-        assertTrue(recebido.contains(p3));
+        assertThrows(EntidadeNaoEncontradaException.class,
+                () -> service.deletar(3));
     }
 }
