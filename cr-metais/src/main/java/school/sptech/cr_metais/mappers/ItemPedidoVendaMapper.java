@@ -22,7 +22,8 @@ public class ItemPedidoVendaMapper {
                 entity.getVenda(),
                 entity.getProduto(),
                 entity.getPesoKg(),
-                entity.getPrecoUnitario()
+                entity.getPrecoUnitario(),
+                entity.getRendimentoExtra()
         );
 
         return dto;

@@ -29,6 +29,9 @@ public class ItemPedidoCompra {
     @Positive
     private Double precoUnitario;
 
+    @Column(name = "rendimento")
+    private Double rendimento;
+
     public Integer getIdItemPedidoCompra() {
         return idItemPedidoCompra;
     }
@@ -67,5 +70,13 @@ public class ItemPedidoCompra {
 
     public void setPrecoUnitario(Double precoUnitario) {
         this.precoUnitario = precoUnitario;
+    }
+
+    public Double getRendimento() {
+        return rendimento;
+    }
+
+    public void setRendimento(Double rendimento) {
+        this.rendimento = rendimento;
     }
 }

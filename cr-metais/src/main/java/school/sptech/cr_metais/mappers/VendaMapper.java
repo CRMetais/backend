@@ -17,7 +17,6 @@ public class VendaMapper {
        return new VendaResponseDTO(
                v.getIdVenda(),
                v.getFkCliente(),
-               v.getFkTabelaPreco(),
                v.getDataVenda()
        );
     }

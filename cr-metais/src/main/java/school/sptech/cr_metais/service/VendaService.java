@@ -44,10 +44,6 @@ public class VendaService {
         Cliente cliente = clienteRepository.findById(dto.getIdCliente())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
 
-        TabelaPreco tabela = tabelaPrecoRepository.findById(dto.getIdTabelaPreco())
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Tabela de preço não encontrada"));
-        novaVenda.setFkTabelaPreco(tabela);
-
         novaVenda.setFkCliente(cliente);
 
         return vRepository.save(novaVenda);

@@ -11,13 +11,9 @@ public class VendaResponseDTO {
      @Schema(description = "Identificador da tabela", example = "1")
      private Integer idVenda;
 
-    @Schema(description = "Data da venda", example = "20/11/2024")
+    @Schema(description = "Cliente referente a venda", example = "Vital")
 
     private Cliente fkCliente;
-
-    @Schema(description = "Data da venda", example = "20/11/2024")
-
-    private TabelaPreco fkTabelaPreco;
 
     @Schema(description = "Data da venda", example = "20/11/2024")
 
@@ -26,10 +22,9 @@ public class VendaResponseDTO {
     public VendaResponseDTO() {
     }
 
-    public VendaResponseDTO(Integer idVenda, Cliente fkCliente, TabelaPreco fkTabelaPreco, LocalDate dataVenda) {
+    public VendaResponseDTO(Integer idVenda, Cliente fkCliente, LocalDate dataVenda) {
         this.idVenda = idVenda;
         this.fkCliente = fkCliente;
-        this.fkTabelaPreco = fkTabelaPreco;
         this.dataVenda = dataVenda;
     }
 
@@ -47,14 +42,6 @@ public class VendaResponseDTO {
 
     public void setFkCliente(Cliente fkCliente) {
         this.fkCliente = fkCliente;
-    }
-
-    public TabelaPreco getFkTabelaPreco() {
-        return fkTabelaPreco;
-    }
-
-    public void setFkTabelaPreco(TabelaPreco fkTabelaPreco) {
-        this.fkTabelaPreco = fkTabelaPreco;
     }
 
     public LocalDate getDataVenda() {

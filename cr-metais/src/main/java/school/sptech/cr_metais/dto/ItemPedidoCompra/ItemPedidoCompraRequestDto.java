@@ -5,9 +5,6 @@ import jakarta.validation.constraints.NotNull;
 public class ItemPedidoCompraRequestDto {
 
     @NotNull
-    private Integer idCompra;
-
-    @NotNull
     private Integer idProduto;
 
     @NotNull
@@ -17,18 +14,9 @@ public class ItemPedidoCompraRequestDto {
     private Double precoUnitario;
 
     public ItemPedidoCompraRequestDto(Integer idCompra, Integer idProduto, Double pesoKg, Double precoUnitario) {
-        this.idCompra = idCompra;
         this.idProduto = idProduto;
         this.pesoKg = pesoKg;
         this.precoUnitario = precoUnitario;
-    }
-
-    public Integer getIdCompra() {
-        return idCompra;
-    }
-
-    public void setIdCompra(Integer idCompra) {
-        this.idCompra = idCompra;
     }
 
     public Integer getIdProduto() {

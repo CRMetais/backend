@@ -24,12 +24,16 @@ public class ItemPedidoVendaResponseDto {
     @Schema(description = "Preço do item na venda", example = "4.30")
     private Double precoUnitario;
 
-    public ItemPedidoVendaResponseDto(Integer idItemVenda, Venda venda, Produto produto, Double pesoKg, Double precoUnitario) {
+    @Schema(description =  "Rendimento extra na venda do produto", example = "45.67")
+    private Double rendimentoExtra;
+
+    public ItemPedidoVendaResponseDto(Integer idItemVenda, Venda venda, Produto produto, Double pesoKg, Double precoUnitario, Double rendimentoExtra) {
         this.idItemVenda = idItemVenda;
         this.venda = venda;
         this.produto = produto;
         this.pesoKg = pesoKg;
         this.precoUnitario = precoUnitario;
+        this.rendimentoExtra = rendimentoExtra;
     }
 
     public Integer getIdItemVenda() {
@@ -70,5 +74,13 @@ public class ItemPedidoVendaResponseDto {
 
     public void setPrecoUnitario(Double precoUnitario) {
         this.precoUnitario = precoUnitario;
+    }
+
+    public Double getRendimentoExtra() {
+        return rendimentoExtra;
+    }
+
+    public void setRendimentoExtra(Double rendimentoExtra) {
+        this.rendimentoExtra = rendimentoExtra;
     }
 }

@@ -1,10 +1,13 @@
 package school.sptech.cr_metais.dto.Compra;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.cglib.core.Local;
+import school.sptech.cr_metais.dto.ItemPedidoCompra.ItemPedidoCompraRequestDto;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public class CompraCadastroDto {
 
@@ -13,13 +16,9 @@ public class CompraCadastroDto {
     @NotNull
     private Integer idFornecedor;
 
-    public CompraCadastroDto(LocalDate dataCompra, Integer idFornecedor) {
-        this.dataCompra = dataCompra;
-        this.idFornecedor = idFornecedor;
-    }
-
-    public CompraCadastroDto() {
-    }
+    @NotNull
+    @Size(min = 1)
+    private List<ItemPedidoCompraRequestDto> itens;
 
     public LocalDate getDataCompra() {
         return dataCompra;
@@ -35,5 +34,13 @@ public class CompraCadastroDto {
 
     public void setIdFornecedor(Integer idFornecedor) {
         this.idFornecedor = idFornecedor;
+    }
+
+    public List<ItemPedidoCompraRequestDto> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemPedidoCompraRequestDto> itens) {
+        this.itens = itens;
     }
 }

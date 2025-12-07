@@ -18,10 +18,6 @@ public class Venda {
     @JoinColumn(name = "fk_cliente")
     private Cliente fkCliente;
     @NotNull
-    @OneToOne
-    @JoinColumn(name = "fk_tabela_preco")
-    private TabelaPreco fkTabelaPreco;
-    @NotNull
     @Column(name = "data_venda")
     private LocalDate dataVenda;
 
@@ -39,14 +35,6 @@ public class Venda {
 
     public void setFkCliente(Cliente fkCliente) {
         this.fkCliente = fkCliente;
-    }
-
-    public TabelaPreco getFkTabelaPreco() {
-        return fkTabelaPreco;
-    }
-
-    public void setFkTabelaPreco(TabelaPreco fkTabelaPreco) {
-        this.fkTabelaPreco = fkTabelaPreco;
     }
 
     public LocalDate getDataVenda() {

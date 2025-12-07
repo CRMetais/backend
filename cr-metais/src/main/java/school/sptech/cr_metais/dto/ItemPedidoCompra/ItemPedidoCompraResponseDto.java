@@ -10,6 +10,7 @@ public class ItemPedidoCompraResponseDto {
     private Integer idProduto;
     private Double pesoKg;
     private Double precoUnitario;
+    private Double rendimento;
 
     public ItemPedidoCompraResponseDto() {
     }
@@ -52,5 +53,13 @@ public class ItemPedidoCompraResponseDto {
 
     public void setPrecoUnitario(Double precoUnitario) {
         this.precoUnitario = precoUnitario;
+    }
+
+    public Double getRendimento() {
+        return rendimento;
+    }
+
+    public void setRendimento(Double rendimento) {
+        this.rendimento = rendimento;
     }
 }

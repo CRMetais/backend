@@ -3,6 +3,8 @@ package school.sptech.cr_metais.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Compra {
@@ -19,14 +21,8 @@ public class Compra {
     @Column(name = "data_compra")
     private LocalDate dataCompra;
 
-    public Compra(Integer idConta, Fornecedor fornecedor, LocalDate dataCompra) {
-        this.idCompra = idConta;
-        this.fornecedor = fornecedor;
-        this.dataCompra = dataCompra;
-    }
-
-    public Compra() {
-    }
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemPedidoCompra> itens = new ArrayList<>();
 
     public Integer getIdCompra() {
         return idCompra;
@@ -50,5 +46,13 @@ public class Compra {
 
     public void setDataCompra(LocalDate dataCompra) {
         this.dataCompra = dataCompra;
+    }
+
+    public List<ItemPedidoCompra> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemPedidoCompra> itens) {
+        this.itens = itens;
     }
 }

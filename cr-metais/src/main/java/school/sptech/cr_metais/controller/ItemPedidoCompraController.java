@@ -28,24 +28,7 @@ public class ItemPedidoCompraController {
         this.itemPedidoCompraService = itemPedidoCompraService;
     }
 
-    @Operation(
-            summary = "Cadastrar um novo item de compra",
-            description = "Cria um item com base nas informações fornecidas no corpo da requisição."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Item cadastrado com sucesso",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ItemPedidoVenda.class))),
-            @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content)
-    })
-    @PostMapping
-    public ResponseEntity<ItemPedidoCompraResponseDto> cadastrar(@RequestBody ItemPedidoCompraRequestDto dto){
 
-        ItemPedidoCompra itemParaRegistrar = ItemPedidoCompraMapper.toEntity(dto);
-        ItemPedidoCompra itemRegistrado = itemPedidoCompraService.cadastrar(itemParaRegistrar, dto.getIdCompra(), dto.getIdProduto());
-        ItemPedidoCompraResponseDto response = ItemPedidoCompraMapper.toResponse(itemRegistrado);
-        return ResponseEntity.status(201).body(response);
-    }
 
     @Operation(
             summary = "Buscar item por ID",

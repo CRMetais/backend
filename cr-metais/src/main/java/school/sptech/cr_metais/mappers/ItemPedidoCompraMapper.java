@@ -19,10 +19,7 @@ public class ItemPedidoCompraMapper {
         }
 
         ItemPedidoCompra item = new ItemPedidoCompra();
-
-        Compra compra = new Compra();
-        compra.setIdCompra(dto.getIdCompra());
-        item.setCompra(compra);
+        
 
         Produto produto = new Produto();
         produto.setIdProduto(dto.getIdProduto());
@@ -47,6 +44,7 @@ public class ItemPedidoCompraMapper {
         dto.setPrecoUnitario(item.getPrecoUnitario());
         dto.setIdCompra(item.getCompra().getIdCompra());
         dto.setIdProduto(item.getProduto().getIdProduto());
+        dto.setRendimento(item.getRendimento());
 
         return dto;
     }
