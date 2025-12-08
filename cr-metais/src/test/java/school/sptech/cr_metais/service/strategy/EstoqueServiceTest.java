@@ -14,6 +14,7 @@ import school.sptech.cr_metais.entity.Estoque;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.mappers.EstoqueMapper;
 import school.sptech.cr_metais.repository.EstoqueRepository;
+import school.sptech.cr_metais.service.EstoqueService;
 
 import java.util.List;
 import java.util.Optional;

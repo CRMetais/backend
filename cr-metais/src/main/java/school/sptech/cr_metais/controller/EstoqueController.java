@@ -13,7 +13,7 @@ import school.sptech.cr_metais.dto.Estoque.EstoqueResponseDto;
 import school.sptech.cr_metais.entity.Estoque;
 import school.sptech.cr_metais.entity.ItemPedidoVenda;
 import school.sptech.cr_metais.mappers.EstoqueMapper;
-import school.sptech.cr_metais.service.strategy.EstoqueService;
+import school.sptech.cr_metais.service.EstoqueService;
 
 import java.util.List;
 

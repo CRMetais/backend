@@ -1,4 +1,4 @@
-package school.sptech.cr_metais.service.strategy;
+package school.sptech.cr_metais.service;
 
 import org.springframework.stereotype.Service;
 import school.sptech.cr_metais.entity.Estoque;

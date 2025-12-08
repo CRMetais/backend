@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import school.sptech.cr_metais.dto.Compra.CompraCadastroDto;
 import school.sptech.cr_metais.dto.Compra.CompraResponseDto;
 import school.sptech.cr_metais.entity.Compra;
+import school.sptech.cr_metais.entity.Fornecedor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +32,11 @@ public class CompraMapper {
         if (entidade == null) {
             return null;
         }
+
         CompraResponseDto dto = new CompraResponseDto();
 
         dto.setDataCompra(entidade.getDataCompra());
-        dto.setIdFornecedor(entidade.getIdCompra());
+        dto.setIdFornecedor(entidade.getFornecedor().getIdFornecedor());
         return dto;
     }
 
