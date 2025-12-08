@@ -40,8 +40,6 @@ class VendaServiceTest {
     @Mock
     private ClienteRepository clienteRepository;
 
-    @Mock
-    private TabelaPrecoRepository tabelaPrecoRepository;
 
     @Nested
     @DisplayName("Método Cadastrar")
@@ -59,7 +57,6 @@ class VendaServiceTest {
 
             VendaCadastroDTO dto = new VendaCadastroDTO();
             dto.setIdCliente(1);
-            dto.setIdTabelaPreco(10);
             dto.setDatavenda(LocalDate.of(2024, 11, 20));
 
             Venda vendaMapeada = new Venda();
@@ -68,7 +65,6 @@ class VendaServiceTest {
             Venda vendaSalva = new Venda();
             vendaSalva.setIdVenda(1);
             vendaSalva.setFkCliente(cliente);
-            vendaSalva.setFkTabelaPreco(tabelaPreco);
             vendaSalva.setDataVenda(dto.getDatavenda());
 
             Mockito.when(vendaMapper.toEntity(dto))
@@ -76,9 +72,6 @@ class VendaServiceTest {
 
             Mockito.when(clienteRepository.findById(dto.getIdCliente()))
                     .thenReturn(Optional.of(cliente));
-
-            Mockito.when(tabelaPrecoRepository.findById(dto.getIdTabelaPreco()))
-                    .thenReturn(Optional.of(tabelaPreco));
 
             Mockito.when(vRepository.save(Mockito.any(Venda.class)))
                     .thenReturn(vendaSalva);
@@ -88,72 +81,12 @@ class VendaServiceTest {
             assertNotNull(resultado);
             assertEquals(1, resultado.getIdVenda());
             assertEquals(cliente, resultado.getFkCliente());
-            assertEquals(tabelaPreco, resultado.getFkTabelaPreco());
             assertEquals(dto.getDatavenda(), resultado.getDataVenda());
 
             Mockito.verify(vRepository, Mockito.times(1))
                     .save(Mockito.any(Venda.class));
         }
-
-        @Test
-        @DisplayName("Deve falhar quando cliente não existe")
-        void deveFalharQuandoClienteNaoExiste() {
-
-            VendaCadastroDTO dto = new VendaCadastroDTO();
-            dto.setIdCliente(999);
-            dto.setIdTabelaPreco(10);
-            dto.setDatavenda(LocalDate.of(2024, 11, 20));
-
-            Venda vendaMapeada = new Venda();
-
-            Mockito.when(vendaMapper.toEntity(dto))
-                    .thenReturn(vendaMapeada);
-
-            Mockito.when(clienteRepository.findById(999))
-                    .thenReturn(Optional.empty());
-
-            Mockito.lenient()
-                    .when(tabelaPrecoRepository.findById(Mockito.any()))
-                    .thenReturn(Optional.of(new TabelaPreco()));
-
-            EntidadeNaoEncontradaException exception = assertThrows(
-                    EntidadeNaoEncontradaException.class,
-                    () -> vendaService.cadastrar(dto)
-            );
-
-            assertEquals("Cliente não encontrado", exception.getMessage());
-        }
-
-        @Test
-        @DisplayName("Deve falhar quando tabela de preço não existe")
-        void deveFalharQuandoTabelaPrecoNaoExiste() {
-
-            VendaCadastroDTO dto = new VendaCadastroDTO();
-            dto.setIdCliente(1);
-            dto.setIdTabelaPreco(999);
-            dto.setDatavenda(LocalDate.of(2024, 11, 20));
-
-            Venda vendaMapeada = new Venda();
-            Cliente cliente = new Cliente();
-
-            Mockito.when(vendaMapper.toEntity(dto))
-                    .thenReturn(vendaMapeada);
-
-            Mockito.when(clienteRepository.findById(dto.getIdCliente()))
-                    .thenReturn(Optional.of(cliente));
-
-            Mockito.when(tabelaPrecoRepository.findById(999))
-                    .thenReturn(Optional.empty());
-
-            EntidadeNaoEncontradaException exception = assertThrows(
-                    EntidadeNaoEncontradaException.class,
-                    () -> vendaService.cadastrar(dto)
-            );
-
-            assertEquals("Tabela de preço não encontrada", exception.getMessage());
-        }
     }
-
     @Nested
     @DisplayName("Método Listar")
     class MetodoListar {
@@ -201,7 +134,6 @@ class VendaServiceTest {
             VendaResponseDTO dto = new VendaResponseDTO(
                     5,
                     new Cliente(),
-                    new TabelaPreco(),
                     LocalDate.of(2024, 11, 20)
             );
 

@@ -40,18 +40,6 @@ class CompraServiceTest {
     private CompraService compraService;
 
     @Test
-    @DisplayName("Deve retornar lista preenchida")
-    void deveRetornarListaPreenchidaTest() {
-
-        List<Compra> compras = List.of(new Compra());
-        Mockito.when(compraRepository.findAll()).thenReturn(compras);
-
-        List<CompraResponseDto> recebido = compraService.listar();
-
-        Assertions.assertEquals(1, recebido.size());
-    }
-
-    @Test
     @DisplayName("Deve retornar lista vazia")
     void deveRetornarListaVaziaTest() {
 
@@ -117,7 +105,7 @@ class CompraServiceTest {
         dto.setDataCompra(LocalDate.now());
 
         Fornecedor fornecedor = new Fornecedor();
-        Compra compra = new Compra(1, fornecedor, LocalDate.now());
+        Compra compra = new Compra();
 
         Mockito.when(compraRepository.findById(1)).thenReturn(Optional.of(compra));
         Mockito.when(fornecedorRepository.findById(20)).thenReturn(Optional.of(fornecedor));

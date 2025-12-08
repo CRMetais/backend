@@ -36,6 +36,8 @@ public class ItemPedidoVendaResponseDto {
         this.rendimentoExtra = rendimentoExtra;
     }
 
+    public ItemPedidoVendaResponseDto (){};
+
     public Integer getIdItemVenda() {
         return idItemVenda;
     }

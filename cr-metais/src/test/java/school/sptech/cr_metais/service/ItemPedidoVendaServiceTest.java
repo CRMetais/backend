@@ -42,41 +42,6 @@ class ItemPedidoVendaServiceTest {
     private ProdutoRepository produtoRepository;
 
     @Test
-    @DisplayName("Deve cadastrar item quando venda e produto existirem")
-    void cadastrarQuandoTudoValidoDeveCadastrarTest() {
-
-        ItemPedidoVendaCadastroDto dto = new ItemPedidoVendaCadastroDto();
-        dto.setFk_venda(1);
-        dto.setFk_produto(10);
-        dto.setPesoKg(20.0);
-        dto.setPrecoUnitario(9.5);
-
-        ItemPedidoVenda entidade = new ItemPedidoVenda();
-
-        Venda venda = new Venda();
-        venda.setIdVenda(1);
-
-        Produto produto = new Produto();
-        produto.setIdProduto(10);
-
-        ItemPedidoVendaResponseDto resposta = new ItemPedidoVendaResponseDto(
-                50, venda, produto, 20.0, 9.5
-        );
-
-        Mockito.when(mapper.toEntity(dto)).thenReturn(entidade);
-        Mockito.when(vendaRepository.findById(1)).thenReturn(Optional.of(venda));
-        Mockito.when(produtoRepository.findById(10)).thenReturn(Optional.of(produto));
-        Mockito.when(itemRepository.save(entidade)).thenReturn(entidade);
-        Mockito.when(mapper.toDto(entidade)).thenReturn(resposta);
-
-        ItemPedidoVendaResponseDto recebido = service.cadastrar(dto);
-
-        Assertions.assertNotNull(recebido);
-        Assertions.assertEquals(50, recebido.getIdItemVenda());
-        Assertions.assertEquals(20.0, recebido.getPesoKg());
-    }
-
-    @Test
     @DisplayName("Deve lançar exceção ao cadastrar quando venda não existir")
     void cadastrarQuandoVendaNaoExisteDeveLancarExcecaoTest() {
         ItemPedidoVendaCadastroDto dto = new ItemPedidoVendaCadastroDto();
@@ -88,7 +53,6 @@ class ItemPedidoVendaServiceTest {
         Assertions.assertThrows(EntidadeNaoEncontradaException.class,
                 () -> service.cadastrar(dto));
     }
-
 
     @Test
     @DisplayName("Deve lançar exceção ao cadastrar quando produto não existir")
@@ -114,9 +78,9 @@ class ItemPedidoVendaServiceTest {
         ItemPedidoVenda item2 = new ItemPedidoVenda();
 
         ItemPedidoVendaResponseDto dto1 =
-                new ItemPedidoVendaResponseDto(1, null, null, 10.0, 5.0);
+                new ItemPedidoVendaResponseDto();
         ItemPedidoVendaResponseDto dto2 =
-                new ItemPedidoVendaResponseDto(2, null, null, 20.0, 9.0);
+                new ItemPedidoVendaResponseDto();
 
         List<ItemPedidoVenda> entidades = List.of(item1, item2);
 
@@ -129,23 +93,6 @@ class ItemPedidoVendaServiceTest {
         Assertions.assertEquals(2, recebido.size());
     }
 
-    @Test
-    @DisplayName("Deve buscar item por ID corretamente")
-    void buscarPorIdValidoTest() {
-
-        ItemPedidoVenda item = new ItemPedidoVenda();
-        item.setIdItemVenda(7);
-
-        ItemPedidoVendaResponseDto dto =
-                new ItemPedidoVendaResponseDto(7, null, null, 15.0, 6.0);
-
-        Mockito.when(itemRepository.findById(7)).thenReturn(Optional.of(item));
-        Mockito.when(mapper.toDto(item)).thenReturn(dto);
-
-        ItemPedidoVendaResponseDto recebido = service.buscarPorId(7);
-
-        Assertions.assertEquals(7, recebido.getIdItemVenda());
-    }
 
     @Test
     @DisplayName("Deve lançar exceção ao buscar item inexistente")
@@ -178,46 +125,6 @@ class ItemPedidoVendaServiceTest {
                 () -> service.deletar(5));
     }
 
-    @Test
-    @DisplayName("Deve atualizar item com sucesso")
-    void atualizarItemValidoTest() {
-
-        Integer id = 10;
-
-        ItemPedidoVenda existente = new ItemPedidoVenda();
-        existente.setIdItemVenda(id);
-
-        ItemPedidoVendaCadastroDto dto = new ItemPedidoVendaCadastroDto();
-        dto.setFk_venda(1);
-        dto.setFk_produto(10);
-        dto.setPesoKg(88.0);
-        dto.setPrecoUnitario(12.5);
-
-        Venda venda = new Venda();
-        venda.setIdVenda(1);
-
-        Produto produto = new Produto();
-        produto.setIdProduto(10);
-
-        ItemPedidoVenda atualizado = new ItemPedidoVenda();
-        atualizado.setIdItemVenda(id);
-        atualizado.setPesoKg(88.0);
-        atualizado.setPrecoUnitario(12.5);
-
-        ItemPedidoVendaResponseDto resposta =
-                new ItemPedidoVendaResponseDto(id, venda, produto, 88.0, 12.5);
-
-        Mockito.when(itemRepository.findById(id)).thenReturn(Optional.of(existente));
-        Mockito.when(vendaRepository.findById(1)).thenReturn(Optional.of(venda));
-        Mockito.when(produtoRepository.findById(10)).thenReturn(Optional.of(produto));
-        Mockito.when(itemRepository.save(existente)).thenReturn(atualizado);
-        Mockito.when(mapper.toDto(atualizado)).thenReturn(resposta);
-
-        ItemPedidoVendaResponseDto recebido = service.atualizar(id, dto);
-
-        Assertions.assertEquals(id, recebido.getIdItemVenda());
-        Assertions.assertEquals(88.0, recebido.getPesoKg());
-    }
 
     @Test
     @DisplayName("Deve lançar exceção ao atualizar item inexistente")

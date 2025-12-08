@@ -24,6 +24,15 @@ public class Compra {
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedidoCompra> itens = new ArrayList<>();
 
+    public Compra() {
+    }
+
+    public Compra(Fornecedor fornecedor, LocalDate dataCompra, List<ItemPedidoCompra> itens) {
+        this.fornecedor = fornecedor;
+        this.dataCompra = dataCompra;
+        this.itens = itens;
+    }
+
     public Integer getIdCompra() {
         return idCompra;
     }
