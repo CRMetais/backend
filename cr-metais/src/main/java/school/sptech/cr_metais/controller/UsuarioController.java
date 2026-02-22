@@ -11,10 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.cr_metais.dto.Usuario.UsuarioCriacaoDto;
-import school.sptech.cr_metais.dto.Usuario.UsuarioListarDto;
-import school.sptech.cr_metais.dto.Usuario.UsuarioLoginDto;
-import school.sptech.cr_metais.dto.Usuario.UsuarioTokenDto;
+import school.sptech.cr_metais.dto.Usuario.*;
 import school.sptech.cr_metais.entity.Usuario;
 import school.sptech.cr_metais.mappers.UsuarioMapper;
 import school.sptech.cr_metais.service.UsuarioService;
@@ -24,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/usuarios")
 @Tag(name = "Usuários")
+@CrossOrigin(origins = "http://localhost:5173")
 public class UsuarioController {
 
     @Autowired
@@ -67,8 +65,8 @@ public class UsuarioController {
     @GetMapping("/{id}")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer id) {
-       Usuario usuarioEncontrado = uService.buscarPorId(id);
-       return ResponseEntity.status(200).body(usuarioEncontrado);
+        Usuario usuarioEncontrado = uService.buscarPorId(id);
+        return ResponseEntity.status(200).body(usuarioEncontrado);
     }
 
     @Operation(summary = "Deletar usuário", description = "Remove um usuário pelo seu ID")
@@ -97,10 +95,12 @@ public class UsuarioController {
     })
     @PutMapping("/{id}")
     @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<Usuario> atualizar(@PathVariable Integer id, @RequestBody Usuario usuario){
-
-        Usuario usuarioAtualizado = uService.atualizar(id, usuario);
-        return ResponseEntity.status(200).body(usuarioAtualizado);
+    public ResponseEntity<Usuario> atualizar(
+            @PathVariable Integer id,
+            @RequestBody UsuarioAtualizacaoDto dto
+    ){
+        Usuario usuarioAtualizado = uService.atualizar(id, dto);
+        return ResponseEntity.ok(usuarioAtualizado);
     }
 
     @Operation(summary = "Login de usuário", description = "Autentica o usuário e retorna o token JWT")

@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import school.sptech.cr_metais.config.GerenciadorTokenJwt;
+import school.sptech.cr_metais.dto.Usuario.UsuarioAtualizacaoDto;
 import school.sptech.cr_metais.dto.Usuario.UsuarioListarDto;
 import school.sptech.cr_metais.mappers.UsuarioMapper;
 import school.sptech.cr_metais.dto.Usuario.UsuarioTokenDto;
@@ -48,16 +49,16 @@ public class UsuarioService {
         uRepository.deleteById(id);
     }
 
-    public Usuario atualizar(Integer id, Usuario usuarioAtualizado) {
-        Usuario usuarioExistente = uRepository.findById(id)
-                .orElseThrow(
-                        () -> new EntidadeNaoEncontradaException("Usuário não encontrado")
-                );
-        usuarioExistente.setNome(usuarioAtualizado.getNome());
-        usuarioExistente.setEmail(usuarioAtualizado.getEmail());
-        usuarioExistente.setSenha(usuarioAtualizado.getSenha());
+    public Usuario atualizar(Integer id, UsuarioAtualizacaoDto dto){
 
-        return uRepository.save(usuarioExistente);
+        Usuario usuarioExistente = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        usuarioExistente.setNome(dto.getNome());
+        usuarioExistente.setEmail(dto.getEmail());
+        usuarioExistente.setCargo(dto.getCargo());
+
+        return usuarioRepository.save(usuarioExistente);
     }
     public void criar(Usuario novoUsuario) {
 
