@@ -15,7 +15,7 @@ public interface ResumoRepository extends JpaRepository<Produto, Integer> {
         SELECT
             p.nome,
             SUM(i.pesoKg),
-            AVG(i.precoUnitario)
+            AVG(i.precoUnitario),
             SUM(i.pesoKg * i.precoUnitario)
         FROM ItemPedidoCompra i
         JOIN i.produto p
