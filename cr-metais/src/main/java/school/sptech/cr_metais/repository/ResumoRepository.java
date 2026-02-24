@@ -24,7 +24,7 @@ public interface ResumoRepository extends JpaRepository<Produto, Integer> {
     List<Object[]> buscarResumoProdutos();
 
     @Query(value = """
-        SELECT SUM (i.pesoKg * i.precoUnitario)
+        SELECT SUM (i.pesoKg * i.precoUnitario) 
         FROM ItemPedidoCompra i
             """) Double totalAplicado();
 

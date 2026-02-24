@@ -58,6 +58,7 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/error/**"),
             new AntPathRequestMatcher("/usuarios/**"),
             new AntPathRequestMatcher("/nota-fiscal/**")
+//            new AntPathRequestMatcher("/**")
     };
     private static final AntPathRequestMatcher[] URLS_ADMIN = {
             new AntPathRequestMatcher("/**"),
@@ -72,8 +73,8 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/preco-produtos-tabelas/**"),
             new AntPathRequestMatcher("/produtos/**"),
             new AntPathRequestMatcher("/tabelas-precos/**"),
-            new AntPathRequestMatcher("/vendas/**"),
-
+            new AntPathRequestMatcher("/vendas/**")
+//            new AntPathRequestMatcher("/**")
     };
 
     @Bean
