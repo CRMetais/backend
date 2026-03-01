@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import school.sptech.cr_metais.dto.TabelaPreco.FornecedorTabelaPrecoDto;
 import school.sptech.cr_metais.dto.TabelaPreco.TabelaPrecoCadastroDTO;
 import school.sptech.cr_metais.dto.TabelaPreco.TabelaPrecoResponseDTO;
 import school.sptech.cr_metais.entity.TabelaPreco;
@@ -73,6 +74,25 @@ public class TabelaPrecoController {
         return ResponseEntity.ok(all);
     }
 
+        @Operation(
+                        summary = "Listar fornecedores com tabela de preço",
+                        description = "Retorna fornecedores com dados básicos e o nome da tabela de preço associada."
+        )
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
+                        @ApiResponse(responseCode = "204", description = "Nenhum fornecedor encontrado", content = @Content)
+        })
+        @GetMapping("/fornecedores")
+        public ResponseEntity<List<FornecedorTabelaPrecoDto>> listarFornecedoresComTabelaPreco() {
+                List<FornecedorTabelaPrecoDto> fornecedores = tService.listarFornecedoresComTabelaPreco();
+
+                if (fornecedores.isEmpty()) {
+                        return ResponseEntity.status(204).build();
+                }
+
+                return ResponseEntity.ok(fornecedores);
+        }
+
 
     @Operation(
             summary = "Deletar tabela por ID",
@@ -83,7 +103,7 @@ public class TabelaPrecoController {
             @ApiResponse(responseCode = "404", description = "Tabela não encontrada", content = @Content)
     })
     // Deletar tabela por ID
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id){
         tService.deletar(id);
         return ResponseEntity.status(204).build();
@@ -101,7 +121,7 @@ public class TabelaPrecoController {
             @ApiResponse(responseCode = "404", description = "Tabela não encontrada", content = @Content)
     })
     // Buscar tabela por id
-    @GetMapping("/{id}")
+        @GetMapping("/{id:\\d+}")
     public ResponseEntity<TabelaPrecoResponseDTO> buscarPorId(@PathVariable Integer id) {
 
         TabelaPrecoResponseDTO dto = tService.buscarPorId(id);

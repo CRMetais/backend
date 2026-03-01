@@ -2,36 +2,27 @@ package school.sptech.cr_metais.dto.PrecoProdutoTabela;
 
 public class PrecoProdutoTabelaResponseDto {
 
-    private Integer idProdutoPrecoTabela;
-    private Integer idTabelaPreco;
-    private Integer idProduto;
+    private Integer fkTabelaPreco;
+    private Integer fkProduto;
     private Double precoProduto;
 
     public PrecoProdutoTabelaResponseDto() {
     }
 
-    public Integer getIdProdutoPrecoTabela() {
-        return idProdutoPrecoTabela;
+    public Integer getFkTabelaPreco() {
+        return fkTabelaPreco;
     }
 
-    public void setIdProdutoPrecoTabela(Integer idProdutoPrecoTabela) {
-        this.idProdutoPrecoTabela = idProdutoPrecoTabela;
+    public void setFkTabelaPreco(Integer fkTabelaPreco) {
+        this.fkTabelaPreco = fkTabelaPreco;
     }
 
-    public Integer getIdTabelaPreco() {
-        return idTabelaPreco;
+    public Integer getFkProduto() {
+        return fkProduto;
     }
 
-    public void setIdTabelaPreco(Integer idTabelaPreco) {
-        this.idTabelaPreco = idTabelaPreco;
-    }
-
-    public Integer getIdProduto() {
-        return idProduto;
-    }
-
-    public void setIdProduto(Integer idProduto) {
-        this.idProduto = idProduto;
+    public void setFkProduto(Integer fkProduto) {
+        this.fkProduto = fkProduto;
     }
 
     public Double getPrecoProduto() {

@@ -2,6 +2,7 @@ package school.sptech.cr_metais.service;
 
 import org.springframework.stereotype.Service;
 import school.sptech.cr_metais.dto.Fornecedor.FornecedorCadastroDto;
+import school.sptech.cr_metais.dto.Fornecedor.FornecedorTopRendimentoDto;
 import school.sptech.cr_metais.entity.Endereco;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.entity.TabelaPreco;
@@ -107,5 +108,21 @@ public class FornecedorService {
         resultado.add(lista.get(indice));
 
         return resultado;
+    }
+
+    public List<FornecedorTopRendimentoDto> listarTop10PorRendimento() {
+        List<Object[]> resultadoQuery = fRepository.buscarTop10FornecedoresPorRendimento();
+        List<FornecedorTopRendimentoDto> response = new ArrayList<>();
+
+        for (Object[] linha : resultadoQuery) {
+            FornecedorTopRendimentoDto dto = new FornecedorTopRendimentoDto();
+            dto.setIdFornecedor(((Number) linha[0]).intValue());
+            dto.setNome((String) linha[1]);
+            dto.setApelido((String) linha[2]);
+            dto.setTotalRendimento(linha[3] == null ? 0D : ((Number) linha[3]).doubleValue());
+            response.add(dto);
+        }
+
+        return response;
     }
 }

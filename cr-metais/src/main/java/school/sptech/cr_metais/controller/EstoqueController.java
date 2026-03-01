@@ -57,7 +57,7 @@ public class EstoqueController {
                             schema = @Schema(implementation = ItemPedidoVenda.class))),
             @ApiResponse(responseCode = "404", description = "Estoque não encontrado", content = @Content)
     })
-    @GetMapping("/{id}")
+        @GetMapping("/{id:\\d+}")
     public ResponseEntity<EstoqueResponseDto> buscarPorId(@PathVariable Integer id){
 
         Estoque estoque = estoqueService.buscarPorId(id);
@@ -99,7 +99,7 @@ public class EstoqueController {
                             schema = @Schema(implementation = ItemPedidoVenda.class))),
             @ApiResponse(responseCode = "404", description = "Estoque não encontrado", content = @Content)
     })
-    @PutMapping("/{id}")
+        @PutMapping("/{id:\\d+}")
     public ResponseEntity<EstoqueResponseDto> atualizar(@PathVariable Integer id, @RequestBody EstoqueRequestDto dto){
 
         Estoque entity = EstoqueMapper.toEntity(dto);
@@ -118,7 +118,7 @@ public class EstoqueController {
             @ApiResponse(responseCode = "204", description = "Estoque deletado com sucesso", content = @Content),
             @ApiResponse(responseCode = "404", description = "Estoque não encontrado", content = @Content)
     })
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id){
         estoqueService.deletarPorId(id);
 

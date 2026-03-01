@@ -75,7 +75,7 @@ public class PagamentoCompraController {
             @ApiResponse(responseCode = "204", description = "Pagamento de Compra deletada com sucesso", content = @Content),
             @ApiResponse(responseCode = "404", description = "Pagamento de Compra não encontrada", content = @Content)
     })
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         pagCompra.deletar(id);
         return ResponseEntity.status(204).build();

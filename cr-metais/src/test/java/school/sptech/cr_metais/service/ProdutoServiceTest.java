@@ -101,38 +101,7 @@ class ProdutoServiceTest {
                 () -> produtoService.deletar(10));
     }
 
-    @Test
-    @DisplayName("Deve cadastrar produto quando estoque é válido")
-    void cadastrarQuandoEstoqueValidoDeveCadastrarProdutoTest() {
-        Estoque estoque = new Estoque();
-        estoque.setIdEstoque(1);
-
-        Produto produto = new Produto();
-        produto.setNome("Alumínio");
-
-        Mockito.when(estoqueRepository.findById(1)).thenReturn(Optional.of(estoque));
-        Mockito.when(produtoRepository.save(produto)).thenReturn(produto);
-
-        Produto recebido = produtoService.cadastrar(produto, 1);
-
-        Assertions.assertNotNull(recebido);
-        Assertions.assertEquals("Alumínio", recebido.getNome());
-        Assertions.assertEquals(estoque, recebido.getEstoque());
-    }
-
-    @Test
-    @DisplayName("Deve lançar exceção ao cadastrar produto com estoque inexistente")
-    void cadastrarQuandoEstoqueInvalidoDeveLancarExcecaoTest() {
-        Produto produto = new Produto();
-        produto.setNome("Ferro");
-
-        Mockito.when(estoqueRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
-
-        Assertions.assertThrows(EntidadeNaoEncontradaException.class,
-                () -> produtoService.cadastrar(produto, 99));
-    }
-
-    @Test
+@Test
     @DisplayName("Deve atualizar produto existente com sucesso")
     void atualizarQuandoProdutoExisteDeveSalvarTest() {
         Produto produto = new Produto();

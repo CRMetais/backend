@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import school.sptech.cr_metais.dto.Estoque.EstoqueRequestDto;
 import school.sptech.cr_metais.dto.Estoque.EstoqueResponseDto;
 import school.sptech.cr_metais.entity.Estoque;
+import school.sptech.cr_metais.entity.Produto;
 
 import java.util.List;
 
@@ -20,6 +21,9 @@ public class EstoqueMapper {
         estoque.setQuantidadeDisponivel(dto.getQuantidadeDisponivel());
         estoque.setLocalizacao(dto.getLocalizacao());
 
+        Produto produto = new Produto();
+        produto.setIdProduto(dto.getIdProduto());
+        estoque.setProduto(produto);
 
         return estoque;
     }
@@ -33,6 +37,9 @@ public class EstoqueMapper {
         dto.setIdEstoque(estoque.getIdEstoque());
         dto.setQuantidadeDisponivel(estoque.getQuantidadeDisponivel());
         dto.setLocalizacao(estoque.getLocalizacao());
+        if (estoque.getProduto() != null) {
+            dto.setIdProduto(estoque.getProduto().getIdProduto());
+        }
 
         return dto;
     }

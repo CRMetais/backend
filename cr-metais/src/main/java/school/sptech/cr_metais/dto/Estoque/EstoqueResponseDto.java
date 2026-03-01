@@ -5,7 +5,7 @@ public class EstoqueResponseDto {
     private Integer idEstoque;
     private Integer quantidadeDisponivel;
     private String localizacao;
-
+    private Integer idProduto;
 
     public EstoqueResponseDto() {
     }
@@ -32,5 +32,13 @@ public class EstoqueResponseDto {
 
     public void setLocalizacao(String localizacao) {
         this.localizacao = localizacao;
+    }
+
+    public Integer getIdProduto() {
+        return idProduto;
+    }
+
+    public void setIdProduto(Integer idProduto) {
+        this.idProduto = idProduto;
     }
 }

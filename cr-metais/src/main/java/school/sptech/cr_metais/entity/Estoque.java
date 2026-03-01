@@ -20,6 +20,10 @@ public class Estoque {
     @Column(name = "localizacao")
     private String localizacao;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_produto")
+    private Produto produto;
+
     public Integer getIdEstoque() {
         return idEstoque;
     }
@@ -42,5 +46,13 @@ public class Estoque {
 
     public void setLocalizacao(String localizacao) {
         this.localizacao = localizacao;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 }

@@ -6,12 +6,9 @@ public class ProdutoRequestDto {
 
     private String tipoProduto;
 
-    private Integer idEstoque;
-
-    public ProdutoRequestDto(String nome, String tipoProduto, Integer idEstoque) {
+    public ProdutoRequestDto(String nome, String tipoProduto) {
         this.nome = nome;
         this.tipoProduto = tipoProduto;
-        this.idEstoque = idEstoque;
     }
 
     public String getNome() {
@@ -28,13 +25,5 @@ public class ProdutoRequestDto {
 
     public void setTipoProduto(String tipoProduto) {
         this.tipoProduto = tipoProduto;
-    }
-
-    public Integer getIdEstoque() {
-        return idEstoque;
-    }
-
-    public void setIdEstoque(Integer idEstoque) {
-        this.idEstoque = idEstoque;
     }
 }

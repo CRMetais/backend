@@ -41,10 +41,9 @@ public class PrecoProdutoTabelaMapper {
 
         PrecoProdutoTabelaResponseDto dto = new PrecoProdutoTabelaResponseDto();
 
-        dto.setIdProdutoPrecoTabela(precoProdutoTabela.getIdPrecoProdutoTabela());
         dto.setPrecoProduto(precoProdutoTabela.getPrecoProduto());
-        dto.setIdProduto(precoProdutoTabela.getIdPrecoProdutoTabela());
-        dto.setIdTabelaPreco(precoProdutoTabela.getTabelaPreco().getIdTabela());
+        dto.setFkProduto(precoProdutoTabela.getProduto() != null ? precoProdutoTabela.getProduto().getIdProduto() : null);
+        dto.setFkTabelaPreco(precoProdutoTabela.getTabelaPreco() != null ? precoProdutoTabela.getTabelaPreco().getIdTabela() : null);
 
         return dto;
     }

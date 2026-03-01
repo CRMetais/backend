@@ -81,7 +81,7 @@ public class ItemPedidoVendaController {
             @ApiResponse(responseCode = "404", description = "Item não encontrado", content = @Content)
     })
 
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id){
         service.deletar(id);
         return ResponseEntity.status(204).build();
@@ -98,7 +98,7 @@ public class ItemPedidoVendaController {
                             schema = @Schema(implementation = ItemPedidoVenda.class))),
             @ApiResponse(responseCode = "404", description = "Item não encontrado", content = @Content)
     })
-    @GetMapping("/{id}")
+        @GetMapping("/{id:\\d+}")
     public ResponseEntity<ItemPedidoVendaResponseDto> buscarPorId(@PathVariable Integer id) {
 
         ItemPedidoVendaResponseDto dto = service.buscarPorId(id);

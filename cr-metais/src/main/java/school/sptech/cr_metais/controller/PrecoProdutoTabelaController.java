@@ -19,7 +19,8 @@ import school.sptech.cr_metais.service.PrecoProdutoTabelaService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/preco-produtos-tabelas")
+@RequestMapping({"/preco-produtos-tabelas", "/preco-produto-tabela"})
+@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "Preço Produto Tabela")
 @SecurityRequirement(name = "Bearer")
 public class PrecoProdutoTabelaController {
@@ -59,7 +60,7 @@ public class PrecoProdutoTabelaController {
                             schema = @Schema(implementation = ItemPedidoVenda.class))),
             @ApiResponse(responseCode = "404", description = "Preço de produto não encontrado", content = @Content)
     })
-    @GetMapping("/{id}")
+        @GetMapping("/{id:\\d+}")
     public ResponseEntity<PrecoProdutoTabelaResponseDto> buscarPorId(@PathVariable Integer id){
 
         PrecoProdutoTabela precoProdutoTabela = precoProdutoTabelaService.buscarPorId(id);
@@ -76,18 +77,15 @@ public class PrecoProdutoTabelaController {
             @ApiResponse(responseCode = "200", description = "Lista de preços de produtos retornada com sucesso",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ItemPedidoVenda.class))),
-            @ApiResponse(responseCode = "204", description = "Nenhum preço de produto encontrado", content = @Content)
+            @ApiResponse(responseCode = "200", description = "Nenhum preço de produto encontrado", content = @Content)
     })
     @GetMapping
-    public ResponseEntity<List<PrecoProdutoTabelaResponseDto>> listar(){
+    public ResponseEntity<List<PrecoProdutoTabelaResponseDto>> listar(
+            @RequestParam(required = false) Long tabelaPrecoId,
+            @RequestParam(required = false) Long produtoId
+    ){
 
-        List<PrecoProdutoTabela> todos = precoProdutoTabelaService.listar();
-
-        if (todos.isEmpty()){
-            return ResponseEntity.status(204).build();
-        }
-
-        List<PrecoProdutoTabelaResponseDto> response = PrecoProdutoTabelaMapper.toResponse(todos);
+        List<PrecoProdutoTabelaResponseDto> response = precoProdutoTabelaService.listar(tabelaPrecoId, produtoId);
         return ResponseEntity.status(200).body(response);
     }
 
@@ -101,7 +99,7 @@ public class PrecoProdutoTabelaController {
                             schema = @Schema(implementation = ItemPedidoVenda.class))),
             @ApiResponse(responseCode = "404", description = "Preço de produto não encontrado", content = @Content)
     })
-    @PutMapping("/{id}")
+        @PutMapping("/{id:\\d+}")
     public ResponseEntity<PrecoProdutoTabelaResponseDto> atualizar(
             @PathVariable Integer id, @RequestBody PrecoProdutoTabelaRequestDto dto){
 
@@ -121,7 +119,7 @@ public class PrecoProdutoTabelaController {
             @ApiResponse(responseCode = "204", description = "Preço de produto deletado com sucesso", content = @Content),
             @ApiResponse(responseCode = "404", description = "Preço de produto não encontrado", content = @Content)
     })
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id){
 
         precoProdutoTabelaService.deletarPorId(id);

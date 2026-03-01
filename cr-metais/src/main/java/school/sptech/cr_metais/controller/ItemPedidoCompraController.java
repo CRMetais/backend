@@ -40,7 +40,7 @@ public class ItemPedidoCompraController {
                             schema = @Schema(implementation = ItemPedidoVenda.class))),
             @ApiResponse(responseCode = "404", description = "Item não encontrado", content = @Content)
     })
-    @GetMapping("/{id}")
+        @GetMapping("/{id:\\d+}")
     public ResponseEntity<ItemPedidoCompraResponseDto> buscarPorId(@PathVariable Integer id){
 
         ItemPedidoCompra item = itemPedidoCompraService.buscarPorId(id);
@@ -82,7 +82,7 @@ public class ItemPedidoCompraController {
                             schema = @Schema(implementation = ItemPedidoVenda.class))),
             @ApiResponse(responseCode = "404", description = "Item não encontrado", content = @Content)
     })
-    @PutMapping("/{id}")
+        @PutMapping("/{id:\\d+}")
     public ResponseEntity<ItemPedidoCompraResponseDto> atualizar(@PathVariable Integer id, @RequestBody ItemPedidoCompraRequestDto dto){
 
         ItemPedidoCompra entity = ItemPedidoCompraMapper.toEntity(dto);
@@ -101,7 +101,7 @@ public class ItemPedidoCompraController {
             @ApiResponse(responseCode = "204", description = "Item deletado com sucesso", content = @Content),
             @ApiResponse(responseCode = "404", description = "Item não encontrado", content = @Content)
     })
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id){
         itemPedidoCompraService.deletarPorId(id);
 

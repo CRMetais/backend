@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,7 @@ import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.mappers.UsuarioMapper;
 import school.sptech.cr_metais.repository.UsuarioRepository;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -153,12 +155,13 @@ class UsuarioServiceTest {
             novo.setSenha("1234");
 
             when(repository.findById(1)).thenReturn(Optional.of(existente));
+            when(passwordEncoder.encode("1234")).thenReturn("senha_hash");
             when(repository.save(existente)).thenReturn(existente);
 
             Usuario atualizado = service.atualizar(1, novo);
 
             assertEquals("Fábio Henrique Tavares", atualizado.getNome());
-            assertEquals("1234", atualizado.getSenha());
+            assertEquals("senha_hash", atualizado.getSenha());
         }
 
         @Test
@@ -195,21 +198,74 @@ class UsuarioServiceTest {
     class AutenticarTests {
 
         @Test
-        @DisplayName("Deve falhar ao autenticar com email inexistente")
-        void deveFalharAutenticacaoEmailInexistente() {
+        @DisplayName("Deve autenticar com sucesso e retornar token")
+        void deveAutenticarComSucesso() {
 
             Usuario login = new Usuario();
             login.setEmail("lucasLima@gmail.com");
             login.setSenha("123");
 
-            UsernamePasswordAuthenticationToken tokenCredenciais =
-                    new UsernamePasswordAuthenticationToken("lucasLima@gmail.com", "123");
+            Usuario usuarioPersistido = new Usuario();
+            usuarioPersistido.setIdUsuario(1);
+            usuarioPersistido.setNome("Lucas Lima");
+            usuarioPersistido.setEmail("lucasLima@gmail.com");
 
-            when(authenticationManager.authenticate(tokenCredenciais)).thenReturn(authentication);
+            UsuarioTokenDto esperado = new UsuarioTokenDto();
+            esperado.setUserId(1);
+            esperado.setNome("Lucas Lima");
+            esperado.setEmail("lucasLima@gmail.com");
+            esperado.setToken("token.jwt");
+
+            when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
+            when(repository.findByEmail("lucasLima@gmail.com")).thenReturn(Optional.of(usuarioPersistido));
+            when(gerenciadorTokenJwt.generateToken(authentication)).thenReturn("token.jwt");
+
+            try (MockedStatic<UsuarioMapper> mockMapper = mockStatic(UsuarioMapper.class)) {
+                mockMapper.when(() -> UsuarioMapper.of(usuarioPersistido, "token.jwt")).thenReturn(esperado);
+
+                UsuarioTokenDto resultado = service.autenticar(login);
+
+                assertNotNull(resultado);
+                assertEquals("token.jwt", resultado.getToken());
+                assertEquals("lucasLima@gmail.com", resultado.getEmail());
+                verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
+            }
+        }
+
+        @Test
+        @DisplayName("Deve falhar ao autenticar com senha incorreta")
+        void deveFalharAutenticacaoSenhaIncorreta() {
+
+            Usuario login = new Usuario();
+            login.setEmail("lucasLima@gmail.com");
+            login.setSenha("senhaErrada");
+
+            when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+                    .thenThrow(new BadCredentialsException("Credenciais inválidas"));
+
+            ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+                    () -> service.autenticar(login));
+
+            assertEquals(HttpStatus.UNAUTHORIZED, exception.getStatusCode());
+            assertEquals("Credenciais inválidas", exception.getReason());
+        }
+
+        @Test
+        @DisplayName("Deve falhar ao autenticar quando usuário não é encontrado após autenticação")
+        void deveFalharAutenticacaoSemUsuarioPersistido() {
+
+            Usuario login = new Usuario();
+            login.setEmail("lucasLima@gmail.com");
+            login.setSenha("123");
+
+            when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
             when(repository.findByEmail("lucasLima@gmail.com")).thenReturn(Optional.empty());
 
-            assertThrows(ResponseStatusException.class,
+            ResponseStatusException exception = assertThrows(ResponseStatusException.class,
                     () -> service.autenticar(login));
+
+            assertEquals(HttpStatus.UNAUTHORIZED, exception.getStatusCode());
+            assertEquals("Credenciais inválidas", exception.getReason());
         }
     }
 

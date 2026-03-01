@@ -62,7 +62,7 @@ public class UsuarioController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(example = "{\"erro\": \"Usuário não encontrado\"}")))
     })
-    @GetMapping("/{id}")
+        @GetMapping("/{id:\\d+}")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer id) {
         Usuario usuarioEncontrado = uService.buscarPorId(id);
@@ -76,7 +76,7 @@ public class UsuarioController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(example = "{\"erro\": \"Usuário não encontrado\"}")))
     })
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id:\\d+}")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
 
@@ -93,7 +93,7 @@ public class UsuarioController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(example = "{\"erro\": \"Usuário não encontrado\"}")))
     })
-    @PutMapping("/{id}")
+        @PutMapping("/{id:\\d+}")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Usuario> atualizar(
             @PathVariable Integer id,

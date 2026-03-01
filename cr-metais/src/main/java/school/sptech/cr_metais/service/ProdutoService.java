@@ -2,7 +2,7 @@ package school.sptech.cr_metais.service;
 
 import org.springframework.stereotype.Service;
 import school.sptech.cr_metais.dto.Produto.ProdutoResponseDto;
-import school.sptech.cr_metais.entity.Estoque;
+import school.sptech.cr_metais.dto.Produto.ProdutoTopPesoVendidoDto;
 import school.sptech.cr_metais.entity.Produto;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.mappers.ProdutoMapper;
@@ -11,6 +11,7 @@ import school.sptech.cr_metais.repository.ProdutoRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 
 @Service
 public class ProdutoService {
@@ -25,21 +26,9 @@ public class ProdutoService {
         this.produtoMapper = produtoMapper;
     }
 
-    public Produto cadastrar(Produto produtoParaCadastrar, Integer idEstoque) {
-
-        Optional <Estoque> estoqueOpt = eRepository.findById(idEstoque);
-
-        if (estoqueOpt.isEmpty()){
-            throw new EntidadeNaoEncontradaException("Estoque não encontrado");
-        }
-
-        Estoque estoque = estoqueOpt.get();
-
-        produtoParaCadastrar.setEstoque(estoque);
-
+    public Produto cadastrar(Produto produtoParaCadastrar) {
         Produto produtoRegistrado = pRepository.save(produtoParaCadastrar);
         return produtoRegistrado;
-
     }
 
     public List<Produto> listar() {
@@ -66,6 +55,21 @@ public class ProdutoService {
         }
 
         return pRepository.save(produto);
+    }
+
+    public List<ProdutoTopPesoVendidoDto> listarTop10PorPesoVendido() {
+        List<Object[]> resultadoQuery = pRepository.buscarTop10ProdutosPorPesoVendido();
+        List<ProdutoTopPesoVendidoDto> response = new ArrayList<>();
+
+        for (Object[] linha : resultadoQuery) {
+            ProdutoTopPesoVendidoDto dto = new ProdutoTopPesoVendidoDto();
+            dto.setIdProduto(((Number) linha[0]).intValue());
+            dto.setNome((String) linha[1]);
+            dto.setTotalPesoVendido(linha[2] == null ? 0D : ((Number) linha[2]).doubleValue());
+            response.add(dto);
+        }
+
+        return response;
     }
 
 }

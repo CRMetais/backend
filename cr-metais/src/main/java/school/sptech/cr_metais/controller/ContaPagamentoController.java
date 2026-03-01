@@ -78,7 +78,7 @@ public class ContaPagamentoController {
             @ApiResponse(responseCode = "204", description = "Conta de pagamento deletada com sucesso", content = @Content),
             @ApiResponse(responseCode = "404", description = "Conta de pagamento não encontrada", content = @Content)
     })
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         contaPagamentoService.deletar(id);
         return ResponseEntity.status(204).build();
@@ -94,7 +94,7 @@ public class ContaPagamentoController {
                             schema = @Schema(implementation = ContaPagamento.class))),
             @ApiResponse(responseCode = "404", description = "Conta de pagamento não encontrada", content = @Content)
     })
-    @GetMapping("/{id}")
+        @GetMapping("/{id:\\d+}")
     public ResponseEntity<ContaPagamentoResponseDto> buscarPorId(@PathVariable Integer id) {
 
         ContaPagamentoResponseDto dto = contaPagamentoService.buscarPorId(id);
@@ -111,7 +111,7 @@ public class ContaPagamentoController {
                             schema = @Schema(implementation = ContaPagamento.class))),
             @ApiResponse(responseCode = "404", description = "Conta de pagamento não encontrada", content = @Content)
     })
-    @PutMapping("/{id}")
+        @PutMapping("/{id:\\d+}")
     public ResponseEntity<ContaPagamentoResponseDto> atualizar(
             @PathVariable Integer id,
             @RequestBody @Valid ContaPagamentoCadastroDto dto) {

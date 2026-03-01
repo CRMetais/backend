@@ -12,7 +12,6 @@ public class ItemPedidoVendaMapper {
         ItemPedidoVenda itemNovo = new ItemPedidoVenda();
         itemNovo.setPesoKg(dto.getPesoKg());
         itemNovo.setPrecoUnitario(dto.getPrecoUnitario());
-
         return itemNovo;
     }
 

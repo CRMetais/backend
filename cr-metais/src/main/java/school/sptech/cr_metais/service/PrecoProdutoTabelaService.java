@@ -1,6 +1,7 @@
 package school.sptech.cr_metais.service;
 
 import org.springframework.stereotype.Service;
+import school.sptech.cr_metais.dto.PrecoProdutoTabela.PrecoProdutoTabelaResponseDto;
 import school.sptech.cr_metais.entity.PrecoProdutoTabela;
 import school.sptech.cr_metais.entity.Produto;
 import school.sptech.cr_metais.entity.TabelaPreco;
@@ -65,8 +66,9 @@ public class PrecoProdutoTabelaService {
         return precoProdutoTabelaRegistrado;
     }
 
-    public List<PrecoProdutoTabela> listar(){
-        return precoProdutoTabelaRepository.findAll();
+    public List<PrecoProdutoTabelaResponseDto> listar(Long tabelaPrecoId, Long produtoId){
+        List<PrecoProdutoTabela> precos = precoProdutoTabelaRepository.buscarPrecos(tabelaPrecoId, produtoId);
+        return PrecoProdutoTabelaMapper.toResponse(precos);
     }
 
     public PrecoProdutoTabela buscarPorId(Integer id){

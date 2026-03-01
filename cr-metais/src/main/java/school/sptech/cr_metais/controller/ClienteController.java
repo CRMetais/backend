@@ -85,7 +85,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "404", description = "Cliente não encontrado", content = @Content)
     })
 
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id){
         cService.deletar(id);
         return ResponseEntity.status(204).build();
@@ -104,7 +104,7 @@ public class ClienteController {
                     )),
             @ApiResponse(responseCode = "404", description = "Cliente não encontrado", content = @Content)
     })
-    @GetMapping("/{id}")
+        @GetMapping("/{id:\\d+}")
     public ResponseEntity<ClienteResponseDTO> buscarPorId(@PathVariable Integer id) {
         ClienteResponseDTO dto = cService.buscarPorId(id);
         return ResponseEntity.ok(dto);
@@ -122,7 +122,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "404", description = "Tabela não encontrada", content = @Content)
     })
 
-    @PutMapping("/{id}")
+        @PutMapping("/{id:\\d+}")
     public ResponseEntity<ClienteResponseDTO> atualizar(
             @PathVariable Integer id,
             @RequestBody ClienteCadastroDTO dto) {

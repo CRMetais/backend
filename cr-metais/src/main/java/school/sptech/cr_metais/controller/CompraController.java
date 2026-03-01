@@ -79,7 +79,7 @@ public class CompraController {
             @ApiResponse(responseCode = "204", description = "Compra deletada com sucesso", content = @Content),
             @ApiResponse(responseCode = "404", description = "Compra não encontrada", content = @Content)
     })
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         compraService.deletar(id);
         return ResponseEntity.status(204).build();
@@ -95,7 +95,7 @@ public class CompraController {
                             schema = @Schema(implementation = ContaPagamento.class))),
             @ApiResponse(responseCode = "404", description = "Compra não encontrada", content = @Content)
     })
-    @GetMapping("/{id}")
+        @GetMapping("/{id:\\d+}")
     public ResponseEntity<CompraResponseDto> buscarPorId(@PathVariable Integer id) {
 
         CompraResponseDto dto = compraService.buscarPorId(id);
@@ -112,7 +112,7 @@ public class CompraController {
                             schema = @Schema(implementation = ContaPagamento.class))),
             @ApiResponse(responseCode = "404", description = "Conta de pagamento não encontrada", content = @Content)
     })
-    @PutMapping("/{id}")
+        @PutMapping("/{id:\\d+}")
     public ResponseEntity<CompraResponseDto> atualizar(
             @PathVariable Integer id,
             @RequestBody @Valid CompraCadastroDto dto) {

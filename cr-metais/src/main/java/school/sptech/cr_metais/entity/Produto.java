@@ -21,10 +21,6 @@ public class Produto {
     @Column(name = "tipo_produto")
     private String tipoProduto;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_estoque")
-    private Estoque estoque;
-
     public Integer getIdProduto() {
         return idProduto;
     }
@@ -47,13 +43,5 @@ public class Produto {
 
     public void setTipoProduto(String tipoProduto) {
         this.tipoProduto = tipoProduto;
-    }
-
-    public Estoque getEstoque() {
-        return estoque;
-    }
-
-    public void setEstoque(Estoque estoque) {
-        this.estoque = estoque;
     }
 }

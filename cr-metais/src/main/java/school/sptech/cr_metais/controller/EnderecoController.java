@@ -35,14 +35,14 @@ public class EnderecoController {
 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public ResponseEntity<EnderecoResponseDto> buscarPorId(@PathVariable Integer id) {
         Endereco endereco = service.buscarPorId(id);
         EnderecoResponseDto response = EnderecoMapper.toResponse(endereco);
         return ResponseEntity.status(200).body(response);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id:\\d+}")
     public ResponseEntity<EnderecoResponseDto> atualizar(
             @PathVariable Integer id,
             @RequestBody @Valid EnderecoRequestDto dto
@@ -57,7 +57,7 @@ public class EnderecoController {
 
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         service.deletarPorId(id);
         return ResponseEntity.status(204).build();

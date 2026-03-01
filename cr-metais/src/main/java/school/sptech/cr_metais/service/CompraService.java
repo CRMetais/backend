@@ -5,13 +5,15 @@ import school.sptech.cr_metais.dto.Compra.CompraCadastroDto;
 import school.sptech.cr_metais.dto.Compra.CompraResponseDto;
 import school.sptech.cr_metais.dto.ItemPedidoCompra.ItemPedidoCompraRequestDto;
 import school.sptech.cr_metais.entity.*;
+import school.sptech.cr_metais.exception.EntidadeInvalidaException;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.mappers.CompraMapper;
 import school.sptech.cr_metais.repository.CompraRepository;
 import school.sptech.cr_metais.repository.FornecedorRepository;
 import school.sptech.cr_metais.repository.PrecoProdutoTabelaRepository;
 import school.sptech.cr_metais.repository.ProdutoRepository;
-
+import org.springframework.transaction.annotation.Transactional;
+import school.sptech.cr_metais.repository.EstoqueRepository;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,16 +24,20 @@ public class CompraService {
     private final FornecedorRepository fornecedorRepository;
     private final ProdutoRepository produtoRepository;
     private final PrecoProdutoTabelaRepository precoProdutoTabelaRepository;
+    private final EstoqueRepository estoqueRepository;
 
     public CompraService(CompraRepository compraRepository,
                          FornecedorRepository fornecedorRepository,
                          ProdutoRepository produtoRepository,
-                         PrecoProdutoTabelaRepository precoProdutoTabelaRepository) {
+                         PrecoProdutoTabelaRepository precoProdutoTabelaRepository, EstoqueRepository estoqueRepository) {
         this.compraRepository = compraRepository;
         this.fornecedorRepository = fornecedorRepository;
         this.produtoRepository = produtoRepository;
         this.precoProdutoTabelaRepository = precoProdutoTabelaRepository;
+        this.estoqueRepository = estoqueRepository;
     }
+
+    @Transactional
         public CompraResponseDto cadastrar(CompraCadastroDto dto) {
 
             Fornecedor fornecedor = fornecedorRepository.findById(dto.getIdFornecedor())
@@ -73,6 +79,19 @@ public class CompraService {
                 item.setPesoKg(pesoKg);
                 item.setPrecoUnitario(precoCompra);
                 item.setRendimento(rendimentoTotal);
+
+                Estoque estoque = estoqueRepository.findFirstByProduto(produto)
+                        .orElseThrow(() -> new EntidadeNaoEncontradaException("Estoque não encontrado para o produto: " + produto.getNome()));
+
+                Integer quantidadeAtual = estoque.getQuantidadeDisponivel() == null ? 0 : estoque.getQuantidadeDisponivel();
+                int quantidadeMovimentada = (int) Math.ceil(pesoKg);
+
+                if (quantidadeMovimentada <= 0) {
+                    throw new EntidadeInvalidaException("A quantidade da compra deve ser maior que zero");
+                }
+
+                estoque.setQuantidadeDisponivel(quantidadeAtual + quantidadeMovimentada);
+                estoqueRepository.save(estoque);
 
                 compra.getItens().add(item);
             }

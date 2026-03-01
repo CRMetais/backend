@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.ContaPagamento.ContaPagamentoCadastroDto;
 import school.sptech.cr_metais.dto.ContaPagamento.ContaPagamentoResponseDto;
 import school.sptech.cr_metais.dto.Fornecedor.FornecedorCadastroDto;
+import school.sptech.cr_metais.dto.Fornecedor.FornecedorTopRendimentoDto;
 import school.sptech.cr_metais.entity.ContaPagamento;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.service.FornecedorService;
@@ -68,6 +69,25 @@ public class FornecedorController {
         return ResponseEntity.status(200).body(all);
     }
 
+        @Operation(
+                        summary = "Top 10 fornecedores por rendimento",
+                        description = "Retorna os 10 fornecedores com maior soma de rendimento dos itens de compra."
+        )
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Ranking retornado com sucesso"),
+                        @ApiResponse(responseCode = "204", description = "Nenhum dado encontrado", content = @Content)
+        })
+        @GetMapping("/top-rendimento")
+        public ResponseEntity<List<FornecedorTopRendimentoDto>> listarTop10PorRendimento() {
+                List<FornecedorTopRendimentoDto> ranking = fService.listarTop10PorRendimento();
+
+                if (ranking.isEmpty()) {
+                        return ResponseEntity.status(204).build();
+                }
+
+                return ResponseEntity.status(200).body(ranking);
+        }
+
 
     @Operation(
             summary = "Buscar fornecedor por ID",
@@ -79,7 +99,7 @@ public class FornecedorController {
                             schema = @Schema(implementation = Fornecedor.class))),
             @ApiResponse(responseCode = "404", description = "Fornecedor não encontrado", content = @Content)
     })
-    @GetMapping("/{id}")
+        @GetMapping("/{id:\\d+}")
     public ResponseEntity<Fornecedor> buscarPorId(@PathVariable Integer id){
         Fornecedor fornecedorEncontrado = fService.buscarPorId(id);
         return ResponseEntity.status(200).body(fornecedorEncontrado);
@@ -94,7 +114,7 @@ public class FornecedorController {
             @ApiResponse(responseCode = "204", description = "Fornecedor deletado com sucesso", content = @Content),
             @ApiResponse(responseCode = "404", description = "Fornecedor não encontrado", content = @Content)
     })
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id){
         fService.deletar(id);
         return ResponseEntity.status(204).build();
@@ -132,7 +152,7 @@ public class FornecedorController {
                             schema = @Schema(implementation = Fornecedor.class))),
             @ApiResponse(responseCode = "404", description = "Fornecedor não encontrado", content = @Content)
     })
-    @PutMapping("/{id}")
+        @PutMapping("/{id:\\d+}")
     public ResponseEntity<Fornecedor> atualizar(
             @PathVariable Integer id,
             @RequestBody @Valid Fornecedor dto) {

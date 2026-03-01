@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "venda")
@@ -20,6 +21,9 @@ public class Venda {
     @NotNull
     @Column(name = "data_venda")
     private LocalDate dataVenda;
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
+    private List<ItemPedidoVenda> itens;
+
 
     public Integer getIdVenda() {
         return idVenda;
@@ -43,5 +47,13 @@ public class Venda {
 
     public void setDataVenda(LocalDate dataVenda) {
         this.dataVenda = dataVenda;
+    }
+
+    public List<ItemPedidoVenda> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemPedidoVenda> itens) {
+        this.itens = itens;
     }
 }

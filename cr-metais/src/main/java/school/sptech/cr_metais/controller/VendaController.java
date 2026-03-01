@@ -84,7 +84,7 @@ public class VendaController {
             @ApiResponse(responseCode = "404", description = "Venda não encontrada", content = @Content)
     })
 
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id){
         vService.deletar(id);
         return ResponseEntity.status(204).build();
@@ -103,7 +103,7 @@ public class VendaController {
                     )),
             @ApiResponse(responseCode = "404", description = "Venda não encontrada", content = @Content)
     })
-    @GetMapping("/{id}")
+        @GetMapping("/{id:\\d+}")
     public ResponseEntity<VendaResponseDTO> buscarPorId(@PathVariable Integer id) {
         VendaResponseDTO dto = vService.buscarPorId(id);
         return ResponseEntity.ok(dto);

@@ -47,7 +47,7 @@ private final ProdutoService pService;
     public ResponseEntity<ProdutoResponseDto> cadastrar(@RequestBody ProdutoRequestDto dto) {
 
         Produto produtoParaCadastrar = ProdutoMapper.toEntity(dto);
-        Produto produtoRegistrado = pService.cadastrar(produtoParaCadastrar, dto.getIdEstoque());
+        Produto produtoRegistrado = pService.cadastrar(produtoParaCadastrar);
         ProdutoResponseDto response = ProdutoMapper.toResponse(produtoRegistrado);
 
         return ResponseEntity.status(201).body(response);
@@ -64,7 +64,7 @@ private final ProdutoService pService;
             @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content)
     })
     // Buscar por id
-    @GetMapping("/{id}")
+        @GetMapping("/{id:\\d+}")
     public ResponseEntity<ProdutoResponseDto> buscarPorId(@PathVariable Integer id) {
 
         Produto produto = pService.buscarPorId(id);
@@ -96,6 +96,26 @@ private final ProdutoService pService;
         List<ProdutoResponseDto> response = ProdutoMapper.toResponse(todos);
         return ResponseEntity.status(200).body(response);
     }
+
+        @Operation(
+                        summary = "Top 10 produtos por peso vendido",
+                        description = "Retorna os 10 produtos com maior soma de peso vendido nos itens de venda."
+        )
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Ranking retornado com sucesso"),
+                        @ApiResponse(responseCode = "204", description = "Nenhum dado encontrado", content = @Content)
+        })
+        @GetMapping("/top-peso-vendido")
+        public ResponseEntity<List<ProdutoTopPesoVendidoDto>> listarTop10PorPesoVendido() {
+
+                List<ProdutoTopPesoVendidoDto> ranking = pService.listarTop10PorPesoVendido();
+
+                if (ranking.isEmpty()) {
+                        return ResponseEntity.status(204).build();
+                }
+
+                return ResponseEntity.status(200).body(ranking);
+        }
 
     @Operation(
             summary = "Atualizar produto por ID",
@@ -129,7 +149,7 @@ private final ProdutoService pService;
             @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content)
     })
     // Deletar todos os produtos
-    @DeleteMapping("/{id}")
+        @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id){
         pService.deletar(id);
         return ResponseEntity.status(204).build();

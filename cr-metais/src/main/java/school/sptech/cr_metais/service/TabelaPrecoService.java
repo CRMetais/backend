@@ -2,6 +2,7 @@ package school.sptech.cr_metais.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import school.sptech.cr_metais.dto.TabelaPreco.FornecedorTabelaPrecoDto;
 import school.sptech.cr_metais.dto.TabelaPreco.TabelaPrecoCadastroDTO;
 import school.sptech.cr_metais.dto.TabelaPreco.TabelaPrecoResponseDTO;
 import school.sptech.cr_metais.entity.TabelaPreco;
@@ -9,6 +10,7 @@ import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.mappers.TabelaPrecoMapper;
 import school.sptech.cr_metais.repository.TabelaPrecoRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -74,5 +76,24 @@ public class TabelaPrecoService {
         TabelaPreco tabelaAtualizada = tRepository.save(tabelaParaAtualizar);
 
         return tabelaPrecoMapper.toDTO(tabelaAtualizada);
+    }
+
+    public List<FornecedorTabelaPrecoDto> listarFornecedoresComTabelaPreco() {
+        List<Object[]> resultado = tRepository.listarFornecedoresComTabelaPreco();
+        List<FornecedorTabelaPrecoDto> response = new ArrayList<>();
+
+        for (Object[] linha : resultado) {
+            FornecedorTabelaPrecoDto dto = new FornecedorTabelaPrecoDto();
+            dto.setIdFornecedor(((Number) linha[0]).intValue());
+            dto.setNome((String) linha[1]);
+            dto.setApelido((String) linha[2]);
+            dto.setDocumento((String) linha[3]);
+            dto.setTelefone((String) linha[4]);
+            dto.setFkTabelaPreco(linha[5] == null ? null : ((Number) linha[5]).intValue());
+            dto.setNomeTabela((String) linha[6]);
+            response.add(dto);
+        }
+
+        return response;
     }
 }
