@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.HttpSecurityDsl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -19,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -39,81 +37,77 @@ public class SecurityConfiguracao {
     @Autowired
     private AutenticacaoEntryPoint autenticacaoJwtEntryPoint;
 
-    private static final AntPathRequestMatcher[] URLS_PERMITIDAS = {
-            new AntPathRequestMatcher("/swagger-ui/**"),
-            new AntPathRequestMatcher("/swagger-ui.html"),
-            new AntPathRequestMatcher("/swagger-resources"),
-            new AntPathRequestMatcher("/swagger-resources/**"),
-            new AntPathRequestMatcher("/configuration/ui"),
-            new AntPathRequestMatcher("/configuration/security"),
-            new AntPathRequestMatcher("/api/public/**"),
-            new AntPathRequestMatcher("/api/public/authenticate"),
-            new AntPathRequestMatcher("/webjars/**"),
-            new AntPathRequestMatcher("/v3/api-docs/**"),
-            new AntPathRequestMatcher("/actuator/*"),
-            new AntPathRequestMatcher("/usuarios/login/**"),
-            new AntPathRequestMatcher("/usuarios", HttpMethod.POST.name()),
-            new AntPathRequestMatcher("/h2-console/**"),
-            new AntPathRequestMatcher("/h2-console/**/**"),
-            new AntPathRequestMatcher("/error/**"),
-            new AntPathRequestMatcher("/usuarios/**"),
-            new AntPathRequestMatcher("/nota-fiscal/**")
-//            new AntPathRequestMatcher("/**")
-    };
-    private static final AntPathRequestMatcher[] URLS_ADMIN = {
-            new AntPathRequestMatcher("/**"),
-    };
-    private static final AntPathRequestMatcher[] URLS_COMUM = {
-            new AntPathRequestMatcher("/clientes/**"),
-            new AntPathRequestMatcher("/compras/**"),
-            new AntPathRequestMatcher("/contas-pagamentos/**"),
-            new AntPathRequestMatcher("/enderecos/**"),
-            new AntPathRequestMatcher("/fornecedores/**"),
-            new AntPathRequestMatcher("/item-pedido-compras/**"),
-            new AntPathRequestMatcher("/preco-produtos-tabelas/**"),
-            new AntPathRequestMatcher("/produtos/**"),
-            new AntPathRequestMatcher("/tabelas-precos/**"),
-            new AntPathRequestMatcher("/vendas/**")
-//            new AntPathRequestMatcher("/**")
-    };
-
     @Bean
     public SecurityFilterChain filterChain(
             HttpSecurity http,
-            AutenticacaoFilter autenticacaoFilter,
-            AutenticacaoEntryPoint autenticacaoJwtEntryPoint
+            AutenticacaoFilter autenticacaoFilter
     ) throws Exception {
 
-        http
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .cors(Customizer.withDefaults())
-                .csrf(CsrfConfigurer::disable)
-
+        http.headers(headers ->
+                        headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
+                ).cors(Customizer.withDefaults()
+                ).csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(URLS_PERMITIDAS).permitAll()
-                        .requestMatchers(URLS_COMUM).hasAnyRole("COMUM", "ADMIN")
-                        .requestMatchers(URLS_ADMIN).hasRole("ADMIN")
-                        .anyRequest().authenticated()
+
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/swagger-resources",
+                                "/swagger-resources/**",
+                                "/configuration/ui",
+                                "/configuration/security",
+                                "/api/public/**",
+                                "/api/public/authenticate",
+                                "/webjars/**",
+                                "/v3/api-docs/**",
+                                "/actuator/*",
+                                "/usuarios/login/**",
+                                "/error/**",
+                                "/nota-fiscal/**"
+//                                "/**"
+                        ).permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/usuarios").hasRole("ADMIN")
+
+                        .requestMatchers(
+                                "/clientes/**",
+                                "/compras/**",
+                                "/contas-pagamentos/**",
+                                "/enderecos/**",
+                                "/fornecedores/**",
+                                "/item-pedido-compras/**",
+                                "/preco-produtos-tabelas/**",
+                                "/produtos/**",
+                                "/tabelas-precos/**",
+                                "/vendas/**"
+                        ).hasAnyRole("COMUM", "ADMIN")
+
+                        .anyRequest().hasRole("ADMIN")
                 )
 
-                .exceptionHandling(handling -> handling
-                        .authenticationEntryPoint(autenticacaoJwtEntryPoint)
+                .exceptionHandling(handling ->
+                        handling.authenticationEntryPoint(autenticacaoJwtEntryPoint)
                 )
-                .sessionManagement(management -> management
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+                .sessionManagement(management ->
+                        management.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
         http.addFilterBefore(autenticacaoFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(new AutenticacaoProvider(autenticacaoService, passwordEncoder()));
-        return authenticationManagerBuilder.build();
 
+        authenticationManagerBuilder.authenticationProvider(
+                new AutenticacaoProvider(autenticacaoService, passwordEncoder())
+        );
+
+        return authenticationManagerBuilder.build();
     }
 
     @Bean
@@ -135,6 +129,7 @@ public class SecurityConfiguracao {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuracao = new CorsConfiguration();
         configuracao.applyPermitDefaultValues();
+
         configuracao.setAllowedMethods(
                 Arrays.asList(
                         HttpMethod.GET.name(),
@@ -144,7 +139,9 @@ public class SecurityConfiguracao {
                         HttpMethod.DELETE.name(),
                         HttpMethod.OPTIONS.name(),
                         HttpMethod.HEAD.name(),
-                        HttpMethod.TRACE.name()));
+                        HttpMethod.TRACE.name()
+                )
+        );
 
         configuracao.setExposedHeaders(List.of(HttpHeaders.CONTENT_DISPOSITION));
 
@@ -153,5 +150,4 @@ public class SecurityConfiguracao {
 
         return origem;
     }
-
 }

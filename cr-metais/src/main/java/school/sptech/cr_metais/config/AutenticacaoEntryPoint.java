@@ -8,7 +8,6 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-import javax.naming.AuthenticationException;
 import java.io.IOException;
 
 
