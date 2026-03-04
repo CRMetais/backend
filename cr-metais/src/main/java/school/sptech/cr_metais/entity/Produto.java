@@ -21,6 +21,18 @@ public class Produto {
     @Column(name = "tipo_produto")
     private String tipoProduto;
 
+//    @ManyToOne
+//    @JoinColumn(name = "fk_estoque")
+//    private Estoque estoque;
+//
+//    public Estoque getEstoque() {
+//        return estoque;
+//    }
+//
+//    public void setEstoque(Estoque estoque) {
+//        this.estoque = estoque;
+//    }
+
     public Integer getIdProduto() {
         return idProduto;
     }
