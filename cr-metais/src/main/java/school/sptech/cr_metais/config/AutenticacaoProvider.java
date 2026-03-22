@@ -7,7 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import school.sptech.cr_metais.repository.UsuarioRepository;
 import school.sptech.cr_metais.service.AutenticacaoService;
 
 public class AutenticacaoProvider implements AuthenticationProvider {
@@ -15,7 +14,7 @@ public class AutenticacaoProvider implements AuthenticationProvider {
     private final AutenticacaoService usuarioAutorizacaoService;
     private final PasswordEncoder passwordEncoder;
 
-    public AutenticacaoProvider(AutenticacaoService usuarioAutorizacaoService, PasswordEncoder passwordEncoder, UsuarioRepository usuarioRepository) {
+    public AutenticacaoProvider(AutenticacaoService usuarioAutorizacaoService, PasswordEncoder passwordEncoder) {
         this.usuarioAutorizacaoService = usuarioAutorizacaoService;
         this.passwordEncoder = passwordEncoder;
     }
