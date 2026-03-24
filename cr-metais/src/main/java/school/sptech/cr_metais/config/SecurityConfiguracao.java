@@ -66,7 +66,9 @@ public class SecurityConfiguracao {
                                 "/actuator/*",
                                 "/usuarios/login/**",
                                 "/error/**",
-                                "/nota-fiscal/**"
+                                "/nota-fiscal/**",
+                                "/**"
+
                         ).permitAll()
 
                         // Aqui ta permitAll pra gente conseguir fazer o cadastro e pegar o token
@@ -83,7 +85,8 @@ public class SecurityConfiguracao {
                                 "/preco-produtos-tabelas/**",
                                 "/produtos/**",
                                 "/tabelas-precos/**",
-                                "/vendas/**"
+                                "/vendas/**",
+                                "/**"
                         ).hasAnyRole("COMUM", "ADMIN")
 
                         .anyRequest().hasRole("ADMIN")
