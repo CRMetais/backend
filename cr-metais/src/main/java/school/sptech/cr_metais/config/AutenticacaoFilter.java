@@ -57,6 +57,9 @@ public class AutenticacaoFilter extends OncePerRequestFilter {
     private void addUsernameInContext(HttpServletRequest request, String username, String jwtToken) {
         UserDetails userDetails = autenticacaoService.loadUserByUsername(username);
 
+        boolean isValid = jwtTokenManager.validateToken(jwtToken, userDetails);
+        System.out.println("Token é válido? " + isValid);
+
         if (jwtTokenManager.validateToken(jwtToken, userDetails)) {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities()

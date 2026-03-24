@@ -51,7 +51,6 @@ public class SecurityConfiguracao {
                 .csrf(CsrfConfigurer::disable)
 
                 .authorizeHttpRequests(authorize -> authorize
-
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
@@ -66,8 +65,7 @@ public class SecurityConfiguracao {
                                 "/actuator/*",
                                 "/usuarios/login/**",
                                 "/error/**",
-                                "/nota-fiscal/**",
-                                "/**"
+                                "/nota-fiscal/**"
 
                         ).permitAll()
 
@@ -81,15 +79,12 @@ public class SecurityConfiguracao {
                                 "/contas-pagamentos/**",
                                 "/enderecos/**",
                                 "/fornecedores/**",
-                                "/item-pedido-compras/**",
-                                "/preco-produtos-tabelas/**",
+                                "/item-pedido-compra/**",
+                                "/preco-produtos-tabela/**",
                                 "/produtos/**",
                                 "/tabelas-precos/**",
-                                "/vendas/**",
-                                "/**"
-                        ).hasAnyRole("COMUM", "ADMIN")
-
-                        .anyRequest().hasRole("ADMIN")
+                                "/vendas/**"
+                        ).hasAnyRole("COMUM", "ADMIN").anyRequest().hasRole("ADMIN")
                 )
 
                 .exceptionHandling(handling ->
