@@ -17,6 +17,7 @@ public class HistoricoController {
 
     @GetMapping
     public ResponseEntity<?> listarPorTipo(@RequestParam String tipo) {
+
         return ResponseEntity.ok(service.listarPorTipo(tipo));
     }
 }

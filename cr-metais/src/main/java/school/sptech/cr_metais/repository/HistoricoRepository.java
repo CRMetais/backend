@@ -21,7 +21,7 @@ public interface HistoricoRepository extends JpaRepository<Compra, UUID> {
     JOIN item_pedido_compra ipc ON c.id_compra = ipc.id_fk_compra
     JOIN produto p ON ipc.id_fk_produto = p.id_produto
     """, nativeQuery = true)
-    List<HistoricoCompraDto> listarCompras();
+    List<Object[]> listarCompras();
 
 
     @Query(value = """
@@ -33,5 +33,5 @@ public interface HistoricoRepository extends JpaRepository<Compra, UUID> {
     JOIN item_pedido_venda ipv ON v.id_venda = ipv.id_fk_venda
     JOIN produto p ON ipv.id_fk_produto = p.id_produto
     """, nativeQuery = true)
-    List<HistoricoVendaDto> listarVendas();
+    List<Object[]> listarVendas();
 }
