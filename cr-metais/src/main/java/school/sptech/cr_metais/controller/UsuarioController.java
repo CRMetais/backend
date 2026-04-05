@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.Usuario.*;
 import school.sptech.cr_metais.entity.Usuario;
@@ -43,13 +45,10 @@ public class UsuarioController {
     @SecurityRequirement(name = "Bearer")
     @PostMapping() // Usando uma rota específica para evitar ambiguidade
     public ResponseEntity<Void> cadastrar(@RequestBody @Valid UsuarioCriacaoDto usuarioCriacaoDto) {
-        // 1. Converte o DTO (dados de entrada) para a entidade Usuario
         Usuario novoUsuario = UsuarioMapper.of(usuarioCriacaoDto);
 
-        // 2. Chama o serviço para aplicar a lógica de negócio (ex: criptografar senha) e salvar
         this.uService.criar(novoUsuario);
 
-        // 3. Retorna uma resposta de sucesso (201 Created)
         return ResponseEntity.status(201).build();
     }
 
@@ -93,13 +92,20 @@ public class UsuarioController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(example = "{\"erro\": \"Usuário não encontrado\"}")))
     })
-        @PutMapping("/{id:\\d+}")
+    @PutMapping("/{id:\\d+}")
     @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<Usuario> atualizar(
+    public ResponseEntity<?> atualizar(
             @PathVariable Integer id,
-            @RequestBody UsuarioAtualizacaoDto dto
+            @RequestBody UsuarioAtualizacaoDto dto,
+            @AuthenticationPrincipal UserDetails userDetails
     ){
+        Usuario usuarioParaEditar = uService.buscarPorId(id);
+        boolean ehOProprioUsuario = usuarioParaEditar.getEmail().equals(userDetails.getUsername());
         Usuario usuarioAtualizado = uService.atualizar(id, dto);
+        if (ehOProprioUsuario) {
+            UsuarioTokenDto novoToken = uService.autenticar(usuarioAtualizado);
+            return ResponseEntity.ok(novoToken);
+        }
         return ResponseEntity.ok(usuarioAtualizado);
     }
 
