@@ -39,6 +39,7 @@ public class Cliente {
     @JoinColumn(name = "fk_tabela_preco")
     private TabelaPreco tabelaPreco;
 
+
     public Integer getIdCliente() {
         return idCliente;
     }

@@ -63,6 +63,17 @@ public class ClienteService {
                 .toList();
     }
 
+    public List<ClienteResponseDTO> listarClientes() {
+        List<Cliente> clientes = cRepository.findAll();
+
+        return clientes.stream().map(cliente -> new ClienteResponseDTO(
+                cliente.getIdCliente(),
+                cliente.getRazaoSocial(),
+                cliente.getCnpj(),
+                cliente.getTabelaPreco().getNomeTabela()
+        )).toList();
+    }
+
     public ClienteResponseDTO buscarPorId(Integer id) {
         Cliente cliente = cRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));

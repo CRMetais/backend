@@ -64,9 +64,9 @@ public class ClienteController {
             @ApiResponse(responseCode = "204", description = "Nenhum cliente encontrado", content = @Content)
     })
     @GetMapping
-    public ResponseEntity<List<ClienteResponseDTO>> listar() {
+    public ResponseEntity<List<ClienteResponseDTO>> listarClientes() {
 
-        List<ClienteResponseDTO> all = cService.listar();
+        List<ClienteResponseDTO> all = cService.listarClientes();
 
         if (all.isEmpty()) {
             return ResponseEntity.status(204).build();

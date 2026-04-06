@@ -1,24 +1,15 @@
 package school.sptech.cr_metais.dto.Cliente;
-import io.swagger.v3.oas.annotations.media.Schema;
 
-public class ClienteResponseDTO {
-
-    @Schema(description = "Identificador da tabela", example = "1")
+public class TabelaClienteResponseDTO {
     private Integer idCliente;
-
-    @Schema(description = "CNPJ do cliente", example = "42.591.651/0001-43")
     private String razaoSocial;
-
-    @Schema(description = "Razão social do cliente", example = "Arcos Dourados Comércio de Alimentos SA")
-    private String responsavel;
-
-    @Schema(description = "Telefone de contato do cliente", example = "1132303223")
+    private String cnpj;
     private String tabelaPreco;
 
-    public ClienteResponseDTO(Integer idCliente, String razaoSocial, String responsavel, String tabelaPreco) {
+    public TabelaClienteResponseDTO(Integer idCliente, String razaoSocial, String cnpj, String tabelaPreco) {
         this.idCliente = idCliente;
         this.razaoSocial = razaoSocial;
-        this.responsavel = responsavel;
+        this.cnpj = cnpj;
         this.tabelaPreco = tabelaPreco;
     }
 
@@ -38,12 +29,12 @@ public class ClienteResponseDTO {
         this.razaoSocial = razaoSocial;
     }
 
-    public String getResponsavel() {
-        return responsavel;
+    public String getCnpj() {
+        return cnpj;
     }
 
-    public void setResponsavel(String responsavel) {
-        this.responsavel = responsavel;
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 
     public String getTabelaPreco() {
