@@ -1,11 +1,9 @@
 package school.sptech.cr_metais.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.service.HistoricoService;
 
 @RestController
@@ -16,8 +14,14 @@ public class HistoricoController {
     private HistoricoService service;
 
     @GetMapping
-    public ResponseEntity<?> listarPorTipo(@RequestParam String tipo) {
+    public ResponseEntity<Page<?>> listarPorTipo(
+            @RequestParam String tipo,
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "10") int tamanho
+    ) {
 
-        return ResponseEntity.ok(service.listarPorTipo(tipo));
+        Page<?> resultado = service.listarPorTipo(tipo, pagina, tamanho);
+
+        return ResponseEntity.ok(resultado);
     }
 }
