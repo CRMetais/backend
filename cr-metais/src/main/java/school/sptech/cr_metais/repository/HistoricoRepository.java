@@ -10,6 +10,7 @@ import java.util.UUID;
 
 public interface HistoricoRepository extends JpaRepository<Compra, UUID> {
 
+    // 🔥 COMPRAS AJUSTADO
     @Query(value = """
     SELECT DISTINCT 
         c.id_compra AS id,
@@ -22,9 +23,9 @@ public interface HistoricoRepository extends JpaRepository<Compra, UUID> {
         ipc.rendimento AS rendimento,
         'COMPRA' AS tipo
     FROM compra c
-    JOIN fornecedor f ON c.fk_fornecedor = f.id_fornecedor
-    JOIN item_pedido_compra ipc ON c.id_compra = ipc.id_fk_compra
-    JOIN produto p ON ipc.id_fk_produto = p.id_produto
+    LEFT JOIN fornecedor f ON c.fk_fornecedor = f.id_fornecedor
+    LEFT JOIN item_pedido_compra ipc ON c.id_compra = ipc.id_fk_compra
+    LEFT JOIN produto p ON ipc.id_fk_produto = p.id_produto
     ORDER BY c.id_compra DESC
 """,
             countQuery = """
@@ -35,6 +36,7 @@ public interface HistoricoRepository extends JpaRepository<Compra, UUID> {
     Page<Object[]> listarCompras(Pageable pageable);
 
 
+    // 🔥 VENDAS AJUSTADO (CORREÇÃO PRINCIPAL)
     @Query(value = """
     SELECT DISTINCT
         v.id_venda AS id,
@@ -47,9 +49,9 @@ public interface HistoricoRepository extends JpaRepository<Compra, UUID> {
         NULL AS rendimento,
         'VENDA' AS tipo
     FROM venda v
-    JOIN cliente cl ON v.fk_cliente = cl.id_cliente
-    JOIN item_pedido_venda ipv ON v.id_venda = ipv.id_fk_venda
-    JOIN produto p ON ipv.id_fk_produto = p.id_produto
+    LEFT JOIN cliente cl ON v.fk_cliente = cl.id_cliente
+    LEFT JOIN item_pedido_venda ipv ON v.id_venda = ipv.id_fk_venda
+    LEFT JOIN produto p ON ipv.id_fk_produto = p.id_produto
     ORDER BY v.id_venda DESC
 """,
             countQuery = """
