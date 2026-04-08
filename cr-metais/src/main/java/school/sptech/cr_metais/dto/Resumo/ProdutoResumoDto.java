@@ -5,13 +5,13 @@ public class ProdutoResumoDto {
     private String nome;
     private Double peso;
     private Double valor;
-    private Double total;
+    private String destino;
 
-    public ProdutoResumoDto(String nome, Double peso, Double valor, Double total) {
+    public ProdutoResumoDto(String nome, Double peso, Double valor, String destino) {
         this.nome = nome;
         this.peso = peso;
         this.valor = valor;
-        this.total = total;
+        this.destino = destino;
     }
 
     public String getNome() {
@@ -26,7 +26,7 @@ public class ProdutoResumoDto {
         return valor;
     }
 
-    public Double getTotal() {
-        return total;
+    public String getDestino() {
+        return destino;
     }
 }

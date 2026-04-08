@@ -11,16 +11,21 @@ import java.util.List;
 @Repository
 public interface ResumoRepository extends JpaRepository<Produto, Integer> {
 
-    @Query(value = """
-        SELECT
-            p.nome,
-            SUM(i.pesoKg),
-            AVG(i.precoUnitario),
-            SUM(i.pesoKg * i.precoUnitario)
-        FROM ItemPedidoCompra i
-        JOIN i.produto p
-        GROUP BY p.nome
-            """)
+    @Query("""
+    SELECT 
+        p.nome,
+        SUM(i.pesoKg),
+        ppt.precoProduto,
+        tp.nomeTabela
+    FROM ItemPedidoCompra i
+    JOIN i.produto p
+    JOIN PrecoProdutoTabela ppt ON ppt.produto.idProduto = p.idProduto
+    JOIN ppt.tabelaPreco tp
+    GROUP BY 
+        p.nome,
+        ppt.precoProduto,
+        tp.nomeTabela
+""")
     List<Object[]> buscarResumoProdutos();
 
     @Query(value = """

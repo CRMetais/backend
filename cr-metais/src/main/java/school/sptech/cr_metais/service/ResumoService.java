@@ -22,35 +22,17 @@ public class ResumoService {
         List<ProdutoResumoDto> produtos = resultado.stream()
                 .map(r -> {
 
-                    Double peso;
-                    if(r[1] == null){
-                        peso = 0.0;
-                    }
-                    else{
-                        peso = (Double) r[1];
-                    }
+                    Double peso = r[1] == null ? 0.0 : ((Number) r[1]).doubleValue();
 
-                    Double valor;
-                    if(r[2] == null){
-                        valor = 0.0;
-                    }
-                    else{
-                        valor = (Double) r[2];
-                    }
+                    Double valor = r[2] == null ? 0.0 : ((Number) r[2]).doubleValue();
 
-                    Double total;
-                    if(r[3] == null){
-                        total = 0.0;
-                    }
-                    else{
-                        total = (Double) r[3];
-                    }
+                    String destino = r[3] == null ? "-" : (String) r[3];
 
                     return new ProdutoResumoDto(
                             (String) r[0],
                             peso,
                             valor,
-                            total
+                            destino
                     );
                 }).toList();
 
