@@ -65,14 +65,14 @@ public class SecurityConfiguracao {
                                 "/actuator/*",
                                 "/usuarios/login/**",
                                 "/error/**",
-                                "/nota-fiscal/**"
+                                "/nota-fiscal/**",
+                                "/**"
 
                         ).permitAll()
 
                         // Aqui ta permitAll pra gente conseguir fazer o cadastro e pegar o token
                         // Mas tem que ser hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-
                         .requestMatchers(
                                 "/clientes/**",
                                 "/compras/**",

@@ -15,6 +15,7 @@ import school.sptech.cr_metais.repository.TabelaPrecoRepository;
 import school.sptech.cr_metais.service.factory.ValidacaoFornecedorStrategyFactory;
 import school.sptech.cr_metais.service.strategy.ValidacaoCadastroFornecedorStrategy;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,8 +111,8 @@ public class FornecedorService {
         return resultado;
     }
 
-    public List<FornecedorTopRendimentoDto> listarTop10PorRendimento() {
-        List<Object[]> resultadoQuery = fRepository.buscarTop10FornecedoresPorRendimento();
+    public List<FornecedorTopRendimentoDto> listarTop10PorRendimento(LocalDate dataInicio, LocalDate dataFim) {
+        List<Object[]> resultadoQuery = fRepository.buscarTop10FornecedoresPorRendimento(dataInicio, dataFim);
         List<FornecedorTopRendimentoDto> response = new ArrayList<>();
 
         for (Object[] linha : resultadoQuery) {

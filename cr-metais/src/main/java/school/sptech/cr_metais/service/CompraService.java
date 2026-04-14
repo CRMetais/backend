@@ -14,6 +14,7 @@ import school.sptech.cr_metais.repository.PrecoProdutoTabelaRepository;
 import school.sptech.cr_metais.repository.ProdutoRepository;
 import org.springframework.transaction.annotation.Transactional;
 import school.sptech.cr_metais.repository.EstoqueRepository;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,6 +133,11 @@ public class CompraService {
         Compra compraAtualzada = compraRepository.save(compraAtualizar);
         return CompraMapper.toResponse(compraAtualzada);
 
+    }
+
+    public Double buscarMontanteTotal(LocalDate dataInicio, LocalDate dataFim) {
+        Double montante = compraRepository.buscarMontanteTotal(dataInicio, dataFim);
+        return montante == null ? 0D : montante;
     }
 
 }

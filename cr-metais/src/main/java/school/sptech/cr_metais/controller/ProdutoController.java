@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.Produto.*;
 import school.sptech.cr_metais.entity.Produto;
@@ -15,6 +16,7 @@ import school.sptech.cr_metais.mappers.ProdutoMapper;
 import school.sptech.cr_metais.repository.ProdutoRepository;
 import school.sptech.cr_metais.service.ProdutoService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.RecursiveTask;
@@ -106,9 +108,11 @@ private final ProdutoService pService;
                         @ApiResponse(responseCode = "204", description = "Nenhum dado encontrado", content = @Content)
         })
         @GetMapping("/top-peso-vendido")
-        public ResponseEntity<List<ProdutoTopPesoVendidoDto>> listarTop10PorPesoVendido() {
+        public ResponseEntity<List<ProdutoTopPesoVendidoDto>> listarTop10PorPesoVendido(
+                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
 
-                List<ProdutoTopPesoVendidoDto> ranking = pService.listarTop10PorPesoVendido();
+                List<ProdutoTopPesoVendidoDto> ranking = pService.listarTop10PorPesoVendido(dataInicio, dataFim);
 
                 if (ranking.isEmpty()) {
                         return ResponseEntity.status(204).build();

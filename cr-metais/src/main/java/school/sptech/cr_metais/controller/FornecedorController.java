@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.ContaPagamento.ContaPagamentoCadastroDto;
 import school.sptech.cr_metais.dto.ContaPagamento.ContaPagamentoResponseDto;
@@ -18,6 +19,7 @@ import school.sptech.cr_metais.entity.ContaPagamento;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.service.FornecedorService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -78,8 +80,10 @@ public class FornecedorController {
                         @ApiResponse(responseCode = "204", description = "Nenhum dado encontrado", content = @Content)
         })
         @GetMapping("/top-rendimento")
-        public ResponseEntity<List<FornecedorTopRendimentoDto>> listarTop10PorRendimento() {
-                List<FornecedorTopRendimentoDto> ranking = fService.listarTop10PorRendimento();
+        public ResponseEntity<List<FornecedorTopRendimentoDto>> listarTop10PorRendimento(
+                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
+                List<FornecedorTopRendimentoDto> ranking = fService.listarTop10PorRendimento(dataInicio, dataFim);
 
                 if (ranking.isEmpty()) {
                         return ResponseEntity.status(204).build();

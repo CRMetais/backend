@@ -22,6 +22,7 @@ import school.sptech.cr_metais.repository.ProdutoRepository;
 import school.sptech.cr_metais.repository.TabelaPrecoRepository;
 import school.sptech.cr_metais.repository.VendaRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,6 +103,11 @@ public class VendaService {
             throw new EntidadeNaoEncontradaException("Venda não encontrada");
         }
         vRepository.deleteById(id);
+    }
+
+    public Double buscarMontanteTotal(LocalDate dataInicio, LocalDate dataFim) {
+        Double montante = vRepository.buscarMontanteTotal(dataInicio, dataFim);
+        return montante == null ? 0D : montante;
     }
 
 }

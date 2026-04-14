@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.Estoque.EstoqueRequestDto;
@@ -15,6 +16,7 @@ import school.sptech.cr_metais.entity.ItemPedidoVenda;
 import school.sptech.cr_metais.mappers.EstoqueMapper;
 import school.sptech.cr_metais.service.EstoqueService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -87,6 +89,22 @@ public class EstoqueController {
 
         List<EstoqueResponseDto> response = EstoqueMapper.toResponse(todos);
         return ResponseEntity.status(200).body(response);
+    }
+
+    @Operation(
+            summary = "Consultar peso total em estoque",
+            description = "Retorna a soma da quantidade disponível em estoque. Os filtros de data são aceitos para compatibilidade com o dashboard atual."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Peso total retornado com sucesso")
+    })
+    @GetMapping("/total-produtos")
+    public ResponseEntity<Double> buscarPesoTotalProdutos(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
+
+        Double total = estoqueService.buscarPesoTotalProdutos(dataInicio, dataFim);
+        return ResponseEntity.ok(total);
     }
 
     @Operation(

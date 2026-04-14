@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface EstoqueRepository extends JpaRepository<Estoque, Integer> {
     List<Estoque> findByProduto(Produto produto);
     Optional<Estoque> findFirstByProduto(Produto produto);
+
+    @Query("SELECT COALESCE(SUM(e.quantidadeDisponivel), 0) FROM Estoque e")
+    Double somarQuantidadeDisponivel();
 }

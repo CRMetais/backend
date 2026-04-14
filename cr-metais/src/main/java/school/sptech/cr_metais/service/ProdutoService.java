@@ -9,6 +9,7 @@ import school.sptech.cr_metais.mappers.ProdutoMapper;
 import school.sptech.cr_metais.repository.EstoqueRepository;
 import school.sptech.cr_metais.repository.ProdutoRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
@@ -57,8 +58,8 @@ public class ProdutoService {
         return pRepository.save(produto);
     }
 
-    public List<ProdutoTopPesoVendidoDto> listarTop10PorPesoVendido() {
-        List<Object[]> resultadoQuery = pRepository.buscarTop10ProdutosPorPesoVendido();
+    public List<ProdutoTopPesoVendidoDto> listarTop10PorPesoVendido(LocalDate dataInicio, LocalDate dataFim) {
+        List<Object[]> resultadoQuery = pRepository.buscarTop10ProdutosPorPesoVendido(dataInicio, dataFim);
         List<ProdutoTopPesoVendidoDto> response = new ArrayList<>();
 
         for (Object[] linha : resultadoQuery) {

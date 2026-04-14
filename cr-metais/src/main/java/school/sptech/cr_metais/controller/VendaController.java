@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.Cliente.ClienteCadastroDTO;
@@ -20,6 +21,7 @@ import school.sptech.cr_metais.entity.Venda;
 import school.sptech.cr_metais.service.ClienteService;
 import school.sptech.cr_metais.service.VendaService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -73,6 +75,22 @@ public class VendaController {
             return ResponseEntity.status(204).build();
         }
         return ResponseEntity.ok(all);
+    }
+
+    @Operation(
+            summary = "Consultar montante total de vendas",
+            description = "Retorna a soma do valor total vendido no intervalo informado."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Montante total retornado com sucesso")
+    })
+    @GetMapping("/montante-total")
+    public ResponseEntity<Double> buscarMontanteTotal(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
+
+        Double montante = vService.buscarMontanteTotal(dataInicio, dataFim);
+        return ResponseEntity.ok(montante);
     }
 
     @Operation(

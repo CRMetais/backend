@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.Compra.CompraCadastroDto;
@@ -22,6 +23,7 @@ import school.sptech.cr_metais.entity.PagamentoCompra;
 import school.sptech.cr_metais.mappers.CompraMapper;
 import school.sptech.cr_metais.service.CompraService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RequestMapping("/compra")
@@ -70,6 +72,22 @@ public class CompraController {
         }
         return ResponseEntity.status(200).body(allCompras);
     }
+
+        @Operation(
+                        summary = "Consultar montante total de compras",
+                        description = "Retorna a soma do valor total comprado no intervalo informado."
+        )
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Montante total retornado com sucesso")
+        })
+        @GetMapping("/montante-total")
+        public ResponseEntity<Double> buscarMontanteTotal(
+                        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+                        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
+
+                Double montante = compraService.buscarMontanteTotal(dataInicio, dataFim);
+                return ResponseEntity.ok(montante);
+        }
 
     @Operation(
             summary = "Deletar compra por ID",

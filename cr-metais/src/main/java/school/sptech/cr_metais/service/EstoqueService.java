@@ -8,6 +8,7 @@ import school.sptech.cr_metais.mappers.EstoqueMapper;
 import school.sptech.cr_metais.repository.EstoqueRepository;
 import school.sptech.cr_metais.repository.ProdutoRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,5 +66,10 @@ public class EstoqueService {
         }
 
         return repository.save(estoque);
+    }
+
+    public Double buscarPesoTotalProdutos(LocalDate dataInicio, LocalDate dataFim) {
+        Double total = repository.somarQuantidadeDisponivel();
+        return total == null ? 0D : total;
     }
 }
