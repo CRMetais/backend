@@ -11,9 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.cr_metais.dto.TabelaPreco.FornecedorTabelaPrecoDto;
-import school.sptech.cr_metais.dto.TabelaPreco.TabelaPrecoCadastroDTO;
-import school.sptech.cr_metais.dto.TabelaPreco.TabelaPrecoResponseDTO;
+import school.sptech.cr_metais.dto.TabelaPreco.*;
 import school.sptech.cr_metais.entity.TabelaPreco;
 import school.sptech.cr_metais.service.TabelaPrecoService;
 
@@ -147,6 +145,41 @@ public class TabelaPrecoController {
 
         TabelaPrecoResponseDTO atualizada = tService.atualizar(id, dto);
         return ResponseEntity.ok(atualizada);
+    }
+
+    @Operation(
+            summary = "Buscar preços por nome da tabela",
+            description = "Retorna todos os produtos com seus preços e datas para uma tabela específica."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Preços encontrados com sucesso"),
+            @ApiResponse(responseCode = "204", description = "Nenhum preço encontrado", content = @Content)
+    })
+    @GetMapping("/precos")
+    public ResponseEntity<List<TabelaPrecoDto>> buscarPrecosPorNome(
+            @RequestParam String nome) {
+
+        List<TabelaPrecoDto> precos = tService.buscarPrecosporNomeTabela(nome);
+
+        if (precos.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.ok(precos);
+    }
+
+    @PostMapping("/venda")
+    public ResponseEntity<TabelaPrecoResponseDTO> cadastrarTabelaVenda(
+            @RequestBody @Valid CadastrarTabelaVendaDto dto) {
+
+        TabelaPrecoResponseDTO resposta = tService.cadastrarTabelaVenda(dto.getNomeTabela());
+        return ResponseEntity.status(201).body(resposta);
+    }
+
+    @GetMapping("/venda")
+    public ResponseEntity<List<TabelaPrecoResponseDTO>> listarVenda() {
+        List<TabelaPrecoResponseDTO> all = tService.listarVenda();
+        if (all.isEmpty()) return ResponseEntity.status(204).build();
+        return ResponseEntity.ok(all);
     }
 
 }

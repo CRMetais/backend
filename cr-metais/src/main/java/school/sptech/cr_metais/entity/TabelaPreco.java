@@ -35,7 +35,6 @@ public class TabelaPreco {
     private LocalDate dataInicioValidade;
 
 
-    @NotNull
     @Column(name = "data_fim_validade")
     private LocalDate dataFimValidade;
 

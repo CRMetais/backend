@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.PrecoProdutoTabela.PrecoProdutoTabelaRequestDto;
 import school.sptech.cr_metais.dto.PrecoProdutoTabela.PrecoProdutoTabelaResponseDto;
+import school.sptech.cr_metais.dto.TabelaPreco.SalvarPrecosRequestDto;
 import school.sptech.cr_metais.entity.ItemPedidoVenda;
 import school.sptech.cr_metais.entity.PrecoProdutoTabela;
 import school.sptech.cr_metais.mappers.PrecoProdutoTabelaMapper;
@@ -124,6 +125,24 @@ public class PrecoProdutoTabelaController {
 
         precoProdutoTabelaService.deletarPorId(id);
         return ResponseEntity.status(204).build();
+    }
+
+    @Operation(
+            summary = "Salvar preços em lote para hoje",
+            description = "Insere novos registros de preço com a data de hoje. " +
+                    "Se já existir um registro hoje para o produto+tabela, atualiza. " +
+                    "Histórico de datas anteriores é preservado."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Preços salvos com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Tabela ou produto não encontrado", content = @Content)
+    })
+    @PostMapping("/lote")
+    public ResponseEntity<Void> salvarEmLote(
+            @RequestBody SalvarPrecosRequestDto request) {
+
+        precoProdutoTabelaService.salvarPrecosEmLote(request);
+        return ResponseEntity.ok().build();
     }
 
 }

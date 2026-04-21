@@ -5,8 +5,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import school.sptech.cr_metais.entity.PrecoProdutoTabela;
+import school.sptech.cr_metais.entity.Produto;
+import school.sptech.cr_metais.entity.TabelaPreco;
 import school.sptech.cr_metais.entity.TipoTabela;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,14 +17,14 @@ import java.util.Optional;
 public interface PrecoProdutoTabelaRepository extends JpaRepository<PrecoProdutoTabela, Integer> {
 
     @Query(value = """
-        SELECT *
-        FROM preco_produto_tabela ppt
-        WHERE (:tabelaPrecoId IS NULL OR ppt.fk_tabela_preco = :tabelaPrecoId)
-          AND (:produtoId IS NULL OR ppt.fk_produto = :produtoId)
-        """, nativeQuery = true)
+            SELECT *
+            FROM preco_produto_tabela ppt
+            WHERE (:tabelaPrecoId IS NULL OR ppt.fk_tabela_preco = :tabelaPrecoId)
+              AND (:produtoId IS NULL OR ppt.fk_produto = :produtoId)
+            """, nativeQuery = true)
     List<PrecoProdutoTabela> buscarPrecos(
-        @Param("tabelaPrecoId") Long tabelaPrecoId,
-        @Param("produtoId") Long produtoId
+            @Param("tabelaPrecoId") Long tabelaPrecoId,
+            @Param("produtoId") Long produtoId
     );
 
     Optional<PrecoProdutoTabela> findFirstByProdutoIdProdutoAndTabelaPrecoTipoAndTabelaPrecoNomeTabelaAndTabelaPrecoAtivaTrueOrderByTabelaPrecoVersaoDesc(
@@ -29,4 +32,5 @@ public interface PrecoProdutoTabelaRepository extends JpaRepository<PrecoProduto
             TipoTabela tipo,
             String nomeTabela
     );
+
 }

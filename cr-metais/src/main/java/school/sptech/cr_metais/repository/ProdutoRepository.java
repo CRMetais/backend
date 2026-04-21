@@ -7,6 +7,7 @@ import school.sptech.cr_metais.entity.Produto;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
@@ -30,5 +31,9 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
             """, nativeQuery = true)
     List<Object[]> buscarTop10ProdutosPorPesoVendido(@Param("dataInicio") LocalDate dataInicio,
                                                      @Param("dataFim") LocalDate dataFim);
+
+
+
+    Optional<Produto> findByNome(String nome);
 
 }
