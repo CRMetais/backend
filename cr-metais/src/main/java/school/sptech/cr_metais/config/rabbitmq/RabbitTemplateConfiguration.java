@@ -1,11 +1,9 @@
 package school.sptech.cr_metais.config.rabbitmq;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.context.annotation.*;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 
 @Configuration
@@ -17,6 +15,7 @@ public class RabbitTemplateConfiguration {
 
     @Bean
     public Declarables rabbitDeclarables() {
+
         DirectExchange exchange = new DirectExchange(properties.exchange().name());
 
         Queue queue = QueueBuilder

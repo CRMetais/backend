@@ -8,12 +8,7 @@ public record RabbitPropertiesConfiguration(
         Queue queue,
         RoutingKey routingKey
 ) {
-    public record Exchange(String name) {
-    }
-
-    public record Queue(String name) {
-    }
-
-    public record RoutingKey(String name) {
-    }
+    public record Exchange(String name) {}
+    public record Queue(String name) {}
+    public record RoutingKey(String name) {}
 }
