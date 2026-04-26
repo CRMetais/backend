@@ -143,4 +143,23 @@ public class TabelaPrecoService {
     }
 
 
+    public List<TabelaPrecoResponseDTO> listarCompra() {
+        return tRepository.findAllCompra()
+                .stream()
+                .map(tabelaPrecoMapper::toDTO)
+                .toList();
+    }
+
+    public TabelaPrecoResponseDTO cadastrarTabelaCompra(String nomeTabela) {
+        TabelaPreco nova = new TabelaPreco();
+        nova.setNomeTabela(nomeTabela.toUpperCase());
+        nova.setTipo(TipoTabela.C);          // ← C em vez de V
+        nova.setVersao(1.0);
+        nova.setDataInicioValidade(LocalDate.now());
+        nova.setDataFimValidade(null);
+        nova.setAtiva(true);
+        return tabelaPrecoMapper.toDTO(tRepository.save(nova));
+    }
+
+
 }

@@ -182,6 +182,21 @@ public class TabelaPrecoController {
         return ResponseEntity.ok(all);
     }
 
+    @GetMapping("/compra")
+    public ResponseEntity<List<TabelaPrecoResponseDTO>> listarCompra() {
+        List<TabelaPrecoResponseDTO> all = tService.listarCompra();
+        if (all.isEmpty()) return ResponseEntity.status(204).build();
+        return ResponseEntity.ok(all);
+    }
+
+    @PostMapping("/compra")
+    public ResponseEntity<TabelaPrecoResponseDTO> cadastrarTabelaCompra(
+            @RequestBody @Valid CadastrarTabelaVendaDto dto) {
+        return ResponseEntity.status(201).body(
+                tService.cadastrarTabelaCompra(dto.getNomeTabela())
+        );
+    }
+
 }
 
 

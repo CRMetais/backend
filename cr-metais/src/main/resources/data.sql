@@ -10,18 +10,20 @@ INSERT INTO usuario (nome, senha, email, cargo) VALUES
 -- ==========================================================
 -- TABELA: endereco (base p/ fornecedor e cliente)
 -- ==========================================================
-INSERT INTO endereco (estado, cidade, bairro, logradouro, numero, cep) VALUES
-                                                                           ('SP', 'São Paulo', 'Lapa', 'Rua Guaicurus', 150, '05033000'),
-                                                                           ('RJ', 'Angra dos Reis', 'Praia do Anil', 'Av. Ayrton Senna', 200, '23906010'),
-                                                                           ('MG', 'Belo Horizonte', 'Savassi', 'Rua Pernambuco', 300, '30130150'),
-                                                                           ('PR', 'Curitiba', 'Batel', 'Av. Vicente Machado', 400, '80420010');
+INSERT INTO endereco (estado, cidade, bairro, logradouro, complemento, numero, cep) VALUES
+                                                                                         ('SP', 'São Paulo', 'Lapa', 'Rua Guaicurus', 'Galpão A', '150', '05033000'),
+                                                                                         ('RJ', 'Angra dos Reis', 'Praia do Anil', 'Av. Ayrton Senna', 'Loja 4', '200', '23906010'),
+                                                                                         ('MG', 'Belo Horizonte', 'Savassi', 'Rua Pernambuco', 'Sala 12', '300', '30130150'),
+                                                                                         ('PR', 'Curitiba', 'Batel', 'Av. Vicente Machado', 'Conjunto 8', '400', '80420010');
 
 -- ==========================================================
 -- TABELA: tabela_preco (base p/ cliente e fornecedor)
 -- ==========================================================
 INSERT INTO tabela_preco (tipo, nome_tabela, versao, data_inicio_validade, data_fim_validade, ativa) VALUES
-                                                                                                         ('C', 'Padrão', 1.0, '2026-01-01', '2026-12-31', 1),   -- compra
-                                                                                                         ('V', 'Vital', 1.0, '2026-01-01', '2026-12-31', 1);   -- venda
+                                                                                                         ('C', 'PADRÃO', 1.0, '2026-03-01', '2026-04-01', 0),   -- compra
+                                                                                                         ('V', 'VITAL', 1.0, '2026-03-01', '2026-04-01' , 0),   -- venda
+                                                                                                         ('C', 'PADRÃO', 1.1, '2026-04-01', null, 1),   -- compra
+                                                                                                         ('V', 'VITAL', 1.1, '2026-04-01', null , 1);
 
 -- ==========================================================
 -- TABELA: produto (sem FK)
@@ -68,42 +70,42 @@ INSERT INTO produto (nome, tipo_produto) VALUES
 -- TABELA: estoque (FK -> produto)
 -- ==========================================================
 INSERT INTO estoque (quantidade_disponivel, localizacao, fk_produto) VALUES
-                                                                         (300, 'Galpão Principal', 1),
-                                                                         (500, 'Galpão Principal', 2),
-                                                                         (200, 'Galpão Principal', 3),
-                                                                         (150, 'Galpão Principal', 4),
-                                                                         (400, 'Galpão Principal', 5),
+                                                                         (500, 'Galpão Principal', 1),
+                                                                         (300, 'Galpão Principal', 2),
+                                                                         (450, 'Galpão Principal', 3),
+                                                                         (200, 'Galpão Principal', 4),
+                                                                         (600, 'Galpão Principal', 5),
                                                                          (350, 'Galpão Principal', 6),
-                                                                         (250, 'Galpão Principal', 7),
-                                                                         (600, 'Galpão Principal', 8),
-                                                                         (180, 'Galpão Principal', 9),
-                                                                         (220, 'Galpão Principal', 10),
-                                                                         (450, 'Galpão Principal', 11),
-                                                                         (320, 'Galpão Principal', 12),
-                                                                         (270, 'Galpão Principal', 13),
-                                                                         (190, 'Galpão Principal', 14),
-                                                                         (160, 'Galpão Principal', 15),
-                                                                         (340, 'Galpão Principal', 16),
-                                                                         (500, 'Galpão Principal', 17),
-                                                                         (210, 'Galpão Principal', 18),
+                                                                         (100, 'Galpão Principal', 7),
+                                                                         (550, 'Galpão Principal', 8),
+                                                                         (150, 'Galpão Principal', 9),
+                                                                         (400, 'Galpão Principal', 10),
+                                                                         (700, 'Galpão Principal', 11),
+                                                                         (250, 'Galpão Principal', 12),
+                                                                         (300, 'Galpão Principal', 13),
+                                                                         (120, 'Galpão Principal', 14),
+                                                                         (180, 'Galpão Principal', 15),
+                                                                         (220, 'Galpão Principal', 16),
+                                                                         (800, 'Galpão Principal', 17),
+                                                                         (350, 'Galpão Principal', 18),
                                                                          (280, 'Galpão Principal', 19),
-                                                                         (390, 'Galpão Principal', 20),
-                                                                         (470, 'Galpão Principal', 21),
-                                                                         (130, 'Galpão Principal', 22),
-                                                                         (550, 'Galpão Principal', 23),
-                                                                         (310, 'Galpão Principal', 24),
-                                                                         (260, 'Galpão Principal', 25),
-                                                                         (420, 'Galpão Principal', 26),
-                                                                         (380, 'Galpão Principal', 27),
-                                                                         (290, 'Galpão Principal', 28),
-                                                                         (240, 'Galpão Principal', 29),
-                                                                         (360, 'Galpão Principal', 30),
-                                                                         (490, 'Galpão Principal', 31),
-                                                                         (170, 'Galpão Principal', 32),
-                                                                         (330, 'Galpão Principal', 33),
-                                                                         (410, 'Galpão Principal', 34),
-                                                                         (520, 'Galpão Principal', 35),
-                                                                         (230, 'Galpão Principal', 36);
+                                                                         (650, 'Galpão Principal', 20),
+                                                                         (900, 'Galpão Principal', 21),
+                                                                         (150, 'Galpão Principal', 22),
+                                                                         (320, 'Galpão Principal', 23),
+                                                                         (480, 'Galpão Principal', 24),
+                                                                         (550, 'Galpão Principal', 25),
+                                                                         (200, 'Galpão Principal', 26),
+                                                                         (420, 'Galpão Principal', 27),
+                                                                         (380, 'Galpão Principal', 28),
+                                                                         (310, 'Galpão Principal', 29),
+                                                                         (290, 'Galpão Principal', 30),
+                                                                         (470, 'Galpão Principal', 31),
+                                                                         (180, 'Galpão Principal', 32),
+                                                                         (340, 'Galpão Principal', 33),
+                                                                         (520, 'Galpão Principal', 34),
+                                                                         (260, 'Galpão Principal', 35),
+                                                                         (190, 'Galpão Principal', 36);
 
 -- ==========================================================
 -- TABELA: preco_produto_tabela (FK -> produto, tabela_preco)
@@ -147,6 +149,44 @@ INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VA
                                                                                   (35, 1, 5.00),
                                                                                   (36, 1, 3.30);
 
+ INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VALUES
+ (1, 3, 8.90),
+ (2, 3, 2.30),
+ (3, 3, 3.80),
+ (4, 3, 1.20),
+ (5, 3, 3.10),
+ (6, 3, 1.60),
+ (7, 3, 39.50),
+ (8, 3, 3.00),
+ (9, 3, 23.50),
+ (10, 3, 18.40),
+ (11, 3, 7.90),
+ (12, 3, 4.10),
+ (13, 3, 5.60),
+ (14, 3, 41.00),
+ (15, 3, 51.80),
+ (16, 3, 47.50),
+ (17, 3, 0.90),
+ (18, 3, 29.00),
+ (19, 3, 15.00),
+ (20, 3, 2.50),
+ (21, 3, 9.00),
+ (22, 3, 32.50),
+ (23, 3, 7.80),
+ (24, 3, 3.60),
+ (25, 3, 11.00),
+ (26, 3, 21.50),
+ (27, 3, 5.40),
+ (28, 3, 11.20),
+ (29, 3, 12.40),
+ (30, 3, 11.00),
+ (31, 3, 4.50),
+ (32, 3, 24.50),
+ (33, 3, 14.00),
+ (34, 3, 15.20),
+ (35, 3, 5.40),
+ (36, 3, 3.80);
+
 -- venda
 INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VALUES
                                                                                   (1, 2, 10.00),
@@ -186,6 +226,44 @@ INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VA
                                                                                   (35, 2, 7.20),
                                                                                   (36, 2, 5.50);
 
+INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VALUES
+(1, 4, 11.50),
+(2, 4, 2.20),
+(3, 4, 5.50),
+(4, 4, 2.50),
+(5, 4, 6.80),
+(6, 4, 2.00),
+(7, 4, 42.80),
+(8, 4, 4.20),
+(9, 4, 26.80),
+(10, 4, 18.50),
+(11, 4, 10.80),
+(12, 4, 4.50),
+(13, 4, 8.90),
+(14, 4, 44.00),
+(15, 4, 54.80),
+(16, 4, 50.50),
+(17, 4, 2.80),
+(18, 4, 31.90),
+(19, 4, 17.90),
+(20, 4, 3.20),
+(21, 4, 11.90),
+(22, 4, 34.70),
+(23, 4, 8.00),
+(24, 4, 5.00),
+(25, 4, 13.90),
+(26, 4, 23.80),
+(27, 4, 6.00),
+(28, 4, 13.80),
+(29, 4, 15.50),
+(30, 4, 11.00),
+(31, 4, 7.80),
+(32, 4, 27.50),
+(33, 4, 16.80),
+(34, 4, 18.20),
+(35, 4, 8.50),
+(36, 4, 6.80);
+
 -- ==========================================================
 -- TABELA: cliente (FK -> endereco, tabela_preco)
 -- ==========================================================
@@ -196,17 +274,17 @@ INSERT INTO cliente (CNPJ, razao_social, tel_contato, fk_endereco, fk_tabela_pre
 -- ==========================================================
 -- TABELA: fornecedor (FK -> endereco, tabela_preco)
 -- ==========================================================
-INSERT INTO fornecedor (fk_endereco, fk_tabela_preco, nome, documento, telefone, apelido) VALUES
-                                                                                              (1, 1, 'Carlos Eduardo Mendes',      '12345678901', '11991234567', 'Carlos'),
-                                                                                              (2, 1, 'Ana Beatriz Ferreira',       '23456789012', '21997654321', 'Ana'),
-                                                                                              (3, 1, 'Ricardo Lopes da Silva',     '34567890123', '31998887766', 'Ricardo'),
-                                                                                              (4, 1, 'Mariana Santos Oliveira',    '45678901234', '41998776655', 'Mariana'),
-                                                                                              (1, 1, 'João Pedro Cavalcante',      '56789012345', '11990011223', 'João'),
-                                                                                              (2, 1, 'Letícia Moura Almeida',      '67890123456', '21990022334', 'Leticia'),
-                                                                                              (3, 1, 'Fernando Augusto Ribeiro',   '78901234567', '31995554433', 'Fernando'),
-                                                                                              (4, 1, 'Patrícia Gomes Andrade',     '89012345678', '41998889900', 'Patricia'),
-                                                                                              (1, 1, 'Gustavo Henrique Martins',   '90123456789', '11993335577', 'Gustavo'),
-                                                                                              (2, 1, 'Camila Rodrigues Silva',     '01234567890', '21992228844', 'Camila');
+INSERT INTO fornecedor (fk_endereco, fk_tabela_preco, nome, documento, tipo_fornecedor, telefone, apelido) VALUES
+                                                                                                               (1, 1, 'Carlos Eduardo Mendes',      '12345678901', 'PESSOA_FISICA', '11991234567', 'Carlos'),
+                                                                                                               (2, 1, 'Ana Beatriz Ferreira',       '23456789012', 'PESSOA_FISICA', '21997654321', 'Ana'),
+                                                                                                               (3, 1, 'Ricardo Lopes da Silva',     '34567890123', 'PESSOA_FISICA', '31998887766', 'Ricardo'),
+                                                                                                               (4, 1, 'Mariana Santos Oliveira',    '45678901234', 'PESSOA_FISICA', '41998776655', 'Mariana'),
+                                                                                                               (1, 1, 'João Pedro Cavalcante',      '56789012345', 'PESSOA_FISICA', '11990011223', 'João'),
+                                                                                                               (2, 1, 'Letícia Moura Almeida',      '67890123456', 'PESSOA_FISICA', '21990022334', 'Leticia'),
+                                                                                                               (3, 1, 'Fernando Augusto Ribeiro',   '78901234567', 'PESSOA_FISICA', '31995554433', 'Fernando'),
+                                                                                                               (4, 1, 'Patrícia Gomes Andrade',     '89012345678', 'PESSOA_FISICA', '41998889900', 'Patricia'),
+                                                                                                               (1, 1, 'Gustavo Henrique Martins',   '90123456789', 'PESSOA_FISICA', '11993335577', 'Gustavo'),
+                                                                                                               (2, 1, 'Camila Rodrigues Silva',     '01234567890', 'PESSOA_FISICA', '21992228844', 'Camila');
 
 
 -- ==========================================================
@@ -214,70 +292,70 @@ INSERT INTO fornecedor (fk_endereco, fk_tabela_preco, nome, documento, telefone,
 -- ==========================================================
 INSERT INTO conta_pagamento
 (pix, banco, agencia, conta, tipo_conta, chave_pix, nome, pertence_fornecedor, documento, conta_ativa, fk_fornecedor) VALUES
-                                                                                                                          (1, 'Banco do Brasil', '1234', '56789-0', 'C', 'metalsp@pix.com',
-                                                                                                                           'Metal SP Comércio', 1, '12345678000199', 1, 1),
+                                                                                                                          (1, 'Banco do Brasil', '1234', '56789-0', 'C', 'carlos.mendes@pix.com',
+                                                                                                                           'Carlos Eduardo Mendes', 1, '12345678901', 1, 1),
 
-                                                                                                                          (0, 'Caixa', '4321', '12345-9', 'P', 'reciclagem.rj@pix.com',
-                                                                                                                           'Reciclagem Rio', 1, '98765432000166', 1, 2);
+                                                                                                                          (0, 'Caixa', '4321', '12345-9', 'P', NULL,
+                                                                                                                           'Ana Beatriz Ferreira', 1, '23456789012', 1, 2);
 
 -- ==========================================================
 -- TABELA: compra (FK -> fornecedor)
 -- ==========================================================
 INSERT INTO compra (fk_fornecedor, data_compra) VALUES
-                                                    (1, '2026-03-03'),
-                                                    (2, '2026-03-04'),
-                                                    (3, '2026-03-05'),
-                                                    (4, '2026-03-06'),
-                                                    (5, '2026-03-07'),
-                                                    (6, '2026-03-08'),
-                                                    (7, '2026-03-09'),
-                                                    (8, '2026-03-03'),
-                                                    (9, '2026-03-04'),
-                                                    (10,'2026-03-05'),
+                                                    (1, '2026-04-03'),
+                                                    (2, '2026-04-04'),
+                                                    (3, '2026-04-05'),
+                                                    (4, '2026-04-06'),
+                                                    (5, '2026-04-07'),
+                                                    (6, '2026-04-08'),
+                                                    (7, '2026-04-09'),
+                                                    (8, '2026-04-03'),
+                                                    (9, '2026-04-04'),
+                                                    (10,'2026-04-05'),
 
-                                                    (1, '2026-03-06'),
-                                                    (2, '2026-03-07'),
-                                                    (3, '2026-03-08'),
-                                                    (4, '2026-03-09'),
-                                                    (5, '2026-03-03'),
-                                                    (6, '2026-03-04'),
-                                                    (7, '2026-03-05'),
-                                                    (8, '2026-03-06'),
-                                                    (9, '2026-03-07'),
-                                                    (10,'2026-03-08'),
+                                                    (1, '2026-04-06'),
+                                                    (2, '2026-04-07'),
+                                                    (3, '2026-04-08'),
+                                                    (4, '2026-04-09'),
+                                                    (5, '2026-04-03'),
+                                                    (6, '2026-04-04'),
+                                                    (7, '2026-04-05'),
+                                                    (8, '2026-04-06'),
+                                                    (9, '2026-04-07'),
+                                                    (10,'2026-04-08'),
 
-                                                    (1, '2026-03-09'),
-                                                    (2, '2026-03-03'),
-                                                    (3, '2026-03-04'),
-                                                    (4, '2026-03-05'),
-                                                    (5, '2026-03-06'),
-                                                    (6, '2026-03-07'),
-                                                    (7, '2026-03-08'),
-                                                    (8, '2026-03-09'),
-                                                    (9, '2026-03-03'),
-                                                    (10,'2026-03-04'),
+                                                    (1, '2026-04-09'),
+                                                    (2, '2026-04-03'),
+                                                    (3, '2026-04-04'),
+                                                    (4, '2026-04-05'),
+                                                    (5, '2026-04-06'),
+                                                    (6, '2026-04-07'),
+                                                    (7, '2026-04-08'),
+                                                    (8, '2026-04-09'),
+                                                    (9, '2026-04-03'),
+                                                    (10,'2026-04-04'),
 
-                                                    (1, '2026-03-05'),
-                                                    (2, '2026-03-06'),
-                                                    (3, '2026-03-07'),
-                                                    (4, '2026-03-08'),
-                                                    (5, '2026-03-09'),
-                                                    (6, '2026-03-03'),
-                                                    (7, '2026-03-04'),
-                                                    (8, '2026-03-05'),
-                                                    (9, '2026-03-06'),
-                                                    (10,'2026-03-07'),
+                                                    (1, '2026-04-05'),
+                                                    (2, '2026-04-06'),
+                                                    (3, '2026-04-07'),
+                                                    (4, '2026-04-08'),
+                                                    (5, '2026-04-09'),
+                                                    (6, '2026-04-03'),
+                                                    (7, '2026-04-04'),
+                                                    (8, '2026-04-05'),
+                                                    (9, '2026-04-06'),
+                                                    (10,'2026-04-07'),
 
-                                                    (1, '2026-03-08'),
-                                                    (2, '2026-03-09'),
-                                                    (3, '2026-03-03'),
-                                                    (4, '2026-03-04'),
-                                                    (5, '2026-03-05'),
-                                                    (6, '2026-03-06'),
-                                                    (7, '2026-03-07'),
-                                                    (8, '2026-03-08'),
-                                                    (9, '2026-03-09'),
-                                                    (10,'2026-03-03');
+                                                    (1, '2026-04-08'),
+                                                    (2, '2026-04-09'),
+                                                    (3, '2026-04-03'),
+                                                    (4, '2026-04-04'),
+                                                    (5, '2026-04-05'),
+                                                    (6, '2026-04-06'),
+                                                    (7, '2026-04-07'),
+                                                    (8, '2026-04-08'),
+                                                    (9, '2026-04-09'),
+                                                    (10,'2026-04-03');
 
 
 -- ==========================================================
@@ -541,20 +619,20 @@ INSERT INTO item_pedido_compra (id_fk_compra, id_fk_produto, peso_kg, preco_unit
 -- TABELA: pagamento_compra (FK -> compra, conta_pagamento)
 -- ==========================================================
 INSERT INTO pagamento_compra (fk_compra, data_pagamento_compra, fk_conta_pagamento) VALUES
-                                                                                        (1, '2026-01-20', 1),
-                                                                                        (2, '2026-01-25', 2);
+                                                                                        (1, '2026-04-10', 1),
+                                                                                        (2, '2026-04-11', 2);
 
 -- ==========================================================
 -- TABELA: venda (FK -> cliente, tabela_preco)
 -- ==========================================================
 INSERT INTO venda (fk_cliente, data_venda) VALUES
-                                               (1, '2026-03-01'),
-                                               (2, '2026-03-05');
+                                               (1, '2026-04-12'),
+                                               (2, '2026-04-13');
 
 -- ==========================================================
 -- TABELA: item_pedido_venda (FK -> produto, venda)
 -- ==========================================================
 INSERT INTO item_pedido_venda (id_fk_produto, id_fk_venda, peso_kg, preco_unitario) VALUES
-                                                                                        (1, 1, 20, 28.00),
-                                                                                        (2, 1, 10, 11.50),
-                                                                                        (3, 2, 30, 18.00);
+                                                                                        (1, 1, 20, 10.00),
+                                                                                        (2, 1, 10, 3.00),
+                                                                                        (3, 2, 30, 4.00);

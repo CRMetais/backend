@@ -47,6 +47,8 @@ public interface TabelaPrecoRepository extends JpaRepository<TabelaPreco, Intege
 	@Query("SELECT t FROM TabelaPreco t WHERE t.tipo = 'V'")
 	List<TabelaPreco> findAllVenda();
 
+	@Query("SELECT t FROM TabelaPreco t WHERE t.tipo = 'C'")
+	List<TabelaPreco> findAllCompra();
 
 }
 
