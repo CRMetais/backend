@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import school.sptech.cr_metais.dto.EnderecoCadastroDto.EnderecoGetDto;
 import school.sptech.cr_metais.dto.EnderecoCadastroDto.EnderecoRequestDto;
 import school.sptech.cr_metais.dto.EnderecoCadastroDto.EnderecoResponseDto;
 import school.sptech.cr_metais.entity.Endereco;
@@ -78,5 +79,6 @@ public class EnderecoController {
 
         return ResponseEntity.status(200).body(response);
     }
+
 }
 

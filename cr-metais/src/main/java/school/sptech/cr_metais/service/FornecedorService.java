@@ -1,6 +1,7 @@
 package school.sptech.cr_metais.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import school.sptech.cr_metais.dto.Fornecedor.FornecedorCadastroDto;
 import school.sptech.cr_metais.dto.Fornecedor.FornecedorTopRendimentoDto;
 import school.sptech.cr_metais.entity.Endereco;
@@ -9,9 +10,7 @@ import school.sptech.cr_metais.entity.TabelaPreco;
 import school.sptech.cr_metais.exception.EntidadeConflitoException;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.mappers.FornecedorMapper;
-import school.sptech.cr_metais.repository.EnderecoRepository;
-import school.sptech.cr_metais.repository.FornecedorRepository;
-import school.sptech.cr_metais.repository.TabelaPrecoRepository;
+import school.sptech.cr_metais.repository.*;
 import school.sptech.cr_metais.service.factory.ValidacaoFornecedorStrategyFactory;
 import school.sptech.cr_metais.service.strategy.ValidacaoCadastroFornecedorStrategy;
 
@@ -27,13 +26,24 @@ public class FornecedorService {
     private final FornecedorMapper fornecedorMapper;
     private final EnderecoRepository enderecoRepository;
     private final TabelaPrecoRepository tabelaPrecoRepository;
+    private final ContaPagamentoRepository contaPagamentoRepository;
+    private final CompraRepository compraRepository;
 
-    public FornecedorService(FornecedorRepository fRepository, ValidacaoFornecedorStrategyFactory strategyFactory, FornecedorMapper fornecedorMapper, EnderecoRepository enderecoRepository, TabelaPrecoRepository tabelaPrecoRepository) {
+
+    public FornecedorService(FornecedorRepository fRepository,
+                             ValidacaoFornecedorStrategyFactory strategyFactory,
+                             FornecedorMapper fornecedorMapper,
+                             EnderecoRepository enderecoRepository,
+                             TabelaPrecoRepository tabelaPrecoRepository,
+                             ContaPagamentoRepository contaPagamentoRepository,
+                             CompraRepository compraRepository) {
         this.fRepository = fRepository;
         this.strategyFactory = strategyFactory;
         this.fornecedorMapper = fornecedorMapper;
         this.enderecoRepository = enderecoRepository;
         this.tabelaPrecoRepository = tabelaPrecoRepository;
+        this.contaPagamentoRepository = contaPagamentoRepository;
+        this.compraRepository = compraRepository;
     }
 
     public Fornecedor cadastrar(FornecedorCadastroDto dto) {
@@ -52,39 +62,37 @@ public class FornecedorService {
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Endereço não encontrado"));
 
         TabelaPreco tabela = tabelaPrecoRepository.findById(dto.getIdTabelaPreco())
-             .orElseThrow(() -> new EntidadeNaoEncontradaException("Tabela de preço não encontrada"));
-             novoFornecedor.setTabelaPreco(tabela);
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Tabela de preço não encontrada"));
+        novoFornecedor.setTabelaPreco(tabela);
 
         novoFornecedor.setEndereco(endereco);
 
         return fRepository.save(novoFornecedor);
     }
 
-    public List<Fornecedor> listar(){
+    public List<Fornecedor> listar() {
         return fRepository.findAll();
     }
 
-    public void deletar(Integer id){
-        if (!fRepository.existsById(id)){
+    @Transactional
+    public void deletar(Integer id) {
+        if (!fRepository.existsById(id)) {
             throw new EntidadeNaoEncontradaException("Fornecedor não encontrado");
         }
+
+        compraRepository.deleteByFornecedor_IdFornecedor(id);
+        contaPagamentoRepository.deleteByFornecedor_IdFornecedor(id);
         fRepository.deleteById(id);
     }
 
-    public Fornecedor buscarPorId(Integer id){
+    public Fornecedor buscarPorId(Integer id) {
         return fRepository.findById(id)
-                .orElseThrow(
-                        ()-> new
-                                EntidadeNaoEncontradaException
-                                ("Fornecedor não encontrado")
-                );
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Fornecedor não encontrado"));
     }
 
-    public Fornecedor atualizar(Integer id, Fornecedor fornecedor){
+    public Fornecedor atualizar(Integer id, Fornecedor fornecedor) {
         Fornecedor fornecedorAtt = fRepository.findById(id)
-                .orElseThrow(
-                        ()-> new EntidadeNaoEncontradaException("Fornecedor não encontrado")
-                );
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Fornecedor não encontrado"));
 
         fornecedorAtt.setNome(fornecedor.getNome());
         fornecedorAtt.setDocumento(fornecedor.getDocumento());
