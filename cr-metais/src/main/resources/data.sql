@@ -274,17 +274,17 @@ INSERT INTO cliente (CNPJ, razao_social, tel_contato, fk_endereco, fk_tabela_pre
 -- ==========================================================
 -- TABELA: fornecedor (FK -> endereco, tabela_preco)
 -- ==========================================================
-INSERT INTO fornecedor (fk_endereco, fk_tabela_preco, nome, documento, tipo_fornecedor, telefone, apelido) VALUES
-                                                                                                               (1, 1, 'Carlos Eduardo Mendes',      '12345678901', 'PESSOA_FISICA', '11991234567', 'Carlos'),
-                                                                                                               (2, 1, 'Ana Beatriz Ferreira',       '23456789012', 'PESSOA_FISICA', '21997654321', 'Ana'),
-                                                                                                               (3, 1, 'Ricardo Lopes da Silva',     '34567890123', 'PESSOA_FISICA', '31998887766', 'Ricardo'),
-                                                                                                               (4, 1, 'Mariana Santos Oliveira',    '45678901234', 'PESSOA_FISICA', '41998776655', 'Mariana'),
-                                                                                                               (1, 1, 'João Pedro Cavalcante',      '56789012345', 'PESSOA_FISICA', '11990011223', 'João'),
-                                                                                                               (2, 1, 'Letícia Moura Almeida',      '67890123456', 'PESSOA_FISICA', '21990022334', 'Leticia'),
-                                                                                                               (3, 1, 'Fernando Augusto Ribeiro',   '78901234567', 'PESSOA_FISICA', '31995554433', 'Fernando'),
-                                                                                                               (4, 1, 'Patrícia Gomes Andrade',     '89012345678', 'PESSOA_FISICA', '41998889900', 'Patricia'),
-                                                                                                               (1, 1, 'Gustavo Henrique Martins',   '90123456789', 'PESSOA_FISICA', '11993335577', 'Gustavo'),
-                                                                                                               (2, 1, 'Camila Rodrigues Silva',     '01234567890', 'PESSOA_FISICA', '21992228844', 'Camila');
+INSERT INTO fornecedor (fk_endereco, fk_tabela_preco, fk_usuario, nome, documento, tipo_fornecedor, telefone, apelido) VALUES
+                                                                                                                           (1, 1, 1, 'Carlos Eduardo Mendes',      '12345678901', 'PESSOA_FISICA', '11991234567', 'Carlos'),
+                                                                                                                           (2, 1, 1, 'Ana Beatriz Ferreira',       '23456789012', 'PESSOA_FISICA', '21997654321', 'Ana'),
+                                                                                                                           (3, 1, 1, 'Ricardo Lopes da Silva',     '34567890123', 'PESSOA_FISICA', '31998887766', 'Ricardo'),
+                                                                                                                           (4, 1, 1, 'Mariana Santos Oliveira',    '45678901234', 'PESSOA_FISICA', '41998776655', 'Mariana'),
+                                                                                                                           (1, 1, 1, 'João Pedro Cavalcante',      '56789012345', 'PESSOA_FISICA', '11990011223', 'João'),
+                                                                                                                           (2, 1, 1, 'Letícia Moura Almeida',      '67890123456', 'PESSOA_FISICA', '21990022334', 'Leticia'),
+                                                                                                                           (3, 1, 1, 'Fernando Augusto Ribeiro',   '78901234567', 'PESSOA_FISICA', '31995554433', 'Fernando'),
+                                                                                                                           (4, 1, 1, 'Patrícia Gomes Andrade',     '89012345678', 'PESSOA_FISICA', '41998889900', 'Patricia'),
+                                                                                                                           (1, 1, 1, 'Gustavo Henrique Martins',   '90123456789', 'PESSOA_FISICA', '11993335577', 'Gustavo'),
+                                                                                                                           (2, 1, 1, 'Camila Rodrigues Silva',     '01234567890', 'PESSOA_FISICA', '21992228844', 'Camila');
 
 
 -- ==========================================================

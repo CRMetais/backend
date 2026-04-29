@@ -26,6 +26,16 @@ public class FornecedorCadastroDto {
     @NotNull
     Integer idTabelaPreco;
 
+    private Integer idUsuario;
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
     private String apelido;
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }

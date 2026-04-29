@@ -41,6 +41,18 @@ public class Fornecedor {
     @JoinColumn(name = "fk_tabela_preco")
     private TabelaPreco tabelaPreco;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_usuario")
+    private Usuario responsavel;
+
+    public Usuario getResponsavel() {
+        return responsavel;
+    }
+
+    public void setResponsavel(Usuario responsavel) {
+        this.responsavel = responsavel;
+    }
+
 
     public Integer getIdFornecedor() {
         return idFornecedor;

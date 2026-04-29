@@ -7,6 +7,7 @@ import school.sptech.cr_metais.dto.Fornecedor.FornecedorTopRendimentoDto;
 import school.sptech.cr_metais.entity.Endereco;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.entity.TabelaPreco;
+import school.sptech.cr_metais.entity.Usuario;
 import school.sptech.cr_metais.exception.EntidadeConflitoException;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
 import school.sptech.cr_metais.mappers.FornecedorMapper;
@@ -28,6 +29,7 @@ public class FornecedorService {
     private final TabelaPrecoRepository tabelaPrecoRepository;
     private final ContaPagamentoRepository contaPagamentoRepository;
     private final CompraRepository compraRepository;
+    private final UsuarioRepository usuarioRepository;
 
 
     public FornecedorService(FornecedorRepository fRepository,
@@ -36,7 +38,8 @@ public class FornecedorService {
                              EnderecoRepository enderecoRepository,
                              TabelaPrecoRepository tabelaPrecoRepository,
                              ContaPagamentoRepository contaPagamentoRepository,
-                             CompraRepository compraRepository) {
+                             CompraRepository compraRepository,
+                             UsuarioRepository usuarioRepository) {
         this.fRepository = fRepository;
         this.strategyFactory = strategyFactory;
         this.fornecedorMapper = fornecedorMapper;
@@ -44,9 +47,12 @@ public class FornecedorService {
         this.tabelaPrecoRepository = tabelaPrecoRepository;
         this.contaPagamentoRepository = contaPagamentoRepository;
         this.compraRepository = compraRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public Fornecedor cadastrar(FornecedorCadastroDto dto) {
+
+        System.out.println("idUsuario recebido: " + dto.getIdUsuario());
 
         ValidacaoCadastroFornecedorStrategy strategy = strategyFactory.getStrategy(dto.getTipoFornecedor());
 
@@ -67,7 +73,24 @@ public class FornecedorService {
 
         novoFornecedor.setEndereco(endereco);
 
-        return fRepository.save(novoFornecedor);
+        if (dto.getIdUsuario() != null) {
+            Usuario responsavel = usuarioRepository.findById(dto.getIdUsuario())
+                    .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuário não encontrado"));
+            novoFornecedor.setResponsavel(responsavel);
+        }
+
+        if (dto.getIdUsuario() != null) {
+            System.out.println("Buscando usuário com id: " + dto.getIdUsuario());
+            Usuario responsavel = usuarioRepository.findById(dto.getIdUsuario())
+                    .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuário não encontrado"));
+            System.out.println("Usuário encontrado: " + responsavel.getNome());
+            novoFornecedor.setResponsavel(responsavel);
+            System.out.println("Responsável setado: " + novoFornecedor.getResponsavel().getNome());
+        }
+
+        Fornecedor salvo = fRepository.save(novoFornecedor);
+        System.out.println("fk_usuario após save: " + (salvo.getResponsavel() != null ? salvo.getResponsavel().getIdUsuario() : "NULL"));
+        return salvo;
     }
 
     public List<Fornecedor> listar() {
