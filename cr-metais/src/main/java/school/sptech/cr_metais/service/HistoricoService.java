@@ -9,6 +9,11 @@ import school.sptech.cr_metais.dto.Historico.HistoricoCompraDto;
 import school.sptech.cr_metais.dto.Historico.HistoricoVendaDto;
 import school.sptech.cr_metais.repository.HistoricoRepository;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 @Service
 public class HistoricoService {
 
@@ -52,5 +57,34 @@ public class HistoricoService {
         }
 
         throw new IllegalArgumentException("Tipo inválido");
+    }
+
+    public String gerarCsvLambda(String tipo, String dataInicio, String dataFim) {
+
+        try {
+            String lambdaUrl = "https://SUA-LAMBDA-URL";
+
+            String urlFinal = lambdaUrl
+                    + "?tipo=" + tipo
+                    + "&dataInicio=" + dataInicio
+                    + "&dataFim=" + dataFim;
+
+            HttpClient client = HttpClient.newHttpClient();
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(urlFinal))
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client.send(
+                    request,
+                    HttpResponse.BodyHandlers.ofString()
+            );
+
+            return response.body();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao chamar Lambda", e);
+        }
     }
 }

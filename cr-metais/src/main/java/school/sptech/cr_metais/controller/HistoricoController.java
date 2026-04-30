@@ -24,4 +24,17 @@ public class HistoricoController {
 
         return ResponseEntity.ok(resultado);
     }
+
+    @GetMapping("/csv")
+    public ResponseEntity<String> gerarCsv(
+            @RequestParam String tipo,
+            @RequestParam String dataInicio,
+            @RequestParam String dataFim
+    ) {
+
+        String url = service.gerarCsvLambda(tipo, dataInicio, dataFim);
+
+        return ResponseEntity.ok(url);
+    }
+
 }
