@@ -13,10 +13,15 @@ public class ProducerService {
     private final RabbitPropertiesConfiguration properties;
 
     public void send(RelatorioDTO dto) {
+        MessageDTO message = new MessageDTO(
+                dto.email(),
+                dto.html()  // ✅ corrigido: era dto.html (sem parênteses — inválido em record)
+        );
+
         rabbitTemplate.convertAndSend(
                 properties.exchange().name(),
                 properties.routingKey().name(),
-                dto
+                message
         );
     }
 }

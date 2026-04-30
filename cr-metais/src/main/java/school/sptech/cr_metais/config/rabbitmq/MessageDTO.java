@@ -4,6 +4,5 @@ import java.io.Serializable;
 
 public record MessageDTO(
         String email,
-        String conteudo,
-        String nomeArquivo
+        String html  // ✅ substituído "conteudo" e "nomeArquivo" pelo campo real
 ) implements Serializable {}

@@ -1,11 +1,9 @@
 package school.sptech.cr_metais.config.rabbitmq;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.dto.Relatorio.RelatorioDTO;
 
 @RestController
@@ -13,13 +11,12 @@ import school.sptech.cr_metais.dto.Relatorio.RelatorioDTO;
 @RequiredArgsConstructor
 public class BrokerController {
 
-
     private final ProducerService producerService;
 
     @PostMapping
-    public ResponseEntity<Void> enviarMensagem(@RequestBody RelatorioDTO message) {
+    public ResponseEntity<Void> enviarMensagem(@RequestBody @Valid RelatorioDTO message) {
+        // ✅ CORRIGIDO: adicionado @Valid para disparar validações do DTO
         producerService.send(message);
         return ResponseEntity.status(202).build();
     }
-
 }
