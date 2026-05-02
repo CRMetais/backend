@@ -27,18 +27,18 @@ jobs:
         env:
           TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
         run: |
-          git clone https://x-access-token:${TARGET_TOKEN}@github.com/CRMetais/TF.git destino
-          
-          # Cria a pasta backend se não existir e limpa o JAR antigo
-          mkdir -p destino/backend
-          rm -f destino/backend/*.jar
-          
-          # Copia o novo JAR (ajuste o nome se o seu pom.xml gerar algo específico)
-          cp target/*.jar destino/backend/
-          
-          cd destino
-          git config user.name "GitHub Actions Bot"
-          git config user.email "actions@github.com"
-          git add backend/
-          git commit -m "chore: update backend jar" || echo "No changes"
-          git push origin main
+            git clone https://x-access-token:${TARGET_TOKEN}@github.com/CRMetais/TF.git destino
+            
+            # Cria a pasta backend no destino e remove o JAR antigo (se existir)
+            mkdir -p destino/backend
+            rm -f destino/backend/*.jar
+            
+            # Busca qualquer arquivo .jar gerado dentro de pastas 'target' e copia para o destino
+            find . -type f -name "*.jar" -path "*/target/*" -exec cp {} destino/backend/ \;
+            
+            cd destino
+            git config user.name "GitHub Actions Bot"
+            git config user.email "actions@github.com"
+            git add backend/
+            git commit -m "chore: update backend jar" || echo "No changes"
+            git push origin main
