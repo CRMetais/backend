@@ -4,8 +4,8 @@ USE crmetais;
 -- TABELA: usuario (sem FK)
 -- ==========================================================
 INSERT INTO usuario (nome, senha, email, cargo) VALUES
-                                                    ('Celso Ricardo', '123456', 'celso@empresa.com', 'ADMIN'),
-                                                    ('Maria Oliveira', '123456', 'maria@empresa.com', 'COMUM');
+                                                    ('Celso Ricardo', '$2a$10$Y73v4aOoosdsogaRk9WXmO/F2vCvO1hZkYWnwvIBb04SNexQUlg5G', 'celso@empresa.com', 'ADMIN'),
+                                                    ('Maria Oliveira', '$2a$10$Y73v4aOoosdsogaRk9WXmO/F2vCvO1hZkYWnwvIBb04SNexQUlg5G', 'maria@empresa.com', 'COMUM');
 
 -- ==========================================================
 -- TABELA: endereco (base p/ fornecedor e cliente)
