@@ -23,7 +23,7 @@ spring:
             enable: true
 
 email:
-  destinatario: felipemiguel200210@gmail.com
+  destinatario: Miguelcserpa@gmail.com
   assunto: "Notificação CR Metais"
 
 broker:
