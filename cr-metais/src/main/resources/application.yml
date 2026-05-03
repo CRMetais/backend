@@ -10,6 +10,21 @@ spring:
         enabled: true
         initial-interval: 3000
         max-attempts: 5
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: felipeortegasouza@gmail.com
+    password: zqgpjnhdugifhzwk
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+email:
+  destinatario: felipemiguel200210@gmail.com
+  assunto: "Notificação CR Metais"
 
 broker:
   exchange:
