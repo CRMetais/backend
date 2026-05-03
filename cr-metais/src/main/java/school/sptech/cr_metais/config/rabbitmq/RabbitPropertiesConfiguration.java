@@ -5,10 +5,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "broker")
 public record RabbitPropertiesConfiguration(
         Exchange exchange,
-        Queue queue,
-        RoutingKey routingKey
+        Queue queue
 ) {
-    public record Exchange(String name) {}
-    public record Queue(String name) {}
-    public record RoutingKey(String name) {}
+    public record Exchange(String name) {
+    }
+
+    public record Queue(String name) {
+    }
 }

@@ -2,16 +2,20 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: myuser
+    password: secret
+    connection-timeout: 10000
+    template:
+      retry:
+        enabled: true
+        initial-interval: 3000
+        max-attempts: 5
 
 broker:
   exchange:
-    name: relatorio.exchange
+    name: example.fanout.exchange
   queue:
-    name: relatorio.queue
-  routingKey:
-    name: relatorio.key
+    name: example.queue
 
 server:
   port: 8080

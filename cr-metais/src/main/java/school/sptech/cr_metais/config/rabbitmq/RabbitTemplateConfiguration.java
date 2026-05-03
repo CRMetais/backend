@@ -2,8 +2,6 @@ package school.sptech.cr_metais.config.rabbitmq;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,7 +16,7 @@ public class RabbitTemplateConfiguration {
 
     @Bean
     public Declarables rabbitDeclarables() {
-        DirectExchange exchange = new DirectExchange(properties.exchange().name());
+        FanoutExchange exchange = new FanoutExchange(properties.exchange().name());
 
         Queue queue = QueueBuilder
                 .durable(properties.queue().name())
@@ -26,8 +24,7 @@ public class RabbitTemplateConfiguration {
 
         Binding binding = BindingBuilder
                 .bind(queue)
-                .to(exchange)
-                .with(properties.routingKey().name());
+                .to(exchange);
 
         return new Declarables(exchange, queue, binding);
     }
@@ -35,13 +32,5 @@ public class RabbitTemplateConfiguration {
     @Bean
     public MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
-    }
-
-    // ✅ CORRIGIDO: RabbitTemplate precisa do converter configurado explicitamente
-    @Bean
-    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
-        RabbitTemplate template = new RabbitTemplate(connectionFactory);
-        template.setMessageConverter(messageConverter());
-        return template;
     }
 }

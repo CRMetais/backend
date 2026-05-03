@@ -3,9 +3,8 @@ package school.sptech.cr_metais.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.*;
 import org.springframework.stereotype.Service;
+import school.sptech.cr_metais.config.rabbitmq.MessageDto;
 import school.sptech.cr_metais.config.rabbitmq.ProducerService;
-import school.sptech.cr_metais.dto.Relatorio.RelatorioDTO;
-import school.sptech.cr_metais.service.RelatorioService;
 
 @Service
 @RequiredArgsConstructor
@@ -20,10 +19,7 @@ public class RelatorioJob {
 
         String html = service.gerarHtml();
 
-        RelatorioDTO dto = new RelatorioDTO(
-                "financeiro@empresa.com",
-                html
-        );
+        MessageDto dto = new MessageDto(html);
 
         producer.send(dto);
     }
