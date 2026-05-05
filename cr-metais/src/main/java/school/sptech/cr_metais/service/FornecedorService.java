@@ -123,6 +123,18 @@ public class FornecedorService {
         fornecedorAtt.setTelefone(fornecedor.getTelefone());
         fornecedorAtt.setApelido(fornecedor.getApelido());
 
+        if (fornecedor.getTabelaPreco() != null && fornecedor.getTabelaPreco().getIdTabela() != null) {
+            TabelaPreco tabela = tabelaPrecoRepository.findById(fornecedor.getTabelaPreco().getIdTabela())
+                    .orElseThrow(() -> new EntidadeNaoEncontradaException("Tabela não encontrada"));
+            fornecedorAtt.setTabelaPreco(tabela);
+        }
+
+        if (fornecedor.getResponsavel() != null && fornecedor.getResponsavel().getIdUsuario() != null) {
+            Usuario usuario = usuarioRepository.findById(fornecedor.getResponsavel().getIdUsuario())
+                    .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuário não encontrado"));
+            fornecedorAtt.setResponsavel(usuario);
+        }
+
         return fRepository.save(fornecedorAtt);
     }
 
