@@ -23,7 +23,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/usuarios")
 @Tag(name = "Usuários")
-@CrossOrigin(origins = "http://localhost:5173")
 public class UsuarioController {
 
     @Autowired
