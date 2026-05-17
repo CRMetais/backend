@@ -17,7 +17,7 @@ public class ValidacaoPessoaJuridicaStrategy implements ValidacaoCadastroFornece
 
     @Override
     public void validarConflitos(FornecedorCadastroDto dto) {
-        if (fRepository.existsByDocumento(dto.getDocumento())) {
+        if (fRepository.existsByDocumentoAndAtivoTrue(dto.getDocumento())) {
             throw new EntidadeConflitoException("Conflito no campo CNPJ");
         }
     }

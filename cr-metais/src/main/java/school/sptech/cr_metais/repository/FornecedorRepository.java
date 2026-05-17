@@ -10,9 +10,11 @@ import java.util.List;
 
 public interface FornecedorRepository extends JpaRepository<Fornecedor, Integer> {
 
-    Boolean existsByDocumento(String documento);
+    List<Fornecedor> findAllByAtivoTrue();
 
-    Boolean existsByApelido(String value);
+    Boolean existsByDocumentoAndAtivoTrue(String documento);
+
+    Boolean existsByApelidoAndAtivoTrue(String apelido);
 
     @Query(value = """
             SELECT

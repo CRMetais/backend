@@ -58,7 +58,7 @@ public class FornecedorService {
 
         strategy.validarConflitos(dto);
 
-        if (dto.getApelido() != null && !dto.getApelido().isBlank() && fRepository.existsByApelido(dto.getApelido())) {
+        if (dto.getApelido() != null && !dto.getApelido().isBlank() && fRepository.existsByApelidoAndAtivoTrue(dto.getApelido())) {
             throw new EntidadeConflitoException("Conflito no campo Apelido");
         }
 
@@ -94,18 +94,15 @@ public class FornecedorService {
     }
 
     public List<Fornecedor> listar() {
-        return fRepository.findAll();
+        return fRepository.findAllByAtivoTrue();
     }
 
     @Transactional
     public void deletar(Integer id) {
-        if (!fRepository.existsById(id)) {
-            throw new EntidadeNaoEncontradaException("Fornecedor não encontrado");
-        }
-
-        compraRepository.deleteByFornecedor_IdFornecedor(id);
-        contaPagamentoRepository.deleteByFornecedor_IdFornecedor(id);
-        fRepository.deleteById(id);
+        Fornecedor fornecedor = fRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Fornecedor não encontrado"));
+        fornecedor.setAtivo(false);
+        fRepository.save(fornecedor);
     }
 
     public Fornecedor buscarPorId(Integer id) {
