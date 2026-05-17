@@ -1,6 +1,8 @@
 package school.sptech.cr_metais.repository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.Query;
 import school.sptech.cr_metais.entity.Fornecedor;
@@ -15,6 +17,11 @@ public interface FornecedorRepository extends JpaRepository<Fornecedor, Integer>
     Boolean existsByDocumentoAndAtivoTrue(String documento);
 
     Boolean existsByApelidoAndAtivoTrue(String apelido);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Fornecedor f SET f.responsavel = null WHERE f.responsavel.idUsuario = :idUsuario")
+    void desassociarResponsavel(@Param("idUsuario") Integer idUsuario);
 
     @Query(value = """
             SELECT

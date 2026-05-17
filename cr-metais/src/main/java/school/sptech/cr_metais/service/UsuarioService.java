@@ -1,5 +1,6 @@
 package school.sptech.cr_metais.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +16,7 @@ import school.sptech.cr_metais.mappers.UsuarioMapper;
 import school.sptech.cr_metais.dto.Usuario.UsuarioTokenDto;
 import school.sptech.cr_metais.entity.Usuario;
 import school.sptech.cr_metais.exception.EntidadeNaoEncontradaException;
+import school.sptech.cr_metais.repository.FornecedorRepository;
 import school.sptech.cr_metais.repository.UsuarioRepository;
 
 import java.util.List;
@@ -24,8 +26,11 @@ public class UsuarioService {
 
     private final UsuarioRepository uRepository;
 
-    public UsuarioService(UsuarioRepository uRepository) {
+    private final FornecedorRepository fRepository;
+
+    public UsuarioService(UsuarioRepository uRepository, FornecedorRepository fRepository) {
         this.uRepository = uRepository;
+        this.fRepository = fRepository;
     }
 
 
@@ -42,10 +47,12 @@ public class UsuarioService {
                 );
     }
 
+    @Transactional
     public void deletar(Integer id) {
         if (!uRepository.existsById(id)) {
             throw new EntidadeNaoEncontradaException("Usuário não encontrado");
         }
+        fRepository.desassociarResponsavel(id);
         uRepository.deleteById(id);
     }
 
