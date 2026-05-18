@@ -36,7 +36,6 @@ public class ClienteService {
     }
 
     public Cliente cadastrar(ClienteCadastroDTO dto) {
-
         if (dto.getCnpj() == null || dto.getCnpj().length() < 14) {
             throw new EntidadeInvalidaException("CNPJ inválido");
         }
@@ -51,20 +50,21 @@ public class ClienteService {
 
         cliente.setEndereco(endereco);
         cliente.setTabelaPreco(tabelaPreco);
+        cliente.setAtivo(true); // Garante que nasce ativo
 
         return cRepository.save(cliente);
     }
 
 
     public List<ClienteResponseDTO> listar() {
-        return cRepository.findAll()
+        return cRepository.findByAtivoTrue() // Alterado aqui
                 .stream()
                 .map(clienteMapper::toResponseDTO)
                 .toList();
     }
 
     public List<ClienteResponseDTO> listarClientes() {
-        List<Cliente> clientes = cRepository.findAll();
+        List<Cliente> clientes = cRepository.findByAtivoTrue(); // Alterado aqui
 
         return clientes.stream().map(cliente -> new ClienteResponseDTO(
                 cliente.getIdCliente(),
@@ -75,21 +75,22 @@ public class ClienteService {
     }
 
     public ClienteResponseDTO buscarPorId(Integer id) {
-        Cliente cliente = cRepository.findById(id)
+        Cliente cliente = cRepository.findByIdClienteAndAtivoTrue(id) // Alterado aqui
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
 
         return clienteMapper.toResponseDTO(cliente);
     }
 
     public void deletar(Integer id) {
-        if (!cRepository.existsById(id)) {
+        int linhasAfetadas = cRepository.inativarCliente(id);
+
+        if (linhasAfetadas == 0) {
             throw new EntidadeNaoEncontradaException("Cliente não encontrado");
         }
-        cRepository.deleteById(id);
     }
 
     public ClienteResponseDTO atualizar(Integer id, ClienteCadastroDTO dto) {
-        Cliente clienteExistente = cRepository.findById(id)
+        Cliente clienteExistente = cRepository.findByIdClienteAndAtivoTrue(id) // Alterado aqui
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
 
         clienteExistente.setCnpj(dto.getCnpj());

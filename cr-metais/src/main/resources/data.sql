@@ -267,9 +267,12 @@ INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VA
 -- ==========================================================
 -- TABELA: cliente (FK -> endereco, tabela_preco)
 -- ==========================================================
-INSERT INTO cliente (CNPJ, razao_social, tel_contato, fk_endereco, fk_tabela_preco) VALUES
-                                                                                        ('11122233000155', 'Vital', '11977773333', 3, 2),
-                                                                                        ('99988877000144', 'Metalúrgica Beta', '11988882222', 4, 2);
+-- ADICIONADO O CAMPO 'ativo' COM O VALOR 1 (TRUE) PARA EVITAR O ERRO ANTERIOR
+-- ==========================================================
+-- CNPJs atualizados com formatos válidos para passar no Hibernate Validator
+INSERT INTO cliente (CNPJ, razao_social, tel_contato, fk_endereco, fk_tabela_preco, ativo) VALUES
+('43758362000100', 'Vital', '11977773333', 3, 2, 1),
+('21683935000180', 'Metalúrgica Beta', '11988882222', 4, 2, 1);
 
 -- ==========================================================
 -- TABELA: fornecedor (FK -> endereco, tabela_preco)

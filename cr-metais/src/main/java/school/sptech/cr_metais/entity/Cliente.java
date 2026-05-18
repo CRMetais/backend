@@ -20,6 +20,9 @@ public class Cliente {
     @Column(name = "CNPJ")
     private String cnpj;
 
+    @Column(name = "ativo", nullable = false)
+    private Boolean ativo = true;
+
     @NotBlank
     @Column(name = "razao_social")
     private String razaoSocial;
@@ -70,6 +73,14 @@ public class Cliente {
 
     public void setTelContato(String telContato) {
         this.telContato = telContato;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 
     public Endereco getEndereco() {
