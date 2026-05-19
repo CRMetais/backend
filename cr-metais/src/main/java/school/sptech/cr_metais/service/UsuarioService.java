@@ -46,12 +46,25 @@ public class UsuarioService {
                                 ("Usuário não encontrado")
                 );
     }
-
     @Transactional
     public void deletar(Integer id) {
         if (!uRepository.existsById(id)) {
             throw new EntidadeNaoEncontradaException("Usuário não encontrado");
         }
+
+        // Pega o e-mail do usuário autenticado via token JWT
+        String emailAutenticado = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Usuario usuarioAutenticado = uRepository.findByEmail(emailAutenticado)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuário autenticado não encontrado"));
+
+        if (usuarioAutenticado.getIdUsuario().equals(id)) {
+            throw new ResponseStatusException(
+                    org.springframework.http.HttpStatus.FORBIDDEN,
+                    "Você não pode excluir sua própria conta"
+            );
+        }
+
         fRepository.desassociarResponsavel(id);
         uRepository.deleteById(id);
     }

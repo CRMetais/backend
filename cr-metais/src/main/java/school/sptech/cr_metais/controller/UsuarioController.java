@@ -70,14 +70,16 @@ public class UsuarioController {
     @Operation(summary = "Deletar usuário", description = "Remove um usuário pelo seu ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Usuário deletado com sucesso"),
+            @ApiResponse(responseCode = "403", description = "Não é possível excluir o próprio usuário",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(example = "{\"erro\": \"Você não pode excluir sua própria conta\"}"))),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(example = "{\"erro\": \"Usuário não encontrado\"}")))
     })
-        @DeleteMapping("/{id:\\d+}")
+    @DeleteMapping("/{id:\\d+}")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
-
         uService.deletar(id);
         return ResponseEntity.status(204).build();
     }
