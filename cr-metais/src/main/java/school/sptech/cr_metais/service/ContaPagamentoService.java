@@ -85,4 +85,10 @@ public class ContaPagamentoService {
         return contaPagamentoMapper.toResponseDTO(contaAtualizada);
     }
 
+    public ContaPagamentoResponseDto buscarPorFornecedor(Integer idFornecedor) {
+        return contaPagamentoRepository.findByFornecedor_IdFornecedor(idFornecedor)
+                .map(contaPagamentoMapper::toResponseDTO)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Conta não encontrada"));
+    }
+
 }

@@ -70,6 +70,11 @@ public class ContaPagamentoController {
         return ResponseEntity.ok(todas);
     }
 
+    @GetMapping("/fornecedor/{idFornecedor}")
+    public ResponseEntity<ContaPagamentoResponseDto> buscarPorFornecedor(@PathVariable Integer idFornecedor) {
+        return ResponseEntity.ok(contaPagamentoService.buscarPorFornecedor(idFornecedor));
+    }
+
     @Operation(
             summary = "Deletar conta de pagamento por ID",
             description = "Remove uma conta de pagamento do sistema com base no seu ID."
