@@ -64,13 +64,13 @@ public class ClienteService {
     }
 
     public List<ClienteResponseDTO> listarClientes() {
-        List<Cliente> clientes = cRepository.findByAtivoTrue(); // Alterado aqui
+        List<Cliente> clientes = cRepository.findByAtivoTrue();
 
         return clientes.stream().map(cliente -> new ClienteResponseDTO(
                 cliente.getIdCliente(),
                 cliente.getRazaoSocial(),
                 cliente.getCnpj(),
-                cliente.getTabelaPreco().getNomeTabela()
+                cliente.getTelContato() // Passando o campo de telefone correto aqui
         )).toList();
     }
 

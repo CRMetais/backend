@@ -1,56 +1,38 @@
 package school.sptech.cr_metais.dto.Cliente;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class ClienteResponseDTO {
 
-    @Schema(description = "Identificador da tabela", example = "1")
     private Integer idCliente;
 
-    @Schema(description = "CNPJ do cliente", example = "42.591.651/0001-43")
+    @Schema(description = "Razão social do cliente", example = "Vital Metalúrgica")
     private String razaoSocial;
 
-    @Schema(description = "Razão social do cliente", example = "Arcos Dourados Comércio de Alimentos SA")
-    private String responsavel;
+    @Schema(description = "CNPJ do cliente", example = "43758362000100")
+    private String cnpj;
 
-    @Schema(description = "Telefone de contato do cliente", example = "1132303223")
-    private String tabelaPreco;
+    @Schema(description = "Telefone de contato do cliente", example = "11977773333")
+    private String telContato;
 
-    public ClienteResponseDTO(Integer idCliente, String razaoSocial, String responsavel, String tabelaPreco) {
+    // Construtor com os nomes e ordens corretas
+    public ClienteResponseDTO(Integer idCliente, String razaoSocial, String cnpj, String telContato) {
         this.idCliente = idCliente;
         this.razaoSocial = razaoSocial;
-        this.responsavel = responsavel;
-        this.tabelaPreco = tabelaPreco;
+        this.cnpj = cnpj;
+        this.telContato = telContato;
     }
 
-    public Integer getIdCliente() {
-        return idCliente;
-    }
+    // Getters e Setters atualizados
+    public Integer getIdCliente() { return idCliente; }
+    public void setIdCliente(Integer idCliente) { this.idCliente = idCliente; }
 
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
-    }
+    public String getRazaoSocial() { return razaoSocial; }
+    public void setRazaoSocial(String razaoSocial) { this.razaoSocial = razaoSocial; }
 
-    public String getRazaoSocial() {
-        return razaoSocial;
-    }
+    public String getCnpj() { return cnpj; }
+    public void setCnpj(String cnpj) { this.cnpj = cnpj; }
 
-    public void setRazaoSocial(String razaoSocial) {
-        this.razaoSocial = razaoSocial;
-    }
-
-    public String getResponsavel() {
-        return responsavel;
-    }
-
-    public void setResponsavel(String responsavel) {
-        this.responsavel = responsavel;
-    }
-
-    public String getTabelaPreco() {
-        return tabelaPreco;
-    }
-
-    public void setTabelaPreco(String tabelaPreco) {
-        this.tabelaPreco = tabelaPreco;
-    }
+    public String getTelContato() { return telContato; }
+    public void setTelContato(String telContato) { this.telContato = telContato; }
 }

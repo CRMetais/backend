@@ -9,6 +9,7 @@ import school.sptech.cr_metais.entity.Cliente;
 public class ClienteMapper {
 
     public Cliente toEntity(ClienteCadastroDTO dto) {
+        if (dto == null) return null;
         Cliente c = new Cliente();
         c.setCnpj(dto.getCnpj());
         c.setRazaoSocial(dto.getRazaoSocial());
@@ -17,12 +18,13 @@ public class ClienteMapper {
     }
 
     public ClienteResponseDTO toResponseDTO(Cliente c) {
+        if (c == null) return null;
+
         return new ClienteResponseDTO(
                 c.getIdCliente(),
-                c.getCnpj(),
-                c.getRazaoSocial(),
-                c.getTelContato()
+                c.getRazaoSocial(), // Nome da empresa vai para razaoSocial
+                c.getCnpj(),        // CNPJ vai para cnpj
+                c.getTelContato()   // Telefone vai para telContato
         );
     }
-
 }

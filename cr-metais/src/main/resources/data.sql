@@ -279,7 +279,7 @@ INSERT INTO cliente (CNPJ, razao_social, tel_contato, fk_endereco, fk_tabela_pre
 -- ==========================================================
 INSERT INTO fornecedor (fk_endereco, fk_tabela_preco, fk_usuario, nome, documento, tipo_fornecedor, telefone, apelido, ativo) VALUES
     (1, 1, 1, 'Carlos Eduardo Mendes',    '12345678901', 'PESSOA_FISICA', '11991234567', 'Carlos',   1),
-    (2, 1, 1, 'Ana Beatriz Ferreira',     '23456789012', 'PESSOA_FISICA', '21997654321', 'Ana',      1),
+    (2, 1, 1, 'Ana   Beatriz Ferreira',     '23456789012', 'PESSOA_FISICA', '21997654321', 'Ana',      1),
     (3, 1, 1, 'Ricardo Lopes da Silva',   '34567890123', 'PESSOA_FISICA', '31998887766', 'Ricardo',  1),
     (4, 1, 1, 'Mariana Santos Oliveira',  '45678901234', 'PESSOA_FISICA', '41998776655', 'Mariana',  1),
     (1, 1, 1, 'João Pedro Cavalcante',    '56789012345', 'PESSOA_FISICA', '11990011223', 'João',     1),
