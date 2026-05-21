@@ -17,14 +17,45 @@ public class ClienteMapper {
         return c;
     }
 
-    public ClienteResponseDTO toResponseDTO(Cliente c) {
-        if (c == null) return null;
+    public ClienteResponseDTO toResponseDTO(Cliente cliente) {
+        if (cliente == null) {
+            return null;
+        }
 
+        // 1. Mapeia o sub-DTO da Tabela de Preço de forma segura
+        ClienteResponseDTO.TabelaPrecoResDTO tabelaDTO = null;
+        if (cliente.getTabelaPreco() != null) {
+            tabelaDTO = new ClienteResponseDTO.TabelaPrecoResDTO(
+                    cliente.getTabelaPreco().getIdTabela(),
+                    cliente.getTabelaPreco().getNomeTabela(),
+                    cliente.getTabelaPreco().getTipo() != null ? cliente.getTabelaPreco().getTipo().name() : null,
+                    cliente.getTabelaPreco().getVersao()
+            );
+        }
+
+        // 2. Mapeia o sub-DTO do Endereço de forma segura
+        ClienteResponseDTO.EnderecoResDTO enderecoDTO = null;
+        if (cliente.getEndereco() != null) {
+            enderecoDTO = new ClienteResponseDTO.EnderecoResDTO(
+                    cliente.getEndereco().getIdEndereco(),
+                    cliente.getEndereco().getLogradouro(),
+                    cliente.getEndereco().getNumero(),
+                    cliente.getEndereco().getBairro(),
+                    cliente.getEndereco().getCidade(),
+                    cliente.getEndereco().getEstado(),
+                    cliente.getEndereco().getCep(),
+                    cliente.getEndereco().getComplemento()
+            );
+        }
+
+        // 3. Retorna o DTO principal utilizando o novo construtor completo com 6 parâmetros
         return new ClienteResponseDTO(
-                c.getIdCliente(),
-                c.getRazaoSocial(), // Nome da empresa vai para razaoSocial
-                c.getCnpj(),        // CNPJ vai para cnpj
-                c.getTelContato()   // Telefone vai para telContato
+                cliente.getIdCliente(),
+                cliente.getRazaoSocial(),
+                cliente.getCnpj(),
+                cliente.getTelContato(),
+                tabelaDTO,
+                enderecoDTO
         );
     }
 }

@@ -35,6 +35,41 @@ public class ClienteService {
         this.tabelaPrecoRepository = tabelaPrecoRepository;
     }
 
+    private ClienteResponseDTO mapearParaResponseDTO(Cliente cliente) {
+        ClienteResponseDTO.TabelaPrecoResDTO tabelaDTO = null;
+        if (cliente.getTabelaPreco() != null) {
+            tabelaDTO = new ClienteResponseDTO.TabelaPrecoResDTO(
+                    cliente.getTabelaPreco().getIdTabela(),
+                    cliente.getTabelaPreco().getNomeTabela(),
+                    cliente.getTabelaPreco().getTipo() != null ? cliente.getTabelaPreco().getTipo().name() : null,
+                    cliente.getTabelaPreco().getVersao()
+            );
+        }
+
+        ClienteResponseDTO.EnderecoResDTO enderecoDTO = null;
+        if (cliente.getEndereco() != null) {
+            enderecoDTO = new ClienteResponseDTO.EnderecoResDTO(
+                    cliente.getEndereco().getIdEndereco(),
+                    cliente.getEndereco().getLogradouro(),
+                    cliente.getEndereco().getNumero(),
+                    cliente.getEndereco().getBairro(),
+                    cliente.getEndereco().getCidade(),
+                    cliente.getEndereco().getEstado(),
+                    cliente.getEndereco().getCep(),
+                    cliente.getEndereco().getComplemento()
+            );
+        }
+
+        return new ClienteResponseDTO(
+                cliente.getIdCliente(),
+                cliente.getRazaoSocial(),
+                cliente.getCnpj(),
+                cliente.getTelContato(),
+                tabelaDTO,
+                enderecoDTO
+        );
+    }
+
     public Cliente cadastrar(ClienteCadastroDTO dto) {
         if (dto.getCnpj() == null || dto.getCnpj().length() < 14) {
             throw new EntidadeInvalidaException("CNPJ inválido");
@@ -57,28 +92,23 @@ public class ClienteService {
 
 
     public List<ClienteResponseDTO> listar() {
-        return cRepository.findByAtivoTrue() // Alterado aqui
+        return cRepository.findByAtivoTrue()
                 .stream()
-                .map(clienteMapper::toResponseDTO)
+                .map(this::mapearParaResponseDTO)
                 .toList();
     }
 
     public List<ClienteResponseDTO> listarClientes() {
         List<Cliente> clientes = cRepository.findByAtivoTrue();
-
-        return clientes.stream().map(cliente -> new ClienteResponseDTO(
-                cliente.getIdCliente(),
-                cliente.getRazaoSocial(),
-                cliente.getCnpj(),
-                cliente.getTelContato() // Passando o campo de telefone correto aqui
-        )).toList();
+        return clientes.stream()
+                .map(this::mapearParaResponseDTO)
+                .toList();
     }
 
     public ClienteResponseDTO buscarPorId(Integer id) {
-        Cliente cliente = cRepository.findByIdClienteAndAtivoTrue(id) // Alterado aqui
+        Cliente cliente = cRepository.findByIdClienteAndAtivoTrue(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
-
-        return clienteMapper.toResponseDTO(cliente);
+        return mapearParaResponseDTO(cliente);
     }
 
     public void deletar(Integer id) {
