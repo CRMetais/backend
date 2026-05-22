@@ -187,7 +187,7 @@ INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VA
  (35, 3, 5.40),
  (36, 3, 3.80);
 
--- venda	
+-- venda
 INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VALUES
                                                                                   (1, 2, 10.00),
                                                                                   (2, 2, 3.00),
