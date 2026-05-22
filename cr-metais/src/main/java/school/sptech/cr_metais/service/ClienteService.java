@@ -120,15 +120,27 @@ public class ClienteService {
     }
 
     public ClienteResponseDTO atualizar(Integer id, ClienteCadastroDTO dto) {
-        Cliente clienteExistente = cRepository.findByIdClienteAndAtivoTrue(id) // Alterado aqui
+        Cliente clienteExistente = cRepository.findByIdClienteAndAtivoTrue(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
 
         clienteExistente.setCnpj(dto.getCnpj());
         clienteExistente.setRazaoSocial(dto.getRazaoSocial());
         clienteExistente.setTelContato(dto.getTelContato());
 
+        if (dto.getIdEndereco() != null) {
+            Endereco endereco = enderecoRepository.findById(dto.getIdEndereco())
+                    .orElseThrow(() -> new EntidadeNaoEncontradaException("Endereço não encontrado"));
+            clienteExistente.setEndereco(endereco);
+        }
+
+        if (dto.getIdTabelaPreco() != null) {
+            TabelaPreco tabela = tabelaPrecoRepository.findById(dto.getIdTabelaPreco())
+                    .orElseThrow(() -> new EntidadeNaoEncontradaException("Tabela de preço não encontrada"));
+            clienteExistente.setTabelaPreco(tabela);
+        }
+
         cRepository.save(clienteExistente);
 
-        return clienteMapper.toResponseDTO(clienteExistente);
+        return mapearParaResponseDTO(clienteExistente);
     }
 }
