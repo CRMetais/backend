@@ -4,17 +4,17 @@ USE crmetais;
 -- TABELA: usuario (sem FK)
 -- ==========================================================
 INSERT INTO usuario (nome, senha, email, cargo) VALUES
-                                                    ('Celso Ricardo', '123456', 'celso@empresa.com', 'ADMIN'),
-                                                    ('Maria Oliveira', '123456', 'maria@empresa.com', 'COMUM');
+                                                    ('Celso Ricardo', '$2a$10$Y73v4aOoosdsogaRk9WXmO/F2vCvO1hZkYWnwvIBb04SNexQUlg5G', 'celso@empresa.com', 'ADMIN'),
+                                                    ('Maria Oliveira', '$2a$10$Y73v4aOoosdsogaRk9WXmO/F2vCvO1hZkYWnwvIBb04SNexQUlg5G', 'maria@empresa.com', 'COMUM');
 
 -- ==========================================================
 -- TABELA: endereco (base p/ fornecedor e cliente)
 -- ==========================================================
 INSERT INTO endereco (estado, cidade, bairro, logradouro, complemento, numero, cep) VALUES
-                                                                                         ('SP', 'São Paulo', 'Lapa', 'Rua Guaicurus', 'Galpão A', '150', '05033000'),
-                                                                                         ('RJ', 'Angra dos Reis', 'Praia do Anil', 'Av. Ayrton Senna', 'Loja 4', '200', '23906010'),
-                                                                                         ('MG', 'Belo Horizonte', 'Savassi', 'Rua Pernambuco', 'Sala 12', '300', '30130150'),
-                                                                                         ('PR', 'Curitiba', 'Batel', 'Av. Vicente Machado', 'Conjunto 8', '400', '80420010');
+                                                                                        ('SP', 'São Paulo', 'Lapa', 'Rua Guaicurus', 'Galpão A', '150', '05033000'),
+                                                                                        ('RJ', 'Angra dos Reis', 'Praia do Anil', 'Av. Ayrton Senna', 'Loja 4', '200', '23906010'),
+                                                                                        ('MG', 'Belo Horizonte', 'Savassi', 'Rua Pernambuco', 'Sala 12', '300', '30130150'),
+                                                                                        ('PR', 'Curitiba', 'Batel', 'Av. Vicente Machado', 'Conjunto 8', '400', '80420010');
 
 -- ==========================================================
 -- TABELA: tabela_preco (base p/ cliente e fornecedor)
@@ -149,43 +149,43 @@ INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VA
                                                                                   (35, 1, 5.00),
                                                                                   (36, 1, 3.30);
 
- INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VALUES
- (1, 3, 8.90),
- (2, 3, 2.30),
- (3, 3, 3.80),
- (4, 3, 1.20),
- (5, 3, 3.10),
- (6, 3, 1.60),
- (7, 3, 39.50),
- (8, 3, 3.00),
- (9, 3, 23.50),
- (10, 3, 18.40),
- (11, 3, 7.90),
- (12, 3, 4.10),
- (13, 3, 5.60),
- (14, 3, 41.00),
- (15, 3, 51.80),
- (16, 3, 47.50),
- (17, 3, 0.90),
- (18, 3, 29.00),
- (19, 3, 15.00),
- (20, 3, 2.50),
- (21, 3, 9.00),
- (22, 3, 32.50),
- (23, 3, 7.80),
- (24, 3, 3.60),
- (25, 3, 11.00),
- (26, 3, 21.50),
- (27, 3, 5.40),
- (28, 3, 11.20),
- (29, 3, 12.40),
- (30, 3, 11.00),
- (31, 3, 4.50),
- (32, 3, 24.50),
- (33, 3, 14.00),
- (34, 3, 15.20),
- (35, 3, 5.40),
- (36, 3, 3.80);
+INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VALUES
+                                                                                  (1, 3, 8.90),
+                                                                                  (2, 3, 2.30),
+                                                                                  (3, 3, 3.80),
+                                                                                  (4, 3, 1.20),
+                                                                                  (5, 3, 3.10),
+                                                                                  (6, 3, 1.60),
+                                                                                  (7, 3, 39.50),
+                                                                                  (8, 3, 3.00),
+                                                                                  (9, 3, 23.50),
+                                                                                  (10, 3, 18.40),
+                                                                                  (11, 3, 7.90),
+                                                                                  (12, 3, 4.10),
+                                                                                  (13, 3, 5.60),
+                                                                                  (14, 3, 41.00),
+                                                                                  (15, 3, 51.80),
+                                                                                  (16, 3, 47.50),
+                                                                                  (17, 3, 0.90),
+                                                                                  (18, 3, 29.00),
+                                                                                  (19, 3, 15.00),
+                                                                                  (20, 3, 2.50),
+                                                                                  (21, 3, 9.00),
+                                                                                  (22, 3, 32.50),
+                                                                                  (23, 3, 7.80),
+                                                                                  (24, 3, 3.60),
+                                                                                  (25, 3, 11.00),
+                                                                                  (26, 3, 21.50),
+                                                                                  (27, 3, 5.40),
+                                                                                  (28, 3, 11.20),
+                                                                                  (29, 3, 12.40),
+                                                                                  (30, 3, 11.00),
+                                                                                  (31, 3, 4.50),
+                                                                                  (32, 3, 24.50),
+                                                                                  (33, 3, 14.00),
+                                                                                  (34, 3, 15.20),
+                                                                                  (35, 3, 5.40),
+                                                                                  (36, 3, 3.80);
 
 -- venda
 INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VALUES
@@ -227,42 +227,42 @@ INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VA
                                                                                   (36, 2, 5.50);
 
 INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VALUES
-(1, 4, 11.50),
-(2, 4, 2.20),
-(3, 4, 5.50),
-(4, 4, 2.50),
-(5, 4, 6.80),
-(6, 4, 2.00),
-(7, 4, 42.80),
-(8, 4, 4.20),
-(9, 4, 26.80),
-(10, 4, 18.50),
-(11, 4, 10.80),
-(12, 4, 4.50),
-(13, 4, 8.90),
-(14, 4, 44.00),
-(15, 4, 54.80),
-(16, 4, 50.50),
-(17, 4, 2.80),
-(18, 4, 31.90),
-(19, 4, 17.90),
-(20, 4, 3.20),
-(21, 4, 11.90),
-(22, 4, 34.70),
-(23, 4, 8.00),
-(24, 4, 5.00),
-(25, 4, 13.90),
-(26, 4, 23.80),
-(27, 4, 6.00),
-(28, 4, 13.80),
-(29, 4, 15.50),
-(30, 4, 11.00),
-(31, 4, 7.80),
-(32, 4, 27.50),
-(33, 4, 16.80),
-(34, 4, 18.20),
-(35, 4, 8.50),
-(36, 4, 6.80);
+                                                                                  (1, 4, 11.50),
+                                                                                  (2, 4, 2.20),
+                                                                                  (3, 4, 5.50),
+                                                                                  (4, 4, 2.50),
+                                                                                  (5, 4, 6.80),
+                                                                                  (6, 4, 2.00),
+                                                                                  (7, 4, 42.80),
+                                                                                  (8, 4, 4.20),
+                                                                                  (9, 4, 26.80),
+                                                                                  (10, 4, 18.50),
+                                                                                  (11, 4, 10.80),
+                                                                                  (12, 4, 4.50),
+                                                                                  (13, 4, 8.90),
+                                                                                  (14, 4, 44.00),
+                                                                                  (15, 4, 54.80),
+                                                                                  (16, 4, 50.50),
+                                                                                  (17, 4, 2.80),
+                                                                                  (18, 4, 31.90),
+                                                                                  (19, 4, 17.90),
+                                                                                  (20, 4, 3.20),
+                                                                                  (21, 4, 11.90),
+                                                                                  (22, 4, 34.70),
+                                                                                  (23, 4, 8.00),
+                                                                                  (24, 4, 5.00),
+                                                                                  (25, 4, 13.90),
+                                                                                  (26, 4, 23.80),
+                                                                                  (27, 4, 6.00),
+                                                                                  (28, 4, 13.80),
+                                                                                  (29, 4, 15.50),
+                                                                                  (30, 4, 11.00),
+                                                                                  (31, 4, 7.80),
+                                                                                  (32, 4, 27.50),
+                                                                                  (33, 4, 16.80),
+                                                                                  (34, 4, 18.20),
+                                                                                  (35, 4, 8.50),
+                                                                                  (36, 4, 6.80);
 
 -- ==========================================================
 -- TABELA: cliente (FK -> endereco, tabela_preco)
@@ -274,17 +274,17 @@ INSERT INTO cliente (CNPJ, razao_social, tel_contato, fk_endereco, fk_tabela_pre
 -- ==========================================================
 -- TABELA: fornecedor (FK -> endereco, tabela_preco)
 -- ==========================================================
-INSERT INTO fornecedor (fk_endereco, fk_tabela_preco, fk_usuario, nome, documento, tipo_fornecedor, telefone, apelido) VALUES
-                                                                                                                           (1, 1, 1, 'Carlos Eduardo Mendes',      '12345678901', 'PESSOA_FISICA', '11991234567', 'Carlos'),
-                                                                                                                           (2, 1, 1, 'Ana Beatriz Ferreira',       '23456789012', 'PESSOA_FISICA', '21997654321', 'Ana'),
-                                                                                                                           (3, 1, 1, 'Ricardo Lopes da Silva',     '34567890123', 'PESSOA_FISICA', '31998887766', 'Ricardo'),
-                                                                                                                           (4, 1, 1, 'Mariana Santos Oliveira',    '45678901234', 'PESSOA_FISICA', '41998776655', 'Mariana'),
-                                                                                                                           (1, 1, 1, 'João Pedro Cavalcante',      '56789012345', 'PESSOA_FISICA', '11990011223', 'João'),
-                                                                                                                           (2, 1, 1, 'Letícia Moura Almeida',      '67890123456', 'PESSOA_FISICA', '21990022334', 'Leticia'),
-                                                                                                                           (3, 1, 1, 'Fernando Augusto Ribeiro',   '78901234567', 'PESSOA_FISICA', '31995554433', 'Fernando'),
-                                                                                                                           (4, 1, 1, 'Patrícia Gomes Andrade',     '89012345678', 'PESSOA_FISICA', '41998889900', 'Patricia'),
-                                                                                                                           (1, 1, 1, 'Gustavo Henrique Martins',   '90123456789', 'PESSOA_FISICA', '11993335577', 'Gustavo'),
-                                                                                                                           (2, 1, 1, 'Camila Rodrigues Silva',     '01234567890', 'PESSOA_FISICA', '21992228844', 'Camila');
+INSERT INTO fornecedor (fk_endereco, fk_tabela_preco, nome, documento, tipo_fornecedor, telefone, apelido) VALUES
+                                                                                                               (1, 1, 'Carlos Eduardo Mendes',      '12345678901', 'PESSOA_FISICA', '11991234567', 'Carlos'),
+                                                                                                               (2, 1, 'Ana Beatriz Ferreira',       '23456789012', 'PESSOA_FISICA', '21997654321', 'Ana'),
+                                                                                                               (3, 1, 'Ricardo Lopes da Silva',     '34567890123', 'PESSOA_FISICA', '31998887766', 'Ricardo'),
+                                                                                                               (4, 1, 'Mariana Santos Oliveira',    '45678901234', 'PESSOA_FISICA', '41998776655', 'Mariana'),
+                                                                                                               (1, 1, 'João Pedro Cavalcante',      '56789012345', 'PESSOA_FISICA', '11990011223', 'João'),
+                                                                                                               (2, 1, 'Letícia Moura Almeida',      '67890123456', 'PESSOA_FISICA', '21990022334', 'Leticia'),
+                                                                                                               (3, 1, 'Fernando Augusto Ribeiro',   '78901234567', 'PESSOA_FISICA', '31995554433', 'Fernando'),
+                                                                                                               (4, 1, 'Patrícia Gomes Andrade',     '89012345678', 'PESSOA_FISICA', '41998889900', 'Patricia'),
+                                                                                                               (1, 1, 'Gustavo Henrique Martins',   '90123456789', 'PESSOA_FISICA', '11993335577', 'Gustavo'),
+                                                                                                               (2, 1, 'Camila Rodrigues Silva',     '01234567890', 'PESSOA_FISICA', '21992228844', 'Camila');
 
 
 -- ==========================================================
