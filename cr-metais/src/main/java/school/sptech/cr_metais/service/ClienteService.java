@@ -35,8 +35,42 @@ public class ClienteService {
         this.tabelaPrecoRepository = tabelaPrecoRepository;
     }
 
-    public Cliente cadastrar(ClienteCadastroDTO dto) {
+    private ClienteResponseDTO mapearParaResponseDTO(Cliente cliente) {
+        ClienteResponseDTO.TabelaPrecoResDTO tabelaDTO = null;
+        if (cliente.getTabelaPreco() != null) {
+            tabelaDTO = new ClienteResponseDTO.TabelaPrecoResDTO(
+                    cliente.getTabelaPreco().getIdTabela(),
+                    cliente.getTabelaPreco().getNomeTabela(),
+                    cliente.getTabelaPreco().getTipo() != null ? cliente.getTabelaPreco().getTipo().name() : null,
+                    cliente.getTabelaPreco().getVersao()
+            );
+        }
 
+        ClienteResponseDTO.EnderecoResDTO enderecoDTO = null;
+        if (cliente.getEndereco() != null) {
+            enderecoDTO = new ClienteResponseDTO.EnderecoResDTO(
+                    cliente.getEndereco().getIdEndereco(),
+                    cliente.getEndereco().getLogradouro(),
+                    cliente.getEndereco().getNumero(),
+                    cliente.getEndereco().getBairro(),
+                    cliente.getEndereco().getCidade(),
+                    cliente.getEndereco().getEstado(),
+                    cliente.getEndereco().getCep(),
+                    cliente.getEndereco().getComplemento()
+            );
+        }
+
+        return new ClienteResponseDTO(
+                cliente.getIdCliente(),
+                cliente.getRazaoSocial(),
+                cliente.getCnpj(),
+                cliente.getTelContato(),
+                tabelaDTO,
+                enderecoDTO
+        );
+    }
+
+    public Cliente cadastrar(ClienteCadastroDTO dto) {
         if (dto.getCnpj() == null || dto.getCnpj().length() < 14) {
             throw new EntidadeInvalidaException("CNPJ inválido");
         }
@@ -51,53 +85,62 @@ public class ClienteService {
 
         cliente.setEndereco(endereco);
         cliente.setTabelaPreco(tabelaPreco);
+        cliente.setAtivo(true); // Garante que nasce ativo
 
         return cRepository.save(cliente);
     }
 
 
     public List<ClienteResponseDTO> listar() {
-        return cRepository.findAll()
+        return cRepository.findByAtivoTrue()
                 .stream()
-                .map(clienteMapper::toResponseDTO)
+                .map(this::mapearParaResponseDTO)
                 .toList();
     }
 
     public List<ClienteResponseDTO> listarClientes() {
-        List<Cliente> clientes = cRepository.findAll();
-
-        return clientes.stream().map(cliente -> new ClienteResponseDTO(
-                cliente.getIdCliente(),
-                cliente.getRazaoSocial(),
-                cliente.getCnpj(),
-                cliente.getTabelaPreco().getNomeTabela()
-        )).toList();
+        List<Cliente> clientes = cRepository.findByAtivoTrue();
+        return clientes.stream()
+                .map(this::mapearParaResponseDTO)
+                .toList();
     }
 
     public ClienteResponseDTO buscarPorId(Integer id) {
-        Cliente cliente = cRepository.findById(id)
+        Cliente cliente = cRepository.findByIdClienteAndAtivoTrue(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
-
-        return clienteMapper.toResponseDTO(cliente);
+        return mapearParaResponseDTO(cliente);
     }
 
     public void deletar(Integer id) {
-        if (!cRepository.existsById(id)) {
+        int linhasAfetadas = cRepository.inativarCliente(id);
+
+        if (linhasAfetadas == 0) {
             throw new EntidadeNaoEncontradaException("Cliente não encontrado");
         }
-        cRepository.deleteById(id);
     }
 
     public ClienteResponseDTO atualizar(Integer id, ClienteCadastroDTO dto) {
-        Cliente clienteExistente = cRepository.findById(id)
+        Cliente clienteExistente = cRepository.findByIdClienteAndAtivoTrue(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
 
         clienteExistente.setCnpj(dto.getCnpj());
         clienteExistente.setRazaoSocial(dto.getRazaoSocial());
         clienteExistente.setTelContato(dto.getTelContato());
 
+        if (dto.getIdEndereco() != null) {
+            Endereco endereco = enderecoRepository.findById(dto.getIdEndereco())
+                    .orElseThrow(() -> new EntidadeNaoEncontradaException("Endereço não encontrado"));
+            clienteExistente.setEndereco(endereco);
+        }
+
+        if (dto.getIdTabelaPreco() != null) {
+            TabelaPreco tabela = tabelaPrecoRepository.findById(dto.getIdTabelaPreco())
+                    .orElseThrow(() -> new EntidadeNaoEncontradaException("Tabela de preço não encontrada"));
+            clienteExistente.setTabelaPreco(tabela);
+        }
+
         cRepository.save(clienteExistente);
 
-        return clienteMapper.toResponseDTO(clienteExistente);
+        return mapearParaResponseDTO(clienteExistente);
     }
 }

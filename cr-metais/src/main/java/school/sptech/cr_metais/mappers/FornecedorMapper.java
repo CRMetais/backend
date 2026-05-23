@@ -17,6 +17,7 @@ public class FornecedorMapper {
         fornecedor.setTipo(dto.getTipoFornecedor());
         fornecedor.setTelefone(dto.getTelefone());
         fornecedor.setApelido(dto.getApelido());
+        fornecedor.setAtivo(true);
 
         return fornecedor;
     }

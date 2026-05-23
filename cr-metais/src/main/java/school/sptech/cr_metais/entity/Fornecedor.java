@@ -12,6 +12,12 @@ public class Fornecedor {
     @Column(name = "id_fornecedor")
     private Integer idFornecedor;
 
+    @Column(name = "ativo", nullable = false)
+    private Boolean ativo = true;
+
+    public Boolean getAtivo() { return ativo; }
+    public void setAtivo(Boolean ativo) { this.ativo = ativo; }
+
     @NotBlank
     @Column(name = "nome")
     private String nome;

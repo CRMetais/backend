@@ -13,7 +13,6 @@ import java.util.UUID;
 
 public interface HistoricoRepository extends JpaRepository<Compra, UUID> {
 
-    // 🔥 COMPRAS AJUSTADO
     @Query(value = """
     SELECT DISTINCT 
         c.id_compra AS id,
@@ -39,7 +38,6 @@ public interface HistoricoRepository extends JpaRepository<Compra, UUID> {
     Page<Object[]> listarCompras(Pageable pageable);
 
 
-    // 🔥 VENDAS AJUSTADO (CORREÇÃO PRINCIPAL)
     @Query(value = """
     SELECT DISTINCT
         v.id_venda AS id,

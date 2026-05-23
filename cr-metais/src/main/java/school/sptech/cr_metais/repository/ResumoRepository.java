@@ -21,6 +21,7 @@ public interface ResumoRepository extends JpaRepository<Produto, Integer> {
     JOIN i.produto p
     JOIN PrecoProdutoTabela ppt ON ppt.produto.idProduto = p.idProduto
     JOIN ppt.tabelaPreco tp
+    WHERE tp.ativa = true
     GROUP BY
         p.nome,
         ppt.precoProduto,
