@@ -9,6 +9,8 @@ public class ResumoDto {
     private Double pesoTotal;
     private Double notasHoje;
     private Double pesoHoje;
+    private List<ClienteResumoDto> clientes;
+    private List<TabelaPrecoResumoDto> tabelasPreco;
 
     public List<ProdutoResumoDto> getProdutos() {
         return produtos;
@@ -46,7 +48,25 @@ public class ResumoDto {
         return pesoHoje;
     }
 
+    public List<ClienteResumoDto> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<ClienteResumoDto> clientes) {
+        this.clientes = clientes;
+    }
+
+    public List<TabelaPrecoResumoDto> getTabelasPreco() {
+        return tabelasPreco;
+    }
+
+    public void setTabelasPreco(List<TabelaPrecoResumoDto> tabelasPreco) {
+        this.tabelasPreco = tabelasPreco;
+    }
+
     public void setPesoHoje(Double pesoHoje) {
         this.pesoHoje = pesoHoje;
+
+
     }
 }

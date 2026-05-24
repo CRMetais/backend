@@ -3,30 +3,46 @@ package school.sptech.cr_metais.dto.Resumo;
 public class ProdutoResumoDto {
 
     private String nome;
-    private Double peso;
-    private Double valor;
-    private String destino;
+    private Double pesoComprado;
+    private Double pesoVendido;
+    private Double materialDisponivel;
 
-    public ProdutoResumoDto(String nome, Double peso, Double valor, String destino) {
+    public ProdutoResumoDto(String nome, Double pesoComprado, Double pesoVendido, Double materialDisponivel) {
         this.nome = nome;
-        this.peso = peso;
-        this.valor = valor;
-        this.destino = destino;
+        this.pesoComprado = pesoComprado;
+        this.pesoVendido = pesoVendido;
+        this.materialDisponivel = materialDisponivel;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public Double getPeso() {
-        return peso;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public Double getValor() {
-        return valor;
+    public Double getPesoComprado() {
+        return pesoComprado;
     }
 
-    public String getDestino() {
-        return destino;
+    public void setPesoComprado(Double pesoComprado) {
+        this.pesoComprado = pesoComprado;
+    }
+
+    public Double getPesoVendido() {
+        return pesoVendido;
+    }
+
+    public void setPesoVendido(Double pesoVendido) {
+        this.pesoVendido = pesoVendido;
+    }
+
+    public Double getMaterialDisponivel() {
+        return materialDisponivel;
+    }
+
+    public void setMaterialDisponivel(Double materialDisponivel) {
+        this.materialDisponivel = materialDisponivel;
     }
 }
