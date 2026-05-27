@@ -142,15 +142,15 @@ public interface ResumoRepository extends JpaRepository<Produto, Integer> {
 
     @Query(value = """
             SELECT SUM(i.pesoKg * i.precoUnitario)
-            FROM ItemPedidoVenda i
-            WHERE i.venda.dataVenda = :data
+            FROM ItemPedidoCompra i
+            WHERE i.compra.dataCompra = :data
             """)
     Double notasHoje(LocalDate data);
 
     @Query(value = """
             SELECT SUM(i.pesoKg)
-            FROM ItemPedidoVenda i
-            WHERE i.venda.dataVenda = :data
+            FROM ItemPedidoCompra i
+            WHERE i.compra.dataCompra = :data
             """)
     Double pesoHoje(LocalDate data);
 
