@@ -1,11 +1,48 @@
-
 services:
 
+  # ─── Mensageria: RabbitMQ ──────────────────────────────────────────────────
   rabbitmq:
     image: 'rabbitmq:4.2.4-management'
+    container_name: crmetais-rabbitmq
     environment:
       - 'RABBITMQ_DEFAULT_PASS=secret'
       - 'RABBITMQ_DEFAULT_USER=myuser'
     ports:
-      - "5672:5672"    # Porta do RabbitMQ
-      - "15672:15672"  # Porta da interface de gerenciamento
+      - "5672:5672"    # Porta de comunicação do Spring
+      - "15672:15672"  # Interface Web (http://localhost:15672)
+    networks:
+      - app-net
+
+  # ─── Cache de Conteúdo: Redis (Padrão SPTech) ──────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: crmetais-redis
+    command: [ "redis-server", "--save", "60", "1", "--loglevel", "warning" ]
+    ports:
+      - "6379:6379"    # Porta de comunicação do Spring
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-net
+
+  # ─── Interface Visual do Redis: RedisInsight ───────────────────────────────
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: crmetais-redisinsight
+    ports:
+      - "5540:5540"    # Interface Web (http://localhost:5540)
+    depends_on:
+      - redis
+    volumes:
+      - redisinsight_data:/data
+    networks:
+      - app-net
+
+# ─── Redes e Volumes Compartilhados ──────────────────────────────────────────
+networks:
+  app-net:
+    driver: bridge
+
+volumes:
+  redis_data:
+  redisinsight_data:

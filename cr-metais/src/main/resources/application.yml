@@ -22,6 +22,17 @@ spring:
           starttls:
             enable: true
 
+  cache:
+    type: redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+logging:
+  level:
+    org.springframework.cache.interceptor.CacheInterceptor: TRACE
+
 email:
   destinatario: Miguelcserpa@gmail.com
   assunto: "Notificação CR Metais"
