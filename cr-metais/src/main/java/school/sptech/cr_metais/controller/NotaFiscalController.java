@@ -3,10 +3,12 @@ package school.sptech.cr_metais.controller;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.entity.Produto;
+import school.sptech.cr_metais.entity.TipoFornecedor;
 import school.sptech.cr_metais.repository.FornecedorRepository;
 import school.sptech.cr_metais.repository.ProdutoRepository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RestController
@@ -32,31 +34,41 @@ public class NotaFiscalController {
 
         Map<String, Object> nota = new HashMap<>();
 
-        nota.put("dataEmissao", LocalDate.now().toString());
+        // data e hora pro bling
+        String dataOperacao = LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        nota.put("dataEmissao", dataOperacao);
         nota.put("tipoNota", boleta.get("tipoNota"));
 
+        // dados do fornecedor
         Map<String, Object> fornecedor = new HashMap<>();
-        fornecedor.put("id", f.getIdFornecedor());
-        fornecedor.put("nome", f.getNome());
+        fornecedor.put("id",        f.getIdFornecedor());
+        fornecedor.put("nome",      f.getNome());
         fornecedor.put("documento", f.getDocumento());
+        fornecedor.put("telefone",  f.getTelefone() != null ? f.getTelefone() : "");
 
+        // pessoa fisica ou juridica
+        String tipoPessoa = f.getTipoFornecedor() == TipoFornecedor.PESSOA_JURIDICA ? "J" : "F";
+        fornecedor.put("tipoPessoa", tipoPessoa);
+
+        // endereço
         Map<String, Object> endereco = new HashMap<>();
-        endereco.put("logradouro", f.getEndereco().getLogradouro());
-        endereco.put("numero", f.getEndereco().getNumero());
-        endereco.put("bairro", f.getEndereco().getBairro());
-        endereco.put("cidade", f.getEndereco().getCidade());
-        endereco.put("cep", f.getEndereco().getCep());
-        endereco.put("estado", f.getEndereco().getEstado());
+        endereco.put("logradouro",  f.getEndereco().getLogradouro());
+        endereco.put("numero",      f.getEndereco().getNumero());
+        endereco.put("complemento", f.getEndereco().getComplemento() != null ? f.getEndereco().getComplemento() : "");
+        endereco.put("bairro",      f.getEndereco().getBairro());
+        endereco.put("cidade",      f.getEndereco().getCidade());
+        endereco.put("cep",         f.getEndereco().getCep());
+        endereco.put("estado",      f.getEndereco().getEstado());
 
         fornecedor.put("endereco", endereco);
-
         nota.put("fornecedor", fornecedor);
 
+        // itens
         List<Map<String, Object>> itensBoleta =
                 (List<Map<String, Object>>) boleta.get("itens");
 
         List<Map<String, Object>> itens = new ArrayList<>();
-
         double totalNota = 0;
 
         for (Map<String, Object> itemBoleta : itensBoleta) {
@@ -67,16 +79,14 @@ public class NotaFiscalController {
                     .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
             Map<String, Object> item = new HashMap<>();
-
-            item.put("idProduto", p.getIdProduto());
-            item.put("descricao", p.getNome());
-
-            item.put("quantidade", Double.parseDouble(itemBoleta.get("peso").toString()));
+            item.put("idProduto",     p.getIdProduto());
+            item.put("descricao",     p.getNome());
+            item.put("unidade",       "KG");
+            item.put("quantidade",    Double.parseDouble(itemBoleta.get("peso").toString()));
             item.put("valorUnitario", Double.parseDouble(itemBoleta.get("valorUnitario").toString()));
-            item.put("total", Double.parseDouble(itemBoleta.get("total").toString()));
+            item.put("total",         Double.parseDouble(itemBoleta.get("total").toString()));
 
             totalNota += Double.parseDouble(itemBoleta.get("total").toString());
-
             itens.add(item);
         }
 
