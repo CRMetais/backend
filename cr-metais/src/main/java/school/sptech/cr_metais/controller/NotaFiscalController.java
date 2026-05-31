@@ -1,9 +1,10 @@
 package school.sptech.cr_metais.controller;
 
 import org.springframework.web.bind.annotation.*;
+import school.sptech.cr_metais.entity.Cliente;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.entity.Produto;
-import school.sptech.cr_metais.entity.TipoFornecedor;
+import school.sptech.cr_metais.repository.ClienteRepository;
 import school.sptech.cr_metais.repository.FornecedorRepository;
 import school.sptech.cr_metais.repository.ProdutoRepository;
 
@@ -16,55 +17,75 @@ import java.util.*;
 public class NotaFiscalController {
 
     private final FornecedorRepository fornecedorRepository;
+    private final ClienteRepository clienteRepository;
     private final ProdutoRepository produtoRepository;
 
     public NotaFiscalController(FornecedorRepository fornecedorRepository,
+                                ClienteRepository clienteRepository,
                                 ProdutoRepository produtoRepository) {
         this.fornecedorRepository = fornecedorRepository;
-        this.produtoRepository = produtoRepository;
+        this.clienteRepository    = clienteRepository;
+        this.produtoRepository    = produtoRepository;
     }
 
     @PostMapping
     public Map<String, Object> gerarNotaFiscal(@RequestBody Map<String, Object> boleta) {
 
-        Integer idFornecedor = Integer.parseInt(boleta.get("idFornecedor").toString());
+        String tipoNota = boleta.get("tipoNota").toString();
 
-        Fornecedor f = fornecedorRepository.findById(idFornecedor)
-                .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
-
-        Map<String, Object> nota = new HashMap<>();
-
-        // data e hora pro bling
         String dataOperacao = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        nota.put("dataEmissao", dataOperacao);
-        nota.put("tipoNota", boleta.get("tipoNota"));
 
-        // dados do fornecedor
-        Map<String, Object> fornecedor = new HashMap<>();
-        fornecedor.put("id",        f.getIdFornecedor());
-        fornecedor.put("nome",      f.getNome());
-        fornecedor.put("documento", f.getDocumento());
-        fornecedor.put("telefone",  f.getTelefone() != null ? f.getTelefone() : "");
-
-        // pessoa fisica ou juridica
-        String tipoPessoa = f.getTipoFornecedor() == TipoFornecedor.PESSOA_JURIDICA ? "J" : "F";
-        fornecedor.put("tipoPessoa", tipoPessoa);
-
-        // endereço
+        Map<String, Object> nota     = new HashMap<>();
+        Map<String, Object> contato  = new HashMap<>();
         Map<String, Object> endereco = new HashMap<>();
-        endereco.put("logradouro",  f.getEndereco().getLogradouro());
-        endereco.put("numero",      f.getEndereco().getNumero());
-        endereco.put("complemento", f.getEndereco().getComplemento() != null ? f.getEndereco().getComplemento() : "");
-        endereco.put("bairro",      f.getEndereco().getBairro());
-        endereco.put("cidade",      f.getEndereco().getCidade());
-        endereco.put("cep",         f.getEndereco().getCep());
-        endereco.put("estado",      f.getEndereco().getEstado());
 
-        fornecedor.put("endereco", endereco);
-        nota.put("fornecedor", fornecedor);
+        nota.put("dataEmissao", dataOperacao);
+        nota.put("tipoNota", tipoNota);
 
-        // itens
+        if ("ENTRADA".equals(tipoNota)) {
+            // ── Busca FORNECEDOR ──────────────────────────────────────────
+            Integer idFornecedor = Integer.parseInt(boleta.get("idFornecedor").toString());
+            Fornecedor f = fornecedorRepository.findById(idFornecedor)
+                    .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
+
+            contato.put("id",         f.getIdFornecedor());
+            contato.put("nome",       f.getNome());
+            contato.put("documento",  f.getDocumento());
+            contato.put("telefone",   f.getTelefone() != null ? f.getTelefone() : "");
+            contato.put("tipoPessoa", f.getTipoFornecedor().name().equals("PESSOA_JURIDICA") ? "J" : "F");
+
+            endereco.put("logradouro",  f.getEndereco().getLogradouro());
+            endereco.put("numero",      f.getEndereco().getNumero());
+            endereco.put("complemento", f.getEndereco().getComplemento() != null ? f.getEndereco().getComplemento() : "");
+            endereco.put("bairro",      f.getEndereco().getBairro());
+            endereco.put("cidade",      f.getEndereco().getCidade());
+            endereco.put("cep",         f.getEndereco().getCep());
+            endereco.put("estado",      f.getEndereco().getEstado());
+
+        } else {
+            Integer idCliente = Integer.parseInt(boleta.get("idCliente").toString());
+            Cliente c = clienteRepository.findByIdClienteAndAtivoTrue(idCliente)
+                    .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+            contato.put("id",         c.getIdCliente());
+            contato.put("nome",       c.getRazaoSocial());
+            contato.put("documento",  c.getCnpj());
+            contato.put("telefone",   c.getTelContato() != null ? c.getTelContato() : "");
+            contato.put("tipoPessoa", "J");
+
+            endereco.put("logradouro",  c.getEndereco().getLogradouro());
+            endereco.put("numero",      c.getEndereco().getNumero());
+            endereco.put("complemento", c.getEndereco().getComplemento() != null ? c.getEndereco().getComplemento() : "");
+            endereco.put("bairro",      c.getEndereco().getBairro());
+            endereco.put("cidade",      c.getEndereco().getCidade());
+            endereco.put("cep",         c.getEndereco().getCep());
+            endereco.put("estado",      c.getEndereco().getEstado());
+        }
+
+        contato.put("endereco", endereco);
+        nota.put("fornecedor", contato);
+
         List<Map<String, Object>> itensBoleta =
                 (List<Map<String, Object>>) boleta.get("itens");
 
@@ -72,9 +93,7 @@ public class NotaFiscalController {
         double totalNota = 0;
 
         for (Map<String, Object> itemBoleta : itensBoleta) {
-
             Integer idProduto = Integer.parseInt(itemBoleta.get("produtoId").toString());
-
             Produto p = produtoRepository.findById(idProduto)
                     .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
