@@ -1,4 +1,4 @@
-name: Deploy Backend JAR
+name: Deploy Backend para EC2 Privada
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-push:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source
@@ -23,22 +23,46 @@ jobs:
         working-directory: ./cr-metais
         run: mvn clean package -DskipTests
 
-      - name: Push to Target Repo
-        env:
-          TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+      - name: Renomear JAR
+        working-directory: ./cr-metais
         run: |
-            git clone https://x-access-token:${TARGET_TOKEN}@github.com/CRMetais/TF.git destino
+          # Encontra o arquivo .jar gerado na pasta target (ignorando arquivos auxiliares)
+          JAR_NAME=$(find target -maxdepth 1 -name "*.jar" -not -name "original-*.jar" | head -n 1)
+          mv $JAR_NAME target/api-cr-metais.jar
+          echo "Renomeado para: target/api-cr-metais.jar"
+
+      - name: Copiar JAR para EC2 Pública
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ubuntu
+          TARGET: /home/ubuntu/backend
+          ARGS: "-rltgoDzvO --delete" 
+          SOURCE: "./cr-metais/target/api-cr-metais.jar" 
+          
+      - name: Mover para EC2 Privada e Reiniciar Serviço
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }} 
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}  
+          script: |
+            set -e
             
-            # Cria a pasta backend no destino e remove o JAR antigo (se existir)
-            mkdir -p destino/backend
-            rm -f destino/backend/*.jar
+            # Criando um .pem temporário na EC2 pública
+            ARQUIVO_PEM="/home/ubuntu/chavetmp.pem"
+            rm $ARQUIVO_PEM -f
             
-            # Busca qualquer arquivo .jar gerado dentro de pastas 'target' e copia para o destino
-            find . -type f -name "*.jar" -path "*/target/*" -exec cp {} destino/backend/ \;
-            
-            cd destino
-            git config user.name "GitHub Actions Bot"
-            git config user.email "actions@github.com"
-            git add backend/
-            git commit -m "chore: update backend jar" || echo "No changes"
-            git push origin main
+            echo "${{ secrets.EC2_SSH_KEY }}" > $ARQUIVO_PEM || true
+            chmod 400 $ARQUIVO_PEM || true
+
+            # Configurando usuário e IP da máquina privada
+            USUARIO_IP=ubuntu@${{ secrets.REMOTE_HOST_PRIVADO }}
+                  
+            # Enviando o arquivo .jar via scp para a EC2 privada
+            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/ubuntu/backend/api-cr-metais.jar $USUARIO_IP:/home/ubuntu/backend/api-cr-metais.jar
+
+            # Reiniciando o serviço 'api' via docker compose na EC2 privada
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP 'docker compose -f /home/ubuntu/docker/compose-java-api.yml stop'            
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP 'docker compose -f /home/ubuntu/docker/compose-java-api.yml up > /tmp/api-cr-metais.log 2>&1 &'
