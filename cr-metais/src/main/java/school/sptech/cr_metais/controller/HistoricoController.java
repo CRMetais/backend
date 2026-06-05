@@ -25,16 +25,32 @@ public class HistoricoController {
         return ResponseEntity.ok(resultado);
     }
 
-    @GetMapping("/csv")
-    public ResponseEntity<String> gerarCsv(
+    @GetMapping("/xml")
+    public ResponseEntity<String> gerarXml(
             @RequestParam String tipo,
             @RequestParam String dataInicio,
             @RequestParam String dataFim
     ) {
 
-        String url = service.gerarCsvLambda(tipo, dataInicio, dataFim);
+        String url = service.gerarXmlLambda(tipo, dataInicio, dataFim);
 
         return ResponseEntity.ok(url);
     }
+
+    // Baixar local
+//    @GetMapping("/xml")
+//    public ResponseEntity<String> gerarXml(
+//            @RequestParam String tipo,
+//            @RequestParam String dataInicio,
+//            @RequestParam String dataFim
+//    ) {
+//
+//        String xml = service.gerarXmlLambda(tipo, dataInicio, dataFim);
+//
+//        return ResponseEntity.ok()
+//                .header("Content-Type", "application/xml")
+//                .header("Content-Disposition", "attachment; filename=historico.xml")
+//                .body(xml);
+//        }
 
 }

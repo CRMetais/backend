@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<historico>
+  <registro>
+    <id>56</id>
+    <data>2026-05-22</data>
+    <produto>Lata</produto>
+    <parceiro>João Pedro Cavalcante</parceiro>
+    <peso>350.0</peso>
+    <preco>8.36</preco>
+    <total>2926.0</total>
+  </registro>
+  <registro>
+    <id>56</id>
+    <data>2026-05-22</data>
+    <produto>Radiador com cobre</produto>
+    <parceiro>João Pedro Cavalcante</parceiro>
+    <peso>8.0</peso>
+    <preco>23.31</preco>
+    <total>186.48</total>
+  </registro>
+  <registro>
+    <id>56</id>
+    <data>2026-05-22</data>
+    <produto>Aerosol</produto>
+    <parceiro>João Pedro Cavalcante</parceiro>
+    <peso>7.0</peso>
+    <preco>7.0</preco>
+    <total>49.0</total>
+  </registro>
+  <registro>
+    <id>56</id>
+    <data>2026-05-22</data>
+    <produto>Bloco limpo</produto>
+    <parceiro>João Pedro Cavalcante</parceiro>
+    <peso>5.0</peso>
+    <preco>7.16</preco>
+    <total>35.8</total>
+  </registro>
+  <registro>
+    <id>55</id>
+    <data>2026-05-14</data>
+    <produto>Lata</produto>
+    <parceiro>Ricardo Lopes da Silva</parceiro>
+    <peso>390.0</peso>
+    <preco>8.36</preco>
+    <total>3260.3999999999996</total>
+  </registro>
+  <registro>
+    <id>55</id>
+    <data>2026-05-14</data>
+    <produto>Metal</produto>
+    <parceiro>Ricardo Lopes da Silva</parceiro>
+    <peso>8.0</peso>
+    <preco>31.35</preco>
+    <total>250.8</total>
+  </registro>
+  <registro>
+    <id>55</id>
+    <data>2026-05-14</data>
+    <produto>Cavaco de inox</produto>
+    <parceiro>Ricardo Lopes da Silva</parceiro>
+    <peso>10.0</peso>
+    <preco>23.94</preco>
+    <total>239.4</total>
+  </registro>
+  <registro>
+    <id>55</id>
+    <data>2026-05-14</data>
+    <produto>Cobre misto</produto>
+    <parceiro>Ricardo Lopes da Silva</parceiro>
+    <peso>6.0</peso>
+    <preco>49.25</preco>
+    <total>295.5</total>
+  </registro>
+  <registro>
+    <id>54</id>
+    <data>2026-05-05</data>
+    <produto>Lata</produto>
+    <parceiro>Carlos Eduardo Mendes</parceiro>
+    <peso>420.0</peso>
+    <preco>8.36</preco>
+    <total>3511.2</total>
+  </registro>
+  <registro>
+    <id>54</id>
+    <data>2026-05-05</data>
+    <produto>Cobre de quarta</produto>
+    <parceiro>Carlos Eduardo Mendes</parceiro>
+    <peso>10.0</peso>
+    <preco>40.86</preco>
+    <total>408.6</total>
+  </registro>
+  <registro>
+    <id>54</id>
+    <data>2026-05-05</data>
+    <produto>Cobre mel</produto>
+    <parceiro>Carlos Eduardo Mendes</parceiro>
+    <peso>8.0</peso>
+    <preco>51.08</preco>
+    <total>408.64</total>
+  </registro>
+  <registro>
+    <id>54</id>
+    <data>2026-05-05</data>
+    <produto>Bronze</produto>
+    <parceiro>Carlos Eduardo Mendes</parceiro>
+    <peso>7.0</peso>
+    <preco>40.96</preco>
+    <total>286.72</total>
+  </registro>
+  <registro>
+    <id>53</id>
+    <data>2026-04-16</data>
+    <produto>Lata</produto>
+    <parceiro>Fernando Augusto Ribeiro</parceiro>
+    <peso>310.0</peso>
+    <preco>8.36</preco>
+    <total>2591.6</total>
+  </registro>
+  <registro>
+    <id>53</id>
+    <data>2026-04-16</data>
+    <produto>Radiador com cobre</produto>
+    <parceiro>Fernando Augusto Ribeiro</parceiro>
+    <peso>8.0</peso>
+    <preco>23.53</preco>
+    <total>188.24</total>
+  </registro>
+  <registro>
+    <id>53</id>
+    <data>2026-04-16</data>
+    <produto>Aerosol</produto>
+    <parceiro>Fernando Augusto Ribeiro</parceiro>
+    <peso>7.0</peso>
+    <preco>7.0</preco>
+    <total>49.0</total>
+  </registro>
+  <registro>
+    <id>53</id>
+    <data>2026-04-16</data>
+    <produto>Bloco limpo</produto>
+    <parceiro>Fernando Augusto Ribeiro</parceiro>
+    <peso>5.0</peso>
+    <preco>7.71</preco>
+    <total>38.55</total>
+  </registro>
+  <registro>
+    <id>52</id>
+    <data>2026-04-09</data>
+    <produto>Lata</produto>
+    <parceiro>Mariana Santos Oliveira</parceiro>
+    <peso>430.0</peso>
+    <preco>8.36</preco>
+    <total>3594.7999999999997</total>
+  </registro>
+  <registro>
+    <id>52</id>
+    <data>2026-04-09</data>
+    <produto>Metal</produto>
+    <parceiro>Mariana Santos Oliveira</parceiro>
+    <peso>8.0</peso>
+    <preco>30.0</preco>
+    <total>240.0</total>
+  </registro>
+  <registro>
+    <id>52</id>
+    <data>2026-04-09</data>
+    <produto>Cavaco de inox</produto>
+    <parceiro>Mariana Santos Oliveira</parceiro>
+    <peso>10.0</peso>
+    <preco>23.94</preco>
+    <total>239.4</total>
+  </registro>
+  <registro>
+    <id>52</id>
+    <data>2026-04-09</data>
+    <produto>Cobre misto</produto>
+    <parceiro>Mariana Santos Oliveira</parceiro>
+    <peso>6.0</peso>
+    <preco>49.25</preco>
+    <total>295.5</total>
+  </registro>
+  <registro>
+    <id>51</id>
+    <data>2026-04-02</data>
+    <produto>Lata</produto>
+    <parceiro>Ana Beatriz Ferreira</parceiro>
+    <peso>380.0</peso>
+    <preco>8.36</preco>
+    <total>3176.7999999999997</total>
+  </registro>
+  <registro>
+    <id>51</id>
+    <data>2026-04-02</data>
+    <produto>Cobre de quarta</produto>
+    <parceiro>Ana Beatriz Ferreira</parceiro>
+    <peso>10.0</peso>
+    <preco>41.65</preco>
+    <total>416.5</total>
+  </registro>
+  <registro>
+    <id>51</id>
+    <data>2026-04-02</data>
+    <produto>Cobre mel</produto>
+    <parceiro>Ana Beatriz Ferreira</parceiro>
+    <peso>8.0</peso>
+    <preco>51.08</preco>
+    <total>408.64</total>
+  </registro>
+  <registro>
+    <id>51</id>
+    <data>2026-04-02</data>
+    <produto>Bronze</produto>
+    <parceiro>Ana Beatriz Ferreira</parceiro>
+    <peso>7.0</peso>
+    <preco>39.77</preco>
+    <total>278.39000000000004</total>
+  </registro>
+  <registro>
+    <id>50</id>
+    <data>2026-03-27</data>
+    <produto>Lata</produto>
+    <parceiro>Gustavo Henrique Martins</parceiro>
+    <peso>200.0</peso>
+    <preco>8.36</preco>
+    <total>1672.0</total>
+  </registro>
+  <registro>
+    <id>50</id>
+    <data>2026-03-27</data>
+    <produto>Radiador de metal</produto>
+    <parceiro>Gustavo Henrique Martins</parceiro>
+    <peso>10.0</peso>
+    <preco>16.97</preco>
+    <total>169.7</total>
+  </registro>
+  <registro>
+    <id>50</id>
+    <data>2026-03-27</data>
+    <produto>Chaparia</produto>
+    <parceiro>Gustavo Henrique Martins</parceiro>
+    <peso>7.0</peso>
+    <preco>6.7</preco>
+    <total>46.9</total>
+  </registro>
+  <registro>
+    <id>50</id>
+    <data>2026-03-27</data>
+    <produto>Fio misto</produto>
+    <parceiro>Gustavo Henrique Martins</parceiro>
+    <peso>6.0</peso>
+    <preco>14.97</preco>
+    <total>89.82000000000001</total>
+  </registro>
+  <registro>
+    <id>49</id>
+    <data>2026-03-20</data>
+    <produto>Lata</produto>
+    <parceiro>Letícia Moura Almeida</parceiro>
+    <peso>320.0</peso>
+    <preco>8.36</preco>
+    <total>2675.2</total>
+  </registro>
+  <registro>
+    <id>49</id>
+    <data>2026-03-20</data>
+    <produto>Radiador com cobre</produto>
+    <parceiro>Letícia Moura Almeida</parceiro>
+    <peso>8.0</peso>
+    <preco>23.6</preco>
+    <total>188.8</total>
+  </registro>
+  <registro>
+    <id>49</id>
+    <data>2026-03-20</data>
+    <produto>Aerosol</produto>
+    <parceiro>Letícia Moura Almeida</parceiro>
+    <peso>7.0</peso>
+    <preco>7.0</preco>
+    <total>49.0</total>
+  </registro>
+  <registro>
+    <id>49</id>
+    <data>2026-03-20</data>
+    <produto>Bloco limpo</produto>
+    <parceiro>Letícia Moura Almeida</parceiro>
+    <peso>5.0</peso>
+    <preco>7.71</preco>
+    <total>38.55</total>
+  </registro>
+  <registro>
+    <id>48</id>
+    <data>2026-03-11</data>
+    <produto>Lata</produto>
+    <parceiro>Ricardo Lopes da Silva</parceiro>
+    <peso>450.0</peso>
+    <preco>8.36</preco>
+    <total>3761.9999999999995</total>
+  </registro>
+  <registro>
+    <id>48</id>
+    <data>2026-03-11</data>
+    <produto>Metal</produto>
+    <parceiro>Ricardo Lopes da Silva</parceiro>
+    <peso>8.0</peso>
+    <preco>30.0</preco>
+    <total>240.0</total>
+  </registro>
+  <registro>
+    <id>48</id>
+    <data>2026-03-11</data>
+    <produto>Cavaco de inox</produto>
+    <parceiro>Ricardo Lopes da Silva</parceiro>
+    <peso>10.0</peso>
+    <preco>23.94</preco>
+    <total>239.4</total>
+  </registro>
+  <registro>
+    <id>48</id>
+    <data>2026-03-11</data>
+    <produto>Cobre misto</produto>
+    <parceiro>Ricardo Lopes da Silva</parceiro>
+    <peso>6.0</peso>
+    <preco>49.25</preco>
+    <total>295.5</total>
+  </registro>
+  <registro>
+    <id>47</id>
+    <data>2026-03-04</data>
+    <produto>Lata</produto>
+    <parceiro>Carlos Eduardo Mendes</parceiro>
+    <peso>400.0</peso>
+    <preco>8.36</preco>
+    <total>3344.0</total>
+  </registro>
+  <registro>
+    <id>47</id>
+    <data>2026-03-04</data>
+    <produto>Cobre de quarta</produto>
+    <parceiro>Carlos Eduardo Mendes</parceiro>
+    <peso>10.0</peso>
+    <preco>41.11</preco>
+    <total>411.1</total>
+  </registro>
+  <registro>
+    <id>47</id>
+    <data>2026-03-04</data>
+    <produto>Cobre mel</produto>
+    <parceiro>Carlos Eduardo Mendes</parceiro>
+    <peso>8.0</peso>
+    <preco>51.08</preco>
+    <total>408.64</total>
+  </registro>
+  <registro>
+    <id>47</id>
+    <data>2026-03-04</data>
+    <produto>Bronze</produto>
+    <parceiro>Carlos Eduardo Mendes</parceiro>
+    <peso>7.0</peso>
+    <preco>40.69</preco>
+    <total>284.83</total>
+  </registro>
+  <registro>
+    <id>46</id>
+    <data>2026-02-20</data>
+    <produto>Lata</produto>
+    <parceiro>Fernando Augusto Ribeiro</parceiro>
+    <peso>280.0</peso>
+    <preco>8.64</preco>
+    <total>2419.2000000000003</total>
+  </registro>
+  <registro>
+    <id>46</id>
+    <data>2026-02-20</data>
+    <produto>Radiador com cobre</produto>
+    <parceiro>Fernando Augusto Ribeiro</parceiro>
+    <peso>8.0</peso>
+    <preco>23.6</preco>
+    <total>188.8</total>
+  </registro>
+  <registro>
+    <id>46</id>
+    <data>2026-02-20</data>
+    <produto>Aerosol</produto>
+    <parceiro>Fernando Augusto Ribeiro</parceiro>
+    <peso>7.0</peso>
+    <preco>7.0</preco>
+    <total>49.0</total>
+  </registro>
+  <registro>
+    <id>46</id>
+    <data>2026-02-20</data>
+    <produto>Radiador de metal</produto>
+    <parceiro>Fernando Augusto Ribeiro</parceiro>
+    <peso>5.0</peso>
+    <preco>18.14</preco>
+    <total>90.7</total>
+  </registro>
+  <registro>
+    <id>45</id>
+    <data>2026-02-12</data>
+    <produto>Lata</produto>
+    <parceiro>Mariana Santos Oliveira</parceiro>
+    <peso>410.0</peso>
+    <preco>8.64</preco>
+    <total>3542.4</total>
+  </registro>
+  <registro>
+    <id>45</id>
+    <data>2026-02-12</data>
+    <produto>Metal</produto>
+    <parceiro>Mariana Santos Oliveira</parceiro>
+    <peso>8.0</peso>
+    <preco>30.0</preco>
+    <total>240.0</total>
+  </registro>
+  <registro>
+    <id>45</id>
+    <data>2026-02-12</data>
+    <produto>Cavaco de inox</produto>
+    <parceiro>Mariana Santos Oliveira</parceiro>
+    <peso>10.0</peso>
+    <preco>22.55</preco>
+    <total>225.5</total>
+  </registro>
+  <registro>
+    <id>45</id>
+    <data>2026-02-12</data>
+    <produto>Cobre misto</produto>
+    <parceiro>Mariana Santos Oliveira</parceiro>
+    <peso>6.0</peso>
+    <preco>49.25</preco>
+    <total>295.5</total>
+  </registro>
+  <registro>
+    <id>44</id>
+    <data>2026-02-04</data>
+    <produto>Lata</produto>
+    <parceiro>Ana Beatriz Ferreira</parceiro>
+    <peso>360.0</peso>
+    <preco>8.64</preco>
+    <total>3110.4</total>
+  </registro>
+  <registro>
+    <id>44</id>
+    <data>2026-02-04</data>
+    <produto>Cobre de quarta</produto>
+    <parceiro>Ana Beatriz Ferreira</parceiro>
+    <peso>10.0</peso>
+    <preco>40.44</preco>
+    <total>404.4</total>
+  </registro>
+  <registro>
+    <id>44</id>
+    <data>2026-02-04</data>
+    <produto>Cobre mel</produto>
+    <parceiro>Ana Beatriz Ferreira</parceiro>
+    <peso>8.0</peso>
+    <preco>51.83</preco>
+    <total>414.64</total>
+  </registro>
+  <registro>
+    <id>44</id>
+    <data>2026-02-04</data>
+    <produto>Bronze</produto>
+    <parceiro>Ana Beatriz Ferreira</parceiro>
+    <peso>7.0</peso>
+    <preco>40.69</preco>
+    <total>284.83</total>
+  </registro>
+</historico>

@@ -7,18 +7,26 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import school.sptech.cr_metais.dto.Historico.HistoricoCompraDto;
 import school.sptech.cr_metais.dto.Historico.HistoricoVendaDto;
+import school.sptech.cr_metais.dto.Historico.TransacaoHistoricoDto;
 import school.sptech.cr_metais.repository.HistoricoRepository;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class HistoricoService {
 
     @Autowired
     private HistoricoRepository repository;
+
+    @Autowired
+    private HistoricoEtlService historicoEtlService;
 
     public Page<?> listarPorTipo(String tipo, int pagina, int tamanho) {
 
@@ -59,32 +67,81 @@ public class HistoricoService {
         throw new IllegalArgumentException("Tipo inválido");
     }
 
-    public String gerarCsvLambda(String tipo, String dataInicio, String dataFim) {
+    public String gerarXmlLambda(String tipo, String dataInicio, String dataFim) {
+
+        // =========================
+        // 🔥 LAMBDA
+        // =========================
+
+    /*
+    try {
+        String lambdaUrl = "https://SUA-LAMBDA-URL";
+
+        String urlFinal = lambdaUrl
+                + "?tipo=" + tipo
+                + "&dataInicio=" + dataInicio
+                + "&dataFim=" + dataFim;
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(urlFinal))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(
+                request,
+                HttpResponse.BodyHandlers.ofString()
+        );
+
+        return response.body();
+
+    } catch (Exception e) {
+        throw new RuntimeException("Erro ao chamar Lambda", e);
+    }
+    */
+
+        // =========================
+        // 💻 LOCAL
+        // =========================
 
         try {
-            String lambdaUrl = "https://SUA-LAMBDA-URL";
 
-            String urlFinal = lambdaUrl
-                    + "?tipo=" + tipo
-                    + "&dataInicio=" + dataInicio
-                    + "&dataFim=" + dataFim;
+            List<TransacaoHistoricoDto> dados =
+                    historicoEtlService.buscarTudo(
+                            LocalDate.parse(dataInicio),
+                            LocalDate.parse(dataFim),
+                            tipo
+                    );
 
-            HttpClient client = HttpClient.newHttpClient();
+            StringBuilder xml = new StringBuilder();
 
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(urlFinal))
-                    .GET()
-                    .build();
+            xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+            xml.append("<historico>\n");
 
-            HttpResponse<String> response = client.send(
-                    request,
-                    HttpResponse.BodyHandlers.ofString()
+            for (var item : dados) {
+                xml.append("  <registro>\n");
+                xml.append("    <id>").append(item.getId()).append("</id>\n");
+                xml.append("    <data>").append(item.getData()).append("</data>\n");
+                xml.append("    <produto>").append(item.getProduto()).append("</produto>\n");
+                xml.append("    <parceiro>").append(item.getParceiro()).append("</parceiro>\n");
+                xml.append("    <peso>").append(item.getPeso()).append("</peso>\n");
+                xml.append("    <preco>").append(item.getPreco()).append("</preco>\n");
+                xml.append("    <total>").append(item.getTotal()).append("</total>\n");
+                xml.append("  </registro>\n");
+            }
+
+            xml.append("</historico>");
+
+            Files.writeString(
+                    Path.of("historico.xml"),
+                    xml.toString()
             );
 
-            return response.body();
+            return xml.toString();
 
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao chamar Lambda", e);
+            throw new RuntimeException("Erro ao gerar XML local", e);
         }
     }
 }
