@@ -26,10 +26,20 @@ jobs:
       - name: Renomear JAR
         working-directory: ./cr-metais
         run: |
-          # Encontra o arquivo .jar gerado na pasta target (ignorando arquivos auxiliares)
-          JAR_NAME=$(find target -maxdepth 1 -name "*.jar" -not -name "original-*.jar" | head -n 1)
+          JAR_NAME=$(find target -maxdepth 1 -name ".jar" -not -name "original-.jar" | head -n 1)
           mv $JAR_NAME target/api-cr-metais.jar
           echo "Renomeado para: target/api-cr-metais.jar"
+
+      - name: Preparar destino na EC2 Pública
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            rm -rf /home/ubuntu/backend/api-cr-metais.jar
+            mkdir -p /home/ubuntu/backend
+            touch /home/ubuntu/backend/api-cr-metais.jar
 
       - name: Copiar JAR para EC2 Pública
         uses: easingthemes/ssh-deploy@main
@@ -37,32 +47,38 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ubuntu
-          TARGET: /home/ubuntu/backend
-          ARGS: "-rltgoDzvO --delete" 
-          SOURCE: "./cr-metais/target/api-cr-metais.jar" 
-          
+          TARGET: /home/ubuntu/backend/api-cr-metais.jar
+          ARGS: "-ltgoDzvO"
+          SOURCE: "./cr-metais/target/api-cr-metais.jar"
+
       - name: Mover para EC2 Privada e Reiniciar Serviço
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.REMOTE_HOST }} 
+          host: ${{ secrets.REMOTE_HOST }}
           username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}  
+          key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -e
-            
-            # Criando um .pem temporário na EC2 pública
+
             ARQUIVO_PEM="/home/ubuntu/chavetmp.pem"
-            rm $ARQUIVO_PEM -f
-            
-            echo "${{ secrets.EC2_SSH_KEY }}" > $ARQUIVO_PEM || true
-            chmod 400 $ARQUIVO_PEM || true
+            rm -f $ARQUIVO_PEM
+            echo "${{ secrets.EC2_SSH_KEY }}" > $ARQUIVO_PEM
+            chmod 400 $ARQUIVO_PEM
 
-            # Configurando usuário e IP da máquina privada
             USUARIO_IP=ubuntu@${{ secrets.REMOTE_HOST_PRIVADO }}
-                  
-            # Enviando o arquivo .jar via scp para a EC2 privada
-            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/ubuntu/backend/api-cr-metais.jar $USUARIO_IP:/home/ubuntu/backend/api-cr-metais.jar
 
-            # Reiniciando o serviço 'api' via docker compose na EC2 privada
-            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP 'docker compose -f /home/ubuntu/docker/compose-java-api.yml stop'            
-            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP 'docker compose -f /home/ubuntu/docker/compose-java-api.yml up > /tmp/api-cr-metais.log 2>&1 &'
+            # Garante estrutura correta na EC2 privada
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP \
+              'mkdir -p /home/ubuntu/backend && rm -rf /home/ubuntu/backend/api-cr-metais.jar && touch /home/ubuntu/backend/api-cr-metais.jar'
+
+            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM \
+              /home/ubuntu/backend/api-cr-metais.jar \
+              $USUARIO_IP:/home/ubuntu/backend/api-cr-metais.jar
+
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP \
+              'docker compose -f /home/ubuntu/docker/compose-java-api.yml stop'
+
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP \
+              'docker compose -f /home/ubuntu/docker/compose-java-api.yml up > /tmp/api-cr-metais.log 2>&1 &'
+
+            rm -f $ARQUIVO_PEM
