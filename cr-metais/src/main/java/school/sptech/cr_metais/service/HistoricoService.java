@@ -69,11 +69,6 @@ public class HistoricoService {
 
     public String gerarXmlLambda(String tipo, String dataInicio, String dataFim) {
 
-        // =========================
-        // 🔥 LAMBDA
-        // =========================
-
-    /*
     try {
         String lambdaUrl = "https://SUA-LAMBDA-URL";
 
@@ -99,49 +94,49 @@ public class HistoricoService {
     } catch (Exception e) {
         throw new RuntimeException("Erro ao chamar Lambda", e);
     }
-    */
+
 
         // =========================
         // 💻 LOCAL
         // =========================
 
-        try {
-
-            List<TransacaoHistoricoDto> dados =
-                    historicoEtlService.buscarTudo(
-                            LocalDate.parse(dataInicio),
-                            LocalDate.parse(dataFim),
-                            tipo
-                    );
-
-            StringBuilder xml = new StringBuilder();
-
-            xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-            xml.append("<historico>\n");
-
-            for (var item : dados) {
-                xml.append("  <registro>\n");
-                xml.append("    <id>").append(item.getId()).append("</id>\n");
-                xml.append("    <data>").append(item.getData()).append("</data>\n");
-                xml.append("    <produto>").append(item.getProduto()).append("</produto>\n");
-                xml.append("    <parceiro>").append(item.getParceiro()).append("</parceiro>\n");
-                xml.append("    <peso>").append(item.getPeso()).append("</peso>\n");
-                xml.append("    <preco>").append(item.getPreco()).append("</preco>\n");
-                xml.append("    <total>").append(item.getTotal()).append("</total>\n");
-                xml.append("  </registro>\n");
-            }
-
-            xml.append("</historico>");
-
-            Files.writeString(
-                    Path.of("historico.xml"),
-                    xml.toString()
-            );
-
-            return xml.toString();
-
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao gerar XML local", e);
-        }
+//        try {
+//
+//            List<TransacaoHistoricoDto> dados =
+//                    historicoEtlService.buscarTudo(
+//                            LocalDate.parse(dataInicio),
+//                            LocalDate.parse(dataFim),
+//                            tipo
+//                    );
+//
+//            StringBuilder xml = new StringBuilder();
+//
+//            xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+//            xml.append("<historico>\n");
+//
+//            for (var item : dados) {
+//                xml.append("  <registro>\n");
+//                xml.append("    <id>").append(item.getId()).append("</id>\n");
+//                xml.append("    <data>").append(item.getData()).append("</data>\n");
+//                xml.append("    <produto>").append(item.getProduto()).append("</produto>\n");
+//                xml.append("    <parceiro>").append(item.getParceiro()).append("</parceiro>\n");
+//                xml.append("    <peso>").append(item.getPeso()).append("</peso>\n");
+//                xml.append("    <preco>").append(item.getPreco()).append("</preco>\n");
+//                xml.append("    <total>").append(item.getTotal()).append("</total>\n");
+//                xml.append("  </registro>\n");
+//            }
+//
+//            xml.append("</historico>");
+//
+//            Files.writeString(
+//                    Path.of("historico.xml"),
+//                    xml.toString()
+//            );
+//
+//            return xml.toString();
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException("Erro ao gerar XML local", e);
+//        }
     }
 }
