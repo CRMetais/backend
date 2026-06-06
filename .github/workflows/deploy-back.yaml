@@ -26,8 +26,9 @@ jobs:
       - name: Renomear JAR
         working-directory: ./cr-metais
         run: |
-          JAR_NAME=$(find target -maxdepth 1 -name "*.jar" -not -name "original-.jar" | head -n 1)
-          mv $JAR_NAME target/api-cr-metais.jar
+          JAR_NAME=$(find target -maxdepth 1 -name '.jar' -not -name 'original-.jar' | head -n 1)
+          echo "JAR encontrado: $JAR_NAME"
+          mv "$JAR_NAME" target/api-cr-metais.jar
           echo "Renomeado para: target/api-cr-metais.jar"
 
       - name: Preparar destino na EC2 Pública
@@ -37,7 +38,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            rm -rf /home/ubuntu/backend/api-cr-metais.jar
+            rm -f /home/ubuntu/backend/api-cr-metais.jar
             mkdir -p /home/ubuntu/backend
             touch /home/ubuntu/backend/api-cr-metais.jar
 
@@ -67,18 +68,25 @@ jobs:
 
             USUARIO_IP=ubuntu@${{ secrets.REMOTE_HOST_PRIVADO }}
 
-            # Garante estrutura correta na EC2 privada
+            # Remove o JAR antigo antes de copiar — evita corrupção
             ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP \
-              'mkdir -p /home/ubuntu/backend && rm -rf /home/ubuntu/backend/api-cr-metais.jar && touch /home/ubuntu/backend/api-cr-metais.jar'
+              'mkdir -p /home/ubuntu/backend && rm -f /home/ubuntu/backend/api-cr-metais.jar'
 
             scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM \
               /home/ubuntu/backend/api-cr-metais.jar \
               $USUARIO_IP:/home/ubuntu/backend/api-cr-metais.jar
 
+            # Verifica se o JAR chegou válido antes de reiniciar
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP \
+              'file /home/ubuntu/backend/api-cr-metais.jar | grep -q "Java archive" || (echo "JAR corrompido!" && exit 1)'
+
             ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP \
               'docker compose -f /home/ubuntu/docker/compose-java-api.yml stop'
 
             ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP \
-              'docker compose -f /home/ubuntu/docker/compose-java-api.yml up > /tmp/api-cr-metais.log 2>&1 &'
+              'docker compose -f /home/ubuntu/docker/compose-java-api.yml rm -f backend'
+
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP \
+              'docker compose -f /home/ubuntu/docker/compose-java-api.yml up -d --force-recreate backend > /tmp/api-cr-metais.log 2>&1'
 
             rm -f $ARQUIVO_PEM
