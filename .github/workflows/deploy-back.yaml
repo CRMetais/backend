@@ -26,7 +26,7 @@ jobs:
       - name: Renomear JAR
         working-directory: ./cr-metais
         run: |
-          JAR_NAME=$(find target -maxdepth 1 -name ".jar" -not -name "original-.jar" | head -n 1)
+          JAR_NAME=$(find target -maxdepth 1 -name "*.jar" -not -name "original-.jar" | head -n 1)
           mv $JAR_NAME target/api-cr-metais.jar
           echo "Renomeado para: target/api-cr-metais.jar"
 
