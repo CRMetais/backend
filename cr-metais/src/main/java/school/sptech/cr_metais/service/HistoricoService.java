@@ -69,6 +69,8 @@ public class HistoricoService {
 
     public String gerarXmlLambda(String tipo, String dataInicio, String dataFim) {
 
+        // Lambda
+
     try {
         String lambdaUrl = "https://SUA-LAMBDA-URL";
 
@@ -95,10 +97,7 @@ public class HistoricoService {
         throw new RuntimeException("Erro ao chamar Lambda", e);
     }
 
-
-        // =========================
-        // 💻 LOCAL
-        // =========================
+        // Local
 
 //        try {
 //
