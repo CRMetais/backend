@@ -32,6 +32,11 @@ public class Cliente {
     @Column(name = "tel_contato")
     private String telContato;
 
+    @NotBlank
+    @Size(min = 12)
+    @Column(name = "ie")
+    private String ie;
+
     @NotNull
     @OneToOne
     @JoinColumn(name = "fk_endereco")
@@ -97,5 +102,13 @@ public class Cliente {
 
     public void setTabelaPreco(TabelaPreco tabelaPreco) {
         this.tabelaPreco = tabelaPreco;
+    }
+
+    public String getIe() {
+        return ie;
+    }
+
+    public void setIe(String ie) {
+        this.ie = ie;
     }
 }

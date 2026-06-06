@@ -11,6 +11,8 @@ public class ClienteResponseDTO {
     private String cnpj;
     @Schema(description = "Telefone de contato do cliente", example = "11977773333")
     private String telContato;
+    @Schema(description = "Inscrição Estadual do cliente", example = "123123123123")
+    private String ie;
 
     // Sub-DTOs embutidos para evitar expor as entities diretamente
     private TabelaPrecoResDTO tabelaPreco;
@@ -18,13 +20,14 @@ public class ClienteResponseDTO {
 
     // Construtor completo
     public ClienteResponseDTO(Integer idCliente, String razaoSocial, String cnpj, String telContato,
-                              TabelaPrecoResDTO tabelaPreco, EnderecoResDTO endereco) {
+                              TabelaPrecoResDTO tabelaPreco, EnderecoResDTO endereco, String ie) {
         this.idCliente = idCliente;
         this.razaoSocial = razaoSocial;
         this.cnpj = cnpj;
         this.telContato = telContato;
         this.tabelaPreco = tabelaPreco;
         this.endereco = endereco;
+        this.ie = ie;
     }
 
     // Getters e Setters
@@ -40,6 +43,14 @@ public class ClienteResponseDTO {
     public void setTabelaPreco(TabelaPrecoResDTO tabelaPreco) { this.tabelaPreco = tabelaPreco; }
     public EnderecoResDTO getEndereco() { return endereco; }
     public void setEndereco(EnderecoResDTO endereco) { this.endereco = endereco; }
+
+    public String getIe() {
+        return ie;
+    }
+
+    public void setIe(String ie) {
+        this.ie = ie;
+    }
 
     // --- Sub-classes DTO para isolamento da camada ---
     public static class TabelaPrecoResDTO {

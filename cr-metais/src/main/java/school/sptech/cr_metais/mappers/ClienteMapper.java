@@ -14,6 +14,7 @@ public class ClienteMapper {
         c.setCnpj(dto.getCnpj());
         c.setRazaoSocial(dto.getRazaoSocial());
         c.setTelContato(dto.getTelContato());
+        c.setIe(dto.getIe());
         return c;
     }
 
@@ -55,7 +56,8 @@ public class ClienteMapper {
                 cliente.getCnpj(),
                 cliente.getTelContato(),
                 tabelaDTO,
-                enderecoDTO
+                enderecoDTO,
+                cliente.getIe()
         );
     }
 }

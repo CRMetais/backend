@@ -66,7 +66,8 @@ public class ClienteService {
                 cliente.getCnpj(),
                 cliente.getTelContato(),
                 tabelaDTO,
-                enderecoDTO
+                enderecoDTO,
+                cliente.getIe()
         );
     }
 

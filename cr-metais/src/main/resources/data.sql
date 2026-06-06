@@ -115,9 +115,9 @@ INSERT INTO tabela_preco (tipo, nome_tabela, versao, data_inicio_validade, data_
 -- ==========================================================
 -- TABELA: cliente (FK -> endereco, tabela_preco)
 -- ==========================================================
-INSERT INTO cliente (CNPJ, razao_social, tel_contato, fk_endereco, fk_tabela_preco, ativo) VALUES
-    ('11122233000155', 'VITAL',      '11977773333', 20, 2, 1),
-    ('33344455000166', 'TOCANTINS',  '63988884444', 19, 2, 1);
+INSERT INTO cliente (CNPJ, razao_social, tel_contato, ie, fk_endereco, fk_tabela_preco, ativo) VALUES
+    ('11122233000155', 'VITAL',      '11977773333', '123456789123', 20, 2, 1),
+    ('33344455000166', 'TOCANTINS',  '63988884444', '123456789123', 19, 2, 1);
 
 
 -- ==========================================================
@@ -859,30 +859,6 @@ INSERT INTO estoque (quantidade_disponivel, localizacao, fk_produto) VALUES
                                                                          (260, 'Galpão Principal', 35),
                                                                          (190, 'Galpão Principal', 36);
 
--- ==========================================================
--- TABELA: fornecedor (FK -> endereco, tabela_preco)
--- ==========================================================
-INSERT INTO fornecedor (fk_endereco, fk_tabela_preco, nome, documento, tipo_fornecedor, telefone, apelido, ativo) VALUES
-    (1, 1, 'Carlos Eduardo Mendes',      '12345678901', 'PESSOA_FISICA', '11991234567', 'Carlos',   1),
-    (2, 1, 'Ana Beatriz Ferreira',       '23456789012', 'PESSOA_FISICA', '21997654321', 'Ana',      1),
-    (3, 1, 'Ricardo Lopes da Silva',     '34567890123', 'PESSOA_FISICA', '31998887766', 'Ricardo',  1),
-    (4, 1, 'Mariana Santos Oliveira',    '45678901234', 'PESSOA_FISICA', '41998776655', 'Mariana',  1),
-    (1, 1, 'João Pedro Cavalcante',      '56789012345', 'PESSOA_FISICA', '11990011223', 'João',     1),
-    (2, 1, 'Letícia Moura Almeida',      '67890123456', 'PESSOA_FISICA', '21990022334', 'Leticia',  1),
-    (3, 1, 'Fernando Augusto Ribeiro',   '78901234567', 'PESSOA_FISICA', '31995554433', 'Fernando', 1),
-    (4, 1, 'Patrícia Gomes Andrade',     '89012345678', 'PESSOA_FISICA', '41998889900', 'Patricia', 1),
-    (1, 1, 'Gustavo Henrique Martins',   '90123456789', 'PESSOA_FISICA', '11993335577', 'Gustavo',  1),
-    (2, 1, 'Camila Rodrigues Silva',     '01234567890', 'PESSOA_FISICA', '21992228844', 'Camila',   1),
-    (3, 1, 'Rodrigo Alves Pereira',      '11223344556', 'PESSOA_FISICA', '11994441122', 'Rodrigo',  1),
-    (4, 1, 'Juliana Costa Barbosa',      '22334455667', 'PESSOA_FISICA', '21993330011', 'Juliana',  1),
-    (1, 1, 'Thiago Nunes Carvalho',      '33445566778', 'PESSOA_FISICA', '31992221100', 'Thiago',   1),
-    (2, 1, 'Beatriz Lima Souza',         '44556677889', 'PESSOA_FISICA', '41991110099', 'Beatriz',  1),
-    (3, 1, 'Eduardo Farias Teixeira',    '55667788990', 'PESSOA_FISICA', '11990009988', 'Eduardo',  1),
-    (4, 1, 'Larissa Melo Cardoso',       '66778899001', 'PESSOA_FISICA', '21989998877', 'Larissa',  1),
-    (1, 1, 'Bruno Henrique Pinto',       '77889900112', 'PESSOA_FISICA', '31988887766', 'Bruno',    1),
-    (2, 1, 'Vanessa Rocha Monteiro',     '88990011223', 'PESSOA_FISICA', '41987776655', 'Vanessa',  1),
-    (3, 1, 'Diego Santana Freitas',      '99001122334', 'PESSOA_FISICA', '11986665544', 'Diego',    1),
-    (4, 1, 'Fernanda Vieira Nascimento', '00112233445', 'PESSOA_FISICA', '21985554433', 'Fernanda', 1);
 
 
 -- ==========================================================

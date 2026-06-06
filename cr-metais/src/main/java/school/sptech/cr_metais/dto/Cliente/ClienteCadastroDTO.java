@@ -21,6 +21,10 @@ public class ClienteCadastroDTO {
     @NotNull(message = "Tabela de preço é obrigatório")
     private Integer idTabelaPreco;
 
+    @NotBlank(message = "Inscrição Estadual é obrigatória")
+    @Size(min = 12)
+    private String ie;
+
     public String getCnpj() {
         return cnpj;
     }
@@ -59,5 +63,13 @@ public class ClienteCadastroDTO {
 
     public void setIdTabelaPreco(Integer idTabelaPreco) {
         this.idTabelaPreco = idTabelaPreco;
+    }
+
+    public String getIe() {
+        return ie;
+    }
+
+    public void setIe(String ie) {
+        this.ie = ie;
     }
 }
