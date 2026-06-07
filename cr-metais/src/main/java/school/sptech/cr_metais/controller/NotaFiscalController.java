@@ -17,8 +17,8 @@ import java.util.*;
 public class NotaFiscalController {
 
     private final FornecedorRepository fornecedorRepository;
-    private final ClienteRepository clienteRepository;
-    private final ProdutoRepository produtoRepository;
+    private final ClienteRepository    clienteRepository;
+    private final ProdutoRepository    produtoRepository;
 
     public NotaFiscalController(FornecedorRepository fornecedorRepository,
                                 ClienteRepository clienteRepository,
@@ -44,7 +44,7 @@ public class NotaFiscalController {
         nota.put("tipoNota", tipoNota);
 
         if ("ENTRADA".equals(tipoNota)) {
-            // ── Busca FORNECEDOR ──────────────────────────────────────────
+            // ── Fornecedor ────────────────────────────────────────────────
             Integer idFornecedor = Integer.parseInt(boleta.get("idFornecedor").toString());
             Fornecedor f = fornecedorRepository.findById(idFornecedor)
                     .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
@@ -54,6 +54,7 @@ public class NotaFiscalController {
             contato.put("documento",  f.getDocumento());
             contato.put("telefone",   f.getTelefone() != null ? f.getTelefone() : "");
             contato.put("tipoPessoa", f.getTipoFornecedor().name().equals("PESSOA_JURIDICA") ? "J" : "F");
+            contato.put("ie",         "");
 
             endereco.put("logradouro",  f.getEndereco().getLogradouro());
             endereco.put("numero",      f.getEndereco().getNumero());
@@ -64,6 +65,7 @@ public class NotaFiscalController {
             endereco.put("estado",      f.getEndereco().getEstado());
 
         } else {
+            // ── Cliente (sempre PJ com IE) ────────────────────────────────
             Integer idCliente = Integer.parseInt(boleta.get("idCliente").toString());
             Cliente c = clienteRepository.findByIdClienteAndAtivoTrue(idCliente)
                     .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
@@ -73,6 +75,7 @@ public class NotaFiscalController {
             contato.put("documento",  c.getCnpj());
             contato.put("telefone",   c.getTelContato() != null ? c.getTelContato() : "");
             contato.put("tipoPessoa", "J");
+            contato.put("ie",         c.getIe() != null ? c.getIe() : "");
 
             endereco.put("logradouro",  c.getEndereco().getLogradouro());
             endereco.put("numero",      c.getEndereco().getNumero());
@@ -86,6 +89,7 @@ public class NotaFiscalController {
         contato.put("endereco", endereco);
         nota.put("fornecedor", contato);
 
+        // ── Itens ─────────────────────────────────────────────────────────
         List<Map<String, Object>> itensBoleta =
                 (List<Map<String, Object>>) boleta.get("itens");
 
