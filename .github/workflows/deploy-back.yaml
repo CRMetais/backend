@@ -57,6 +57,13 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -e
+
+            # ── Garante que o JAR chegou antes de continuar ───────────────
+            echo "Verificando JAR na EC2 pública..."
+            timeout 60 bash -c 'until [ -f /home/ubuntu/backend/api-cr-metais.jar ]; do echo "  aguardando JAR..."; sleep 3; done'
+            file /home/ubuntu/backend/api-cr-metais.jar | grep -q "Java archive" || (echo "JAR inválido!" && exit 1)
+            echo "JAR pronto!"
+
             ARQUIVO_PEM="/home/ubuntu/chavetmp.pem"
             rm -f $ARQUIVO_PEM
             echo "${{ secrets.EC2_SSH_KEY }}" > $ARQUIVO_PEM
