@@ -1,6 +1,10 @@
 package school.sptech.cr_metais.controller;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import school.sptech.cr_metais.entity.Cliente;
 import school.sptech.cr_metais.entity.Fornecedor;
 import school.sptech.cr_metais.entity.Produto;
@@ -44,7 +48,6 @@ public class NotaFiscalController {
         nota.put("tipoNota", tipoNota);
 
         if ("ENTRADA".equals(tipoNota)) {
-            // ── Fornecedor ────────────────────────────────────────────────
             Integer idFornecedor = Integer.parseInt(boleta.get("idFornecedor").toString());
             Fornecedor f = fornecedorRepository.findById(idFornecedor)
                     .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
@@ -65,7 +68,6 @@ public class NotaFiscalController {
             endereco.put("estado",      f.getEndereco().getEstado());
 
         } else {
-            // ── Cliente (sempre PJ com IE) ────────────────────────────────
             Integer idCliente = Integer.parseInt(boleta.get("idCliente").toString());
             Cliente c = clienteRepository.findByIdClienteAndAtivoTrue(idCliente)
                     .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
@@ -115,6 +117,17 @@ public class NotaFiscalController {
 
         nota.put("itens", itens);
         nota.put("valorTotal", totalNota);
+
+        // Nf no pyhton ec2
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Map<String, Object>> pythonRequest = new HttpEntity<>(nota, headers);
+            restTemplate.postForEntity("http://localhost:5000/gerar-nf", pythonRequest, String.class);
+        } catch (Exception e) {
+            System.out.println("Erro ao chamar Python: " + e.getMessage());
+        }
 
         return nota;
     }
