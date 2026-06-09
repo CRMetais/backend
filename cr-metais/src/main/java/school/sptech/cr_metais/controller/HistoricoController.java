@@ -25,32 +25,33 @@ public class HistoricoController {
         return ResponseEntity.ok(resultado);
     }
 
-    @GetMapping("/xml")
-    public ResponseEntity<String> gerarXml(
+      // lambda
+    @GetMapping("/xlsx")
+    public ResponseEntity<String> gerarXlsx(
             @RequestParam String tipo,
             @RequestParam String dataInicio,
             @RequestParam String dataFim
     ) {
 
-        String url = service.gerarXmlLambda(tipo, dataInicio, dataFim);
+        String url = service.gerarXlsxLambda(tipo, dataInicio, dataFim);
 
         return ResponseEntity.ok(url);
     }
 
     // Baixar local
-//    @GetMapping("/xml")
-//    public ResponseEntity<String> gerarXml(
+//    @GetMapping("/xlsx")
+//    public ResponseEntity<byte[]> gerarXlsxLocal(
 //            @RequestParam String tipo,
 //            @RequestParam String dataInicio,
 //            @RequestParam String dataFim
 //    ) {
 //
-//        String xml = service.gerarXmlLambda(tipo, dataInicio, dataFim);
+//        byte[] xlsx = service.gerarXlsxLocal(tipo, dataInicio, dataFim);
 //
 //        return ResponseEntity.ok()
-//                .header("Content-Type", "application/xml")
-//                .header("Content-Disposition", "attachment; filename=historico.xml")
-//                .body(xml);
-//        }
+//                .header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+//                .header("Content-Disposition", "attachment; filename=historico.xlsx")
+//                .body(xlsx);
+//    }
 
 }

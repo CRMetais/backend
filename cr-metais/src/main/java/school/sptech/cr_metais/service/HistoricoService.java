@@ -1,5 +1,7 @@
 package school.sptech.cr_metais.service;
 
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,12 +12,11 @@ import school.sptech.cr_metais.dto.Historico.HistoricoVendaDto;
 import school.sptech.cr_metais.dto.Historico.TransacaoHistoricoDto;
 import school.sptech.cr_metais.repository.HistoricoRepository;
 
+import java.io.ByteArrayOutputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -33,7 +34,6 @@ public class HistoricoService {
         Pageable pageable = PageRequest.of(pagina, tamanho);
 
         if (tipo.equalsIgnoreCase("COMPRA")) {
-
             return repository.listarCompras(pageable)
                     .map(objects -> new HistoricoCompraDto(
                             ((Number) objects[0]).intValue(),
@@ -49,7 +49,6 @@ public class HistoricoService {
         }
 
         if (tipo.equalsIgnoreCase("VENDA")) {
-
             return repository.listarVendas(pageable)
                     .map(obj -> new HistoricoVendaDto(
                             ((Number) obj[0]).intValue(),
@@ -67,40 +66,37 @@ public class HistoricoService {
         throw new IllegalArgumentException("Tipo inválido");
     }
 
-    public String gerarXmlLambda(String tipo, String dataInicio, String dataFim) {
+    // LAMBDA
+    public String gerarXlsxLambda(String tipo, String dataInicio, String dataFim) {
+        try {
+            String lambdaUrl = System.getenv("LAMBDA_URL");
 
-        // Lambda
+            String urlFinal = lambdaUrl
+                    + "?tipo=" + tipo
+                    + "&dataInicio=" + dataInicio
+                    + "&dataFim=" + dataFim;
 
-    try {
-        String lambdaUrl = "https://SUA-LAMBDA-URL";
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(urlFinal))
+                    .GET()
+                    .build();
 
-        String urlFinal = lambdaUrl
-                + "?tipo=" + tipo
-                + "&dataInicio=" + dataInicio
-                + "&dataFim=" + dataFim;
+            HttpResponse<String> response = client.send(
+                    request,
+                    HttpResponse.BodyHandlers.ofString()
+            );
 
-        HttpClient client = HttpClient.newHttpClient();
+            return response.body();
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(urlFinal))
-                .GET()
-                .build();
-
-        HttpResponse<String> response = client.send(
-                request,
-                HttpResponse.BodyHandlers.ofString()
-        );
-
-        return response.body();
-
-    } catch (Exception e) {
-        throw new RuntimeException("Erro ao chamar Lambda", e);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao chamar Lambda", e);
+        }
     }
 
-        // Local
-
+    // LOCAL
+//    public byte[] gerarXlsxLocal(String tipo, String dataInicio, String dataFim) {
 //        try {
-//
 //            List<TransacaoHistoricoDto> dados =
 //                    historicoEtlService.buscarTudo(
 //                            LocalDate.parse(dataInicio),
@@ -108,34 +104,36 @@ public class HistoricoService {
 //                            tipo
 //                    );
 //
-//            StringBuilder xml = new StringBuilder();
+//            Workbook workbook = new XSSFWorkbook();
+//            Sheet sheet = workbook.createSheet("Histórico");
 //
-//            xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-//            xml.append("<historico>\n");
-//
-//            for (var item : dados) {
-//                xml.append("  <registro>\n");
-//                xml.append("    <id>").append(item.getId()).append("</id>\n");
-//                xml.append("    <data>").append(item.getData()).append("</data>\n");
-//                xml.append("    <produto>").append(item.getProduto()).append("</produto>\n");
-//                xml.append("    <parceiro>").append(item.getParceiro()).append("</parceiro>\n");
-//                xml.append("    <peso>").append(item.getPeso()).append("</peso>\n");
-//                xml.append("    <preco>").append(item.getPreco()).append("</preco>\n");
-//                xml.append("    <total>").append(item.getTotal()).append("</total>\n");
-//                xml.append("  </registro>\n");
+//            Row header = sheet.createRow(0);
+//            String[] colunas = {"ID", "Data", "Parceiro", "Produto", "Peso", "Preço", "Total", "Rendimento", "Tipo"};
+//            for (int i = 0; i < colunas.length; i++) {
+//                header.createCell(i).setCellValue(colunas[i]);
 //            }
 //
-//            xml.append("</historico>");
+//            int rowIndex = 1;
+//            for (TransacaoHistoricoDto item : dados) {
+//                Row row = sheet.createRow(rowIndex++);
+//                row.createCell(0).setCellValue(item.getId());
+//                row.createCell(1).setCellValue(String.valueOf(item.getData()));
+//                row.createCell(2).setCellValue(item.getParceiro());
+//                row.createCell(3).setCellValue(item.getProduto());
+//                row.createCell(4).setCellValue(item.getPeso());
+//                row.createCell(5).setCellValue(item.getPreco());
+//                row.createCell(6).setCellValue(item.getTotal());
+//                row.createCell(7).setCellValue(item.getRendimento() != null ? item.getRendimento() : 0);
+//                row.createCell(8).setCellValue(item.getTipo());
+//            }
 //
-//            Files.writeString(
-//                    Path.of("historico.xml"),
-//                    xml.toString()
-//            );
-//
-//            return xml.toString();
+//            ByteArrayOutputStream out = new ByteArrayOutputStream();
+//            workbook.write(out);
+//            workbook.close();
+//            return out.toByteArray();
 //
 //        } catch (Exception e) {
-//            throw new RuntimeException("Erro ao gerar XML local", e);
+//            throw new RuntimeException("Erro ao gerar XLSX local", e);
 //        }
-    }
+//    }
 }
