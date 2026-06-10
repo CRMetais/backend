@@ -4,7 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import school.sptech.cr_metais.dto.Historico.TransacaoHistoricoDto;
+import school.sptech.cr_metais.service.HistoricoEtlService;
 import school.sptech.cr_metais.service.HistoricoService;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/historico")
@@ -13,29 +18,41 @@ public class HistoricoController {
     @Autowired
     private HistoricoService service;
 
+    @Autowired
+    private HistoricoEtlService historicoEtlService;
+
     @GetMapping
     public ResponseEntity<Page<?>> listarPorTipo(
             @RequestParam String tipo,
             @RequestParam(defaultValue = "0") int pagina,
             @RequestParam(defaultValue = "10") int tamanho
     ) {
-
         Page<?> resultado = service.listarPorTipo(tipo, pagina, tamanho);
-
         return ResponseEntity.ok(resultado);
     }
 
-      // lambda
     @GetMapping("/xlsx")
     public ResponseEntity<String> gerarXlsx(
             @RequestParam String tipo,
             @RequestParam String dataInicio,
             @RequestParam String dataFim
     ) {
-
         String url = service.gerarXlsxLambda(tipo, dataInicio, dataFim);
-
         return ResponseEntity.ok(url);
+    }
+
+    @GetMapping("/por-periodo")
+    public ResponseEntity<List<TransacaoHistoricoDto>> listarPorPeriodo(
+            @RequestParam String tipo,
+            @RequestParam String dataInicio,
+            @RequestParam String dataFim
+    ) {
+        List<TransacaoHistoricoDto> resultado = historicoEtlService.buscarTudo(
+                LocalDate.parse(dataInicio),
+                LocalDate.parse(dataFim),
+                tipo
+        );
+        return ResponseEntity.ok(resultado);
     }
 
     // Baixar local
