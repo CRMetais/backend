@@ -1593,3 +1593,219 @@ INSERT INTO pagamento_compra (fk_compra, data_pagamento_compra, fk_conta_pagamen
 SELECT id_compra, DATE_ADD(data_compra, INTERVAL 7 DAY), 3 FROM compra WHERE fk_fornecedor = 3 AND data_compra = '2026-05-14';
 INSERT INTO pagamento_compra (fk_compra, data_pagamento_compra, fk_conta_pagamento)
 SELECT id_compra, DATE_ADD(data_compra, INTERVAL 7 DAY), 5 FROM compra WHERE fk_fornecedor = 5 AND data_compra = '2026-05-22';
+
+
+-- ==========================================================
+-- 2. NOVA TABELA DE PREÇO: VITAL v1.2 (Venda, ativa)
+--    Preços maiores que VITAL v1.1 (fk_tabela_preco = 4)
+-- ==========================================================
+INSERT INTO tabela_preco (tipo, nome_tabela, versao, data_inicio_validade, data_fim_validade, ativa) VALUES
+    ('V', 'VITAL', 1.2, '2026-06-01', null, 1);
+-- Assumindo que este insert gera id = 5
+
+INSERT INTO preco_produto_tabela (fk_produto, fk_tabela_preco, preco_produto) VALUES
+(1,  5, 13.50),
+(2,  5,  3.80),
+(3,  5,  7.20),
+(4,  5,  4.00),
+(5,  5,  8.50),
+(6,  5,  3.50),
+(7,  5, 45.00),
+(8,  5,  5.80),
+(9,  5, 29.00),
+(10, 5, 21.00),
+(11, 5, 12.50),
+(12, 5,  6.20),
+(13, 5, 10.50),
+(14, 5, 46.50),
+(15, 5, 57.00),
+(16, 5, 53.00),
+(17, 5,  4.00),
+(18, 5, 34.00),
+(19, 5, 20.00),
+(20, 5,  5.00),
+(21, 5, 13.50),
+(22, 5, 37.00),
+(23, 5, 10.00),
+(24, 5,  6.50),
+(25, 5, 15.50),
+(26, 5, 25.50),
+(27, 5,  8.00),
+(28, 5, 15.80),
+(29, 5, 17.50),
+(30, 5, 13.00),
+(31, 5,  9.50),
+(32, 5, 29.50),
+(33, 5, 18.50),
+(34, 5, 20.00),
+(35, 5, 10.00),
+(36, 5,  8.50);
+
+
+-- ==========================================================
+-- 3. COMPRAS NOVAS — 11/06/2026
+--    10 fornecedores, todos os 36 materiais distribuídos
+--    (cada fornecedor compra ~5-6 itens variados, Lata inclusa)
+-- ==========================================================
+
+INSERT INTO compra (fk_fornecedor, data_compra) VALUES
+    (1,  '2026-06-11'),  -- compra 51
+    (2,  '2026-06-11'),  -- compra 52
+    (3,  '2026-06-11'),  -- compra 53
+    (4,  '2026-06-11'),  -- compra 54
+    (5,  '2026-06-11'),  -- compra 55
+    (6,  '2026-06-11'),  -- compra 56
+    (7,  '2026-06-11'),  -- compra 57
+    (8,  '2026-06-11'),  -- compra 58
+    (9,  '2026-06-11'),  -- compra 59
+    (10, '2026-06-11');  -- compra 60
+
+-- Fornecedor 1 (Carlos) — compra 57
+
+INSERT INTO item_pedido_compra (id_fk_compra, id_fk_produto, peso_kg, preco_unitario, rendimento) VALUES
+(57, 21, 48, 8.90, 105.60),
+(57, 1, 12, 8.90, 21.60),
+(57, 5, 15, 3.10, 33.00),
+(57, 15, 8, 51.80, 17.60),
+(57, 20, 10, 2.50, 22.00),
+(57, 31, 7, 4.50, 15.40);
+
+
+-- Fornecedor 2 (Ana) — compra 58
+
+INSERT INTO item_pedido_compra (id_fk_compra, id_fk_produto, peso_kg, preco_unitario, rendimento) VALUES
+(58, 21, 55, 8.90, 121.00),
+(58, 2, 10, 2.30, 22.00),
+(58, 7, 6, 39.50, 13.20),
+(58, 13, 9, 5.60, 19.80),
+(58, 17, 18, 0.90, 7.20),
+(58, 35, 8, 5.40, 17.60);
+
+
+-- Fornecedor 3 (Ricardo) — compra 59
+
+INSERT INTO item_pedido_compra (id_fk_compra, id_fk_produto, peso_kg, preco_unitario, rendimento) VALUES
+(59, 21, 60, 8.90, 132.00),
+(59, 3, 12, 3.80, 26.40),
+(59, 8, 14, 3.00, 30.80),
+(59, 14, 5, 41.00, 11.00),
+(59, 18, 7, 29.00, 15.40),
+(59, 34, 10, 15.20, 22.00);
+
+
+-- Fornecedor 4 (Mariana) — compra 60
+
+INSERT INTO item_pedido_compra (id_fk_compra, id_fk_produto, peso_kg, preco_unitario, rendimento) VALUES
+(60, 21, 42, 8.90, 92.40),
+(60, 4, 20, 1.20, 44.00),
+(60, 9, 6, 23.50, 13.20),
+(60, 16, 5, 47.50, 11.00),
+(60, 19, 11, 15.00, 24.20),
+(60, 36, 9, 3.80, 19.80);
+
+
+-- Fornecedor 5 (João) — compra 61
+
+INSERT INTO item_pedido_compra (id_fk_compra, id_fk_produto, peso_kg, preco_unitario, rendimento) VALUES
+(61, 21, 50, 8.90, 110.00),
+(61, 6, 16, 1.60, 35.20),
+(61, 10, 12, 18.40, 26.40),
+(61, 23, 8, 7.80, 17.60),
+(61, 25, 6, 11.00, 13.20),
+(61, 32, 5, 24.50, 11.00);
+
+
+-- Fornecedor 6 (Letícia) — compra 62
+
+INSERT INTO item_pedido_compra (id_fk_compra, id_fk_produto, peso_kg, preco_unitario, rendimento) VALUES
+(62, 21, 38, 8.90, 83.60),
+(62, 11, 20, 7.90, 44.00),
+(62, 12, 11, 4.10, 24.20),
+(62, 24, 7, 3.60, 15.40),
+(62, 26, 4, 21.50, 8.80),
+(62, 33, 9, 14.00, 19.80);
+
+
+-- Fornecedor 7 (Fernando) — compra 63
+
+INSERT INTO item_pedido_compra (id_fk_compra, id_fk_produto, peso_kg, preco_unitario, rendimento) VALUES
+(63, 21, 52, 8.90, 114.40),
+(63, 27, 8, 5.40, 17.60),
+(63, 28, 10, 11.20, 22.00),
+(63, 29, 9, 12.40, 19.80),
+(63, 30, 7, 11.00, 15.40),
+(63, 22, 6, 32.50, 13.20);
+
+
+-- Fornecedor 8 (Patrícia) — compra 64
+
+INSERT INTO item_pedido_compra (id_fk_compra, id_fk_produto, peso_kg, preco_unitario, rendimento) VALUES
+(64, 21, 45, 8.90, 99.00),
+(64, 1, 9, 8.90, 19.80),
+(64, 5, 12, 3.10, 26.40),
+(64, 8, 10, 3.00, 22.00),
+(64, 15, 5, 51.80, 11.00),
+(64, 31, 8, 4.50, 17.60);
+
+
+-- Fornecedor 9 (Gustavo) — compra 65
+
+INSERT INTO item_pedido_compra (id_fk_compra, id_fk_produto, peso_kg, preco_unitario, rendimento) VALUES
+(65, 21, 58, 8.90, 127.60),
+(65, 3, 10, 3.80, 22.00),
+(65, 7, 5, 39.50, 11.00),
+(65, 17, 14, 0.90, 5.60),
+(65, 20, 9, 2.50, 19.80),
+(65, 34, 8, 15.20, 17.60);
+
+
+-- Fornecedor 10 (Camila) — compra 66
+
+INSERT INTO item_pedido_compra (id_fk_compra, id_fk_produto, peso_kg, preco_unitario, rendimento) VALUES
+(66, 21, 44, 8.90, 96.80),
+(66, 4, 18, 1.20, 39.60),
+(66, 6, 13, 1.60, 28.60),
+(66, 11, 15, 7.90, 33.00),
+(66, 19, 8, 15.00, 17.60),
+(66, 36, 10, 3.80, 22.00);
+
+
+INSERT INTO venda (fk_cliente, data_venda) VALUES (2, '2026-06-11');
+
+INSERT INTO item_pedido_venda (id_fk_produto, id_fk_venda, peso_kg, preco_unitario) VALUES
+(1,  LAST_INSERT_ID(), 21, 13.50),
+(2,  LAST_INSERT_ID(), 10, 4.44),
+(3,  LAST_INSERT_ID(), 22, 6.81),
+(4,  LAST_INSERT_ID(), 38, 3.92),
+(5,  LAST_INSERT_ID(), 27, 5.46),
+(6,  LAST_INSERT_ID(), 29, 4.85),
+(7,  LAST_INSERT_ID(), 11, 42.74),
+(8,  LAST_INSERT_ID(), 24, 3.29),
+(9,  LAST_INSERT_ID(), 12, 27.76),
+(10, LAST_INSERT_ID(), 24, 21.72),
+(11, LAST_INSERT_ID(), 35, 13.20),
+(12, LAST_INSERT_ID(), 11, 6.20),
+(13, LAST_INSERT_ID(), 9, 10.03),
+(14, LAST_INSERT_ID(), 5, 45.72),
+(15, LAST_INSERT_ID(), 13, 54.72),
+(16, LAST_INSERT_ID(), 5, 50.28),
+(17, LAST_INSERT_ID(), 32, 1.46),
+(18, LAST_INSERT_ID(), 7, 30.70),
+(19, LAST_INSERT_ID(), 19, 16.91),
+(20, LAST_INSERT_ID(), 19, 7.82),
+(21, LAST_INSERT_ID(), 492, 10.80),
+(22, LAST_INSERT_ID(), 6, 33.68),
+(23, LAST_INSERT_ID(), 8, 9.70),
+(24, LAST_INSERT_ID(), 7, 5.24),
+(25, LAST_INSERT_ID(), 6, 12.70),
+(26, LAST_INSERT_ID(), 4, 24.30),
+(27, LAST_INSERT_ID(), 8, 8.37),
+(28, LAST_INSERT_ID(), 10, 13.02),
+(29, LAST_INSERT_ID(), 9, 14.37),
+(30, LAST_INSERT_ID(), 7, 15.90),
+(31, LAST_INSERT_ID(), 15, 9.55),
+(32, LAST_INSERT_ID(), 5, 27.20),
+(33, LAST_INSERT_ID(), 9, 16.86),
+(34, LAST_INSERT_ID(), 18, 17.14),
+(35, LAST_INSERT_ID(), 8, 8.02),
+(36, LAST_INSERT_ID(), 19, 5.70);
