@@ -124,7 +124,7 @@ public class NotaFiscalController {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Map<String, Object>> pythonRequest = new HttpEntity<>(nota, headers);
-            restTemplate.postForEntity("http://10.0.0.150:5000/gerar-nf", pythonRequest, String.class);
+            restTemplate.postForEntity("http://localhost:5000/gerar-nf", pythonRequest, String.class);
         } catch (Exception e) {
             System.out.println("Erro ao chamar Python: " + e.getMessage());
         }
