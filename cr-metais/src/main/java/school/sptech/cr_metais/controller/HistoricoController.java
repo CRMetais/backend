@@ -31,15 +31,15 @@ public class HistoricoController {
         return ResponseEntity.ok(resultado);
     }
 
-    @GetMapping("/xlsx")
-    public ResponseEntity<String> gerarXlsx(
-            @RequestParam String tipo,
-            @RequestParam String dataInicio,
-            @RequestParam String dataFim
-    ) {
-        String url = service.gerarXlsxLambda(tipo, dataInicio, dataFim);
-        return ResponseEntity.ok(url);
-    }
+//    @GetMapping("/xlsx")
+//    public ResponseEntity<String> gerarXlsx(
+//            @RequestParam String tipo,
+//            @RequestParam String dataInicio,
+//            @RequestParam String dataFim
+//    ) {
+//        String url = service.gerarXlsxLambda(tipo, dataInicio, dataFim);
+//        return ResponseEntity.ok(url);
+//    }
 
     @GetMapping("/por-periodo")
     public ResponseEntity<List<TransacaoHistoricoDto>> listarPorPeriodo(
@@ -56,19 +56,19 @@ public class HistoricoController {
     }
 
     // Baixar local
-//    @GetMapping("/xlsx")
-//    public ResponseEntity<byte[]> gerarXlsxLocal(
-//            @RequestParam String tipo,
-//            @RequestParam String dataInicio,
-//            @RequestParam String dataFim
-//    ) {
-//
-//        byte[] xlsx = service.gerarXlsxLocal(tipo, dataInicio, dataFim);
-//
-//        return ResponseEntity.ok()
-//                .header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-//                .header("Content-Disposition", "attachment; filename=historico.xlsx")
-//                .body(xlsx);
-//    }
+    @GetMapping("/xlsx")
+    public ResponseEntity<byte[]> gerarXlsxLocal(
+            @RequestParam String tipo,
+            @RequestParam String dataInicio,
+            @RequestParam String dataFim
+    ) {
+
+        byte[] xlsx = service.gerarXlsxLocal(tipo, dataInicio, dataFim);
+
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                .header("Content-Disposition", "attachment; filename=historico.xlsx")
+                .body(xlsx);
+    }
 
 }

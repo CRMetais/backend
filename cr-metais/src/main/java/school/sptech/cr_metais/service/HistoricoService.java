@@ -67,73 +67,73 @@ public class HistoricoService {
     }
 
     // LAMBDA
-    public String gerarXlsxLambda(String tipo, String dataInicio, String dataFim) {
-        try {
-            String lambdaUrl = System.getenv("LAMBDA_URL");
-
-            String urlFinal = lambdaUrl
-                    + "?tipo=" + tipo
-                    + "&dataInicio=" + dataInicio
-                    + "&dataFim=" + dataFim;
-
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(urlFinal))
-                    .GET()
-                    .build();
-
-            HttpResponse<String> response = client.send(
-                    request,
-                    HttpResponse.BodyHandlers.ofString()
-            );
-
-            return response.body();
-
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao chamar Lambda", e);
-        }
-    }
-
-    // LOCAL
-//    public byte[] gerarXlsxLocal(String tipo, String dataInicio, String dataFim) {
+//    public String gerarXlsxLambda(String tipo, String dataInicio, String dataFim) {
 //        try {
-//            List<TransacaoHistoricoDto> dados =
-//                    historicoEtlService.buscarTudo(
-//                            LocalDate.parse(dataInicio),
-//                            LocalDate.parse(dataFim),
-//                            tipo
-//                    );
+//            String lambdaUrl = System.getenv("LAMBDA_URL");
 //
-//            Workbook workbook = new XSSFWorkbook();
-//            Sheet sheet = workbook.createSheet("Histórico");
+//            String urlFinal = lambdaUrl
+//                    + "?tipo=" + tipo
+//                    + "&dataInicio=" + dataInicio
+//                    + "&dataFim=" + dataFim;
 //
-//            Row header = sheet.createRow(0);
-//            String[] colunas = {"ID", "Data", "Parceiro", "Produto", "Peso", "Preço", "Total", "Rendimento", "Tipo"};
-//            for (int i = 0; i < colunas.length; i++) {
-//                header.createCell(i).setCellValue(colunas[i]);
-//            }
+//            HttpClient client = HttpClient.newHttpClient();
+//            HttpRequest request = HttpRequest.newBuilder()
+//                    .uri(URI.create(urlFinal))
+//                    .GET()
+//                    .build();
 //
-//            int rowIndex = 1;
-//            for (TransacaoHistoricoDto item : dados) {
-//                Row row = sheet.createRow(rowIndex++);
-//                row.createCell(0).setCellValue(item.getId());
-//                row.createCell(1).setCellValue(String.valueOf(item.getData()));
-//                row.createCell(2).setCellValue(item.getParceiro());
-//                row.createCell(3).setCellValue(item.getProduto());
-//                row.createCell(4).setCellValue(item.getPeso());
-//                row.createCell(5).setCellValue(item.getPreco());
-//                row.createCell(6).setCellValue(item.getTotal());
-//                row.createCell(7).setCellValue(item.getRendimento() != null ? item.getRendimento() : 0);
-//                row.createCell(8).setCellValue(item.getTipo());
-//            }
+//            HttpResponse<String> response = client.send(
+//                    request,
+//                    HttpResponse.BodyHandlers.ofString()
+//            );
 //
-//            ByteArrayOutputStream out = new ByteArrayOutputStream();
-//            workbook.write(out);
-//            workbook.close();
-//            return out.toByteArray();
+//            return response.body();
 //
 //        } catch (Exception e) {
-//            throw new RuntimeException("Erro ao gerar XLSX local", e);
+//            throw new RuntimeException("Erro ao chamar Lambda", e);
 //        }
 //    }
+
+    // LOCAL
+    public byte[] gerarXlsxLocal(String tipo, String dataInicio, String dataFim) {
+        try {
+            List<TransacaoHistoricoDto> dados =
+                    historicoEtlService.buscarTudo(
+                            LocalDate.parse(dataInicio),
+                            LocalDate.parse(dataFim),
+                            tipo
+                    );
+
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Histórico");
+
+            Row header = sheet.createRow(0);
+            String[] colunas = {"ID", "Data", "Parceiro", "Produto", "Peso", "Preço", "Total", "Rendimento", "Tipo"};
+            for (int i = 0; i < colunas.length; i++) {
+                header.createCell(i).setCellValue(colunas[i]);
+            }
+
+            int rowIndex = 1;
+            for (TransacaoHistoricoDto item : dados) {
+                Row row = sheet.createRow(rowIndex++);
+                row.createCell(0).setCellValue(item.getId());
+                row.createCell(1).setCellValue(String.valueOf(item.getData()));
+                row.createCell(2).setCellValue(item.getParceiro());
+                row.createCell(3).setCellValue(item.getProduto());
+                row.createCell(4).setCellValue(item.getPeso());
+                row.createCell(5).setCellValue(item.getPreco());
+                row.createCell(6).setCellValue(item.getTotal());
+                row.createCell(7).setCellValue(item.getRendimento() != null ? item.getRendimento() : 0);
+                row.createCell(8).setCellValue(item.getTipo());
+            }
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            workbook.write(out);
+            workbook.close();
+            return out.toByteArray();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao gerar XLSX local", e);
+        }
+    }
 }
